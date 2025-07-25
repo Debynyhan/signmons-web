@@ -1,0 +1,103 @@
+/* CRITICAL: Tailwind Directives - MUST be at the very top */
+
+
+/* Google Font: Inter - MUST come AFTER @tailwind directives and before other CSS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0d0d1a; /* Dark background from screenshot */
+    color: #e0e0e0; /* Light text for dark background */
+}
+
+/* Custom Tailwind Colors based on the screenshot and logo */
+:root {
+    --color-signmons-dark-bg: #0d0d1a;
+    --color-signmons-purple-light: #9f7aea; /* Lighter purple from screenshot text */
+    --color-signmons-blue-light: #00bcd4; /* Bright blue from screenshot text */
+    --color-signmons-green-cta: #00e676; /* Green from CTA button */
+    --color-signmons-purple-dark: #6b46c1; /* Original logo purple */
+    --color-signmons-blue-dark: #00796b; /* Original logo dark blue */
+    --color-signmons-accent-orange: #ff7043; /* Existing accent */
+}
+
+/* These CSS variables are now mostly for reference.
+   You should primarily use Tailwind classes directly (e.g., bg-signmons-dark-bg)
+   after defining them in tailwind.config.ts. */
+.bg-signmons-dark-bg { background-color: var(--color-signmons-dark-bg); }
+.text-signmons-purple-light { color: var(--color-signmons-purple-light); }
+.text-signmons-blue-light { color: var(--color-signmons-blue-light); }
+.bg-signmons-green-cta { background-color: var(--color-signmons-green-cta); }
+.text-signmons-purple-dark { color: var(--color-signmons-purple-dark); }
+.text-signmons-blue-dark { color: var(--color-signmons-blue-dark); }
+.bg-signmons-purple-dark { background-color: var(--color-signmons-purple-dark); }
+.bg-signmons-blue-dark { background-color: var(--color-signmons-blue-dark); }
+
+
+/* Custom utility for subtle shadow */
+.shadow-signmons {
+    box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 0.1);
+}
+
+/* Gradient CTA Button */
+.btn-gradient {
+    background-image: linear-gradient(to right, var(--color-signmons-green-cta), var(--color-signmons-blue-light));
+    transition: all 0.3s ease;
+}
+.btn-gradient:hover {
+    background-image: linear-gradient(to left, var(--color-signmons-green-cta), var(--color-signmons-blue-light));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 230, 118, 0.4);
+}
+
+/* Particle background for hero section */
+.particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure it's behind content */
+}
+
+/* Keyframe for bounce-slow animation (for astronaut, if still used) */
+@keyframes bounce-slow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* Animations for Hero Section content */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out forwards;
+}
+.animate-fade-in {
+  animation: fade-in 1s ease-out forwards;
+  animation-delay: 0.5s; /* Delay for CTA */
+}
