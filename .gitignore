@@ -12,6 +12,18 @@ dist
 dist-ssr
 *.local
 
+.env
+.env.local
+.env.*.local
+.DS_Store
+
+*.zip
+*.rar
+*.mp4
+*.mov
+*.psd
+*.ai
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
