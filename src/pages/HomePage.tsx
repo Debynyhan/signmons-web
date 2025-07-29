@@ -1,5 +1,6 @@
 // src/pages/HomePage.tsx
 import React from 'react';
+import { PageName } from '../types/navigation';
 import { Box, Typography, Button, Grid, Paper } from '@mui/material';
 // Import MUI Icons
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -9,7 +10,7 @@ import WebAssetIcon from '@mui/icons-material/WebAsset';
 
 // Define the props type for HomePage
 interface HomePageProps {
-  navigate: (page: string) => void;
+  navigate: (page: PageName) => void;
 }
 
 const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
