@@ -1,56 +1,89 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Container, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <>
-      <Typography
-        variant="h3"
-        component="h1"
-        sx={{
-          fontWeight: 'bold',
-          textAlign: 'center',
-          lineHeight: 1.1,
-          animation: 'fadeInUp 0.8s ease-out forwards',
-        }}
-      >
-        MOBILE DECALS & WRAPS <br />
-        FOR <strong>TRADESMEN</strong>
-      </Typography>
+    <Box
+      sx={{
+        bgcolor: 'black',
+        color: 'white',
+        py: { xs: 6, md: 10 },
+        textAlign: 'center',
+      }}
+    >
+      <Container maxWidth="lg">
+        {/* Headline */}
+        <Typography
+          variant="h3"
+          sx={{
+            fontWeight: 800,
+            mb: 2,
+            fontSize: { xs: '2rem', md: '3.25rem' },
+            lineHeight: 1.2,
+          }}
+        >
+          MOBILE DECALS & WRAPS <br />
+          FOR{' '}
+          <Box component="span" sx={{ color: 'teal.300' }}>
+            TRADESMEN
+          </Box>
+        </Typography>
 
-      <Typography
-        variant="h6"
-        sx={{
-          color: 'text.secondary',
-          textAlign: 'center',
-          maxWidth: 'md',
-          animation: 'fadeInUp 0.8s ease-out forwards 0.1s',
-        }}
-      >
-        Transform your work vehicle into a 24/7 advertisement. Professional decals, graphics, and
-        signs installed <strong style={{ color: 'white' }}>on-site in Cleveland</strong>.
-      </Typography>
+        {/* Subheading */}
+        <Typography
+          variant="h6"
+          sx={{
+            color: 'grey.400',
+            mb: 4,
+            maxWidth: 700,
+            mx: 'auto',
+            fontSize: { xs: '1rem', md: '1.2rem' },
+          }}
+        >
+          On-site vehicle graphics for hardworking pros in{' '}
+          <Box component="span" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
+            Cleveland & nearby areas
+          </Box>
+          .
+        </Typography>
 
-      <Box
-        component="img"
-        src="/my-branded-truck.png"
-        alt="Custom truck wraps in Cleveland"
-        sx={{
-          display: 'block',
-          width: '100%',
-          maxWidth: { xs: '95%', sm: '80%', md: '900px' },
-          height: 'auto',
-          borderRadius: '0px !important',
-          boxShadow: 'none !important',
-          transform: 'none !important',
-          backgroundColor: 'transparent !important',
-          objectFit: 'contain',
-          animation: 'none !important',
-          WebkitAnimation: 'none !important', // ✅ Safari fallback
-          MozAnimation: 'none !important', // ✅ Firefox fallback
-        }}
-      />
-    </>
+        {/* Truck Image */}
+        <Box
+          component="img"
+          src="/my-branded-truck.png"
+          alt="Signmons van preview"
+          sx={{
+            width: '100%',
+            maxWidth: 640,
+            mx: 'auto',
+            height: 'auto',
+            mb: 4,
+          }}
+        />
+
+        {/* CTA */}
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => navigate('/start-design')}
+          sx={{
+            bgcolor: 'teal.500',
+            color: 'white',
+            fontWeight: 'bold',
+            px: 4,
+            py: 1.5,
+            '&:hover': {
+              bgcolor: 'teal.600',
+            },
+          }}
+        >
+          Start Your Design
+        </Button>
+      </Container>
+    </Box>
   );
 };
 
