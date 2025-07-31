@@ -1,41 +1,31 @@
+// src/pages/HomePage.tsx
 import React from 'react';
 import { PageName } from '../types/navigation';
-import { Box, Typography, Grid, useTheme, useMediaQuery } from '@mui/material';
+import { Box, Grid, Typography, useTheme, useMediaQuery } from '@mui/material';
 import { motion, Variants } from 'framer-motion';
 import MotionButton from '../components/MotionButton';
+import AnimatedTruck from '../components/common/AnimatedTruck';
+import AnimatedHeadline from '../components/common/AnimatedHeadline';
 
 interface HomePageProps {
   navigate: (page: PageName) => void;
 }
 
-// ✅ Replace string-based ease with a cubic bezier array
 const EASING: [number, number, number, number] = [0.42, 0, 0.58, 1];
 
-const fadeUpVariant: Variants = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: EASING },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASING } },
 };
 
-const slideLeftVariant: Variants = {
+const slideIn: Variants = {
   hidden: { opacity: 0, x: -50 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.6, ease: EASING },
-  },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASING } },
 };
 
-const scaleVariant: Variants = {
+const popIn: Variants = {
   hidden: { opacity: 0, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.6, ease: EASING },
-  },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: EASING } },
 };
 
 const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
@@ -43,104 +33,105 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
-    <motion.div initial="hidden" animate="visible" variants={fadeUpVariant}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          minHeight: 'calc(100vh - 64px)',
-          background: 'radial-gradient(circle at center, #1C1E24 0%, #121212 100%)',
-          color: 'text.primary',
-          position: 'relative',
-          overflow: 'hidden',
-          px: 2,
-          py: { xs: 4, md: 8 },
-        }}
-      >
-        <Grid
-          container
-          spacing={4}
-          alignItems="center"
-          justifyContent="center"
-          sx={{
-            flexDirection: { xs: 'column', md: 'row' },
-            textAlign: { xs: 'center', md: 'left' },
-            maxWidth: '1200px',
-          }}
-        >
-          {/* Text */}
-          <Grid item xs={12} md={6}>
-            <motion.div variants={slideLeftVariant}>
-              <Typography
-                variant={isMobile ? 'h4' : 'h3'}
-                component="h1"
-                sx={{
-                  fontWeight: 800,
-                  lineHeight: 1.2,
-                  mb: 2,
-                  '& strong': { color: 'primary.main' },
-                }}
-              >
-                MOBILE DECALS & WRAPS <br /> FOR <strong>TRADESMEN</strong>
-              </Typography>
-            </motion.div>
+    <main>
+      <motion.div initial="hidden" animate="visible" variants={fadeUp}>
+        <section aria-label="Hero">
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: { xs: 'flex-start', md: 'space-between' },
+              alignItems: 'center',
+              minHeight: { xs: 'auto', md: '100vh' },
+              background: 'radial-gradient(circle at center, #313646ff 0%, #2b2b2bff 100%)',
+              color: 'text.primary',
+              px: 2,
+              py: { xs: 4, md: 8 },
+            }}
+          >
+            <Grid
+              container
+              rowSpacing={{ xs: 6, md: 4 }}
+              columnSpacing={{ xs: 0, md: 4 }}
+              alignItems="center"
+              justifyContent="center"
+              sx={{
+                flexDirection: { xs: 'column', md: 'row' },
+                width: '100%',
+                maxWidth: 1200,
+              }}
+            >
+              <Grid item xs={12} md={6}>
+                <motion.div variants={slideIn}>
+                  <Typography
+                    component="h1"
+                    variant={isMobile ? 'h4' : 'h3'}
+                    align={isMobile ? 'center' : 'left'}
+                    sx={{
+                      width: '100%',
+                      textAlign: isMobile ? 'center' : 'left',
+                      fontWeight: 800,
+                      lineHeight: 1.2,
+                      mb: 2,
+                      maxWidth: '95%',
+                    }}
+                  >
+                    <AnimatedHeadline
+                      words={['MOBILE', 'DECALS', '&', 'WEBSITES', 'FOR', 'TRADESMEN']}
+                    />
+                  </Typography>
+                </motion.div>
 
-            <motion.div variants={fadeUpVariant}>
-              <Typography
-                variant="body1"
-                sx={{
-                  color: 'text.secondary',
-                  mb: 3,
-                  maxWidth: '95%',
-                  '& strong': { color: 'primary.main' },
-                }}
-              >
-                Professional vehicle decals, window graphics, and yard signs installed
-                <strong> on-site in Cleveland</strong>. Boost your brand 24/7.
-              </Typography>
-            </motion.div>
+                <motion.div variants={fadeUp}>
+                  <Typography
+                    variant="body1"
+                    align={isMobile ? 'center' : 'left'}
+                    sx={{ color: 'text.secondary', mb: 2, maxWidth: { xs: '95%', md: '80%' } }}
+                  >
+                    Professional vehicle decals, window graphics, websites, and yard signs installed{' '}
+                    <strong>on-site in Cleveland</strong>. Boost your brand 24/7.
+                  </Typography>
+                </motion.div>
 
-            {!isMobile && (
-              <motion.div variants={scaleVariant}>
-                <MotionButton onClick={() => navigate('start-design')}>
+                {!isMobile && (
+                  <motion.div variants={popIn}>
+                    <MotionButton
+                      onClick={() => navigate('start-design')}
+                      sx={{ bgcolor: 'secondary.main', color: '#fff', mt: 2, mb: 14 }}
+                    >
+                      GET YOUR FREE DESIGN PROOF
+                    </MotionButton>
+                  </motion.div>
+                )}
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <AnimatedTruck
+                  src="/my-branded-truck.png"
+                  alt="Custom wraps for tradesmen"
+                  speed={13}
+                />
+              </Grid>
+            </Grid>
+
+            {isMobile && (
+              <motion.div
+                variants={popIn}
+                style={{ width: '100%', maxWidth: 360, margin: '32px auto 0' }}
+              >
+                <MotionButton
+                  fullWidth
+                  onClick={() => navigate('start-design')}
+                  sx={{ bgcolor: 'secondary.main', color: '#fff', py: 2 }}
+                >
                   GET YOUR FREE DESIGN PROOF
                 </MotionButton>
               </motion.div>
             )}
-          </Grid>
-
-          {/* Image */}
-          <Grid item xs={12} md={6}>
-            <motion.div variants={scaleVariant}>
-              <Box
-                component="img"
-                src="/my-branded-truck.png"
-                alt="Custom wraps for tradesmen"
-                sx={{
-                  width: '100%',
-                  maxWidth: { xs: '300px', sm: '400px', md: '100%' },
-                  height: 'auto',
-                  mx: 'auto',
-                  display: 'block',
-                  borderRadius: 2,
-                  boxShadow: 4,
-                }}
-              />
-            </motion.div>
-          </Grid>
-        </Grid>
-
-        {/* Mobile Button */}
-        {isMobile && (
-          <motion.div variants={scaleVariant}>
-            <MotionButton sx={{ mt: 13 }} onClick={() => navigate('start-design')}>
-              GET YOUR FREE DESIGN PROOF
-            </MotionButton>
-          </motion.div>
-        )}
-      </Box>
-    </motion.div>
+          </Box>
+        </section>
+      </motion.div>
+    </main>
   );
 };
 

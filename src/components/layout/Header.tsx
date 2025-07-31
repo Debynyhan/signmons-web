@@ -5,7 +5,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import PaletteIcon from '@mui/icons-material/Palette';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-type PageName = 'home' | 'start-design' | 'thank-you';
+// Type for page navigation
+import { PageName } from '../../types/navigation';
 
 interface HeaderProps {
   userId: string | null;
@@ -18,8 +19,16 @@ const Header: React.FC<HeaderProps> = ({ userId, currentPage, onNavigate }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <AppBar position="sticky" sx={{ bgcolor: 'background.paper', boxShadow: 3 }}>
-      <Toolbar sx={{ justifyContent: 'space-between' }}>
+    <AppBar
+      component="header" // semantic header landmark
+      position="sticky"
+      sx={{ bgcolor: 'background.paper', boxShadow: 3 }}
+    >
+      <Toolbar
+        component="nav" // semantic nav landmark
+        aria-label="Main navigation"
+        sx={{ justifyContent: 'space-between' }}
+      >
         {/* Brand + User ID */}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
@@ -45,23 +54,26 @@ const Header: React.FC<HeaderProps> = ({ userId, currentPage, onNavigate }) => {
         </Box>
 
         {/* Navigation Buttons */}
-        <Box sx={{ display: 'flex', gap: isMobile ? 1 : 2 }}>
+        <Box
+          component="div" // kept as div, nav is on Toolbar
+          sx={{ display: 'flex', gap: isMobile ? 1 : 2 }}
+        >
           <Button
             color="inherit"
             onClick={() => onNavigate('home')}
             sx={{ color: currentPage === 'home' ? 'primary.main' : 'text.primary' }}
+            startIcon={<HomeIcon />}
           >
-            <HomeIcon sx={{ mr: isMobile ? 0 : 1 }} />
-            {!isMobile && <Typography>Home</Typography>}
+            {!isMobile && 'Home'}
           </Button>
 
           <Button
             color="inherit"
             onClick={() => onNavigate('start-design')}
             sx={{ color: currentPage === 'start-design' ? 'primary.main' : 'text.primary' }}
+            startIcon={<PaletteIcon />}
           >
-            <PaletteIcon sx={{ mr: isMobile ? 0 : 1 }} />
-            {!isMobile && <Typography>Start Design</Typography>}
+            {!isMobile && 'Start Design'}
           </Button>
         </Box>
       </Toolbar>
