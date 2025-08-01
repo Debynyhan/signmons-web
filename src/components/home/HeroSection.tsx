@@ -10,6 +10,10 @@ const HeroSection: React.FC = () => {
       sx={{
         bgcolor: 'black',
         color: 'white',
+        minHeight: '100vh',         // full viewport height
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between', // push CTA to bottom
         py: { xs: 6, md: 10 },
         textAlign: 'center',
       }}
@@ -25,7 +29,8 @@ const HeroSection: React.FC = () => {
             lineHeight: 1.2,
           }}
         >
-          MOBILE DECALS & WRAPS <br />
+          MOBILE DECALS & WRAPS
+          <br />
           FOR{' '}
           <Box component="span" sx={{ color: 'teal.300' }}>
             TRADESMEN
@@ -60,11 +65,13 @@ const HeroSection: React.FC = () => {
             maxWidth: 640,
             mx: 'auto',
             height: 'auto',
-            mb: 4,
+            mb: { xs: 4, md: 0 }, // remove extra space on desktop
           }}
         />
+      </Container>
 
-        {/* CTA */}
+      {/* CTA */}
+      <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 8 } }}>
         <Button
           variant="contained"
           size="large"
@@ -73,6 +80,7 @@ const HeroSection: React.FC = () => {
             bgcolor: 'teal.500',
             color: 'white',
             fontWeight: 'bold',
+
             px: 4,
             py: 1.5,
             '&:hover': {
@@ -82,7 +90,7 @@ const HeroSection: React.FC = () => {
         >
           Start Your Design
         </Button>
-      </Container>
+      </Box>
     </Box>
   );
 };

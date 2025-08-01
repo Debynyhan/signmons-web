@@ -13,7 +13,7 @@ import Footer from './components/layout/Footer';
 // Router
 import PageRouter from './router/PageRouter';
 
-import { PageType } from './types';
+// import { PageType } from './types/navigation';
 
 
 type PageName = 'home' | 'start-design' | 'thank-you';

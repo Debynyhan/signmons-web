@@ -3,6 +3,7 @@ import React from 'react';
 import { PageName } from '../types/navigation';
 import { Box, Grid, Typography, useTheme, useMediaQuery } from '@mui/material';
 import { motion, Variants } from 'framer-motion';
+import HeroShapes from '../components/common/HeroShapes';
 import MotionButton from '../components/MotionButton';
 import AnimatedTruck from '../components/common/AnimatedTruck';
 import AnimatedHeadline from '../components/common/AnimatedHeadline';
@@ -35,7 +36,12 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
   return (
     <main>
       <motion.div initial="hidden" animate="visible" variants={fadeUp}>
-        <section aria-label="Hero">
+        {/* Hero section wrapper with relative positioning */}
+        <section aria-label="Hero" style={{ position: 'relative', overflow: 'hidden' }}>
+          {/* 3D background shapes */}
+          <HeroShapes />
+
+          {/* Content container with semi-transparent gradient */}
           <Box
             sx={{
               display: 'flex',
@@ -43,7 +49,8 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
               justifyContent: { xs: 'flex-start', md: 'space-between' },
               alignItems: 'center',
               minHeight: { xs: 'auto', md: '100vh' },
-              background: 'radial-gradient(circle at center, #313646ff 0%, #2b2b2bff 100%)',
+              background:
+                'radial-gradient(circle at center, rgba(49,52,70,0.8) 0%, rgba(43,43,43,0.8) 100%)',
               color: 'text.primary',
               px: 2,
               py: { xs: 4, md: 8 },
@@ -69,7 +76,6 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
                     align={isMobile ? 'center' : 'left'}
                     sx={{
                       width: '100%',
-                      textAlign: isMobile ? 'center' : 'left',
                       fontWeight: 800,
                       lineHeight: 1.2,
                       mb: 2,
@@ -86,7 +92,11 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
                   <Typography
                     variant="body1"
                     align={isMobile ? 'center' : 'left'}
-                    sx={{ color: 'text.secondary', mb: 2, maxWidth: { xs: '95%', md: '80%' } }}
+                    sx={{
+                      color: 'text.secondary',
+                      mb: 2,
+                      maxWidth: { xs: '95%', md: '80%' },
+                    }}
                   >
                     Professional vehicle decals, window graphics, websites, and yard signs installed{' '}
                     <strong>on-site in Cleveland</strong>. Boost your brand 24/7.
@@ -97,7 +107,12 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
                   <motion.div variants={popIn}>
                     <MotionButton
                       onClick={() => navigate('start-design')}
-                      sx={{ bgcolor: 'secondary.main', color: '#fff', mt: 2, mb: 14 }}
+                      sx={{
+                        bgcolor: 'secondary.main',
+                        color: '#fff',
+                        mt: 2,
+                        mb: 14,
+                      }}
                     >
                       GET YOUR FREE DESIGN PROOF
                     </MotionButton>

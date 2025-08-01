@@ -7,21 +7,31 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
+    // Increase warning threshold or handle large chunks
+    chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Separate major vendor libraries
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-mui': ['@mui/material', '@mui/icons-material'],
+          'vendor-framer': ['framer-motion'],
+        },
+      },
+    },
   },
   server: {
-    host: true, // This is already set correctly
+    host: true,
     hmr: {
       protocol: 'ws',
       host: 'localhost',
-      clientPort: 5173, // IMPORTANT: Ensure this matches your actual Vite dev server port
+      clientPort: 5173,
     },
-    // --- FIX START ---
     allowedHosts: [
-      'localhost', // Always allow localhost
-      '127.0.0.1', // Always allow 127.0.0.1
-      'b6b3874f5453.ngrok-free.app', // <--- ADD YOUR CURRENT NGROK HOSTNAME HERE
-      // Add any other specific hostnames you might use for local testing (e.g., your local IP if accessing directly)
+      'localhost',
+      '127.0.0.1',
+      '436d7726eb55.ngrok-free.app',
+      // Add other hostnames as needed
     ],
-    // --- FIX END ---
   },
 });
