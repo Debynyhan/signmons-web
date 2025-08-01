@@ -65,6 +65,7 @@ const AnimatedTruck: React.FC<AnimatedTruckProps> = ({
           mt: 2,
           mb: { xs: 4, md: 0 },
           // Removed borderRadius and boxShadow per design
+          filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.4))',
           ...sx,
         }}
       />

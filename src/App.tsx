@@ -8,7 +8,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 
 // Layout Components
 import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
+// import Footer from './components/layout/Footer';
 
 // Router
 import PageRouter from './router/PageRouter';
@@ -61,7 +61,7 @@ const AppContent: React.FC = () => {
       <Box component="main" sx={{ flexGrow: 1 }}>
         <PageRouter userId={userId} currentPage={currentPage} onNavigate={handleNavigate} />
       </Box>
-      <Footer />
+      {/* <Footer /> */}
     </Box>
   );
 };

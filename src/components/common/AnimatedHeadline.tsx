@@ -13,7 +13,7 @@ const containerVariants: Variants = {
     transition: {
       delayChildren: 2, // wait before first word
       staggerChildren: 0.6, // 0.6s between words
-      // no repeat: run only once
+      ease: 'easeInOut',
     },
   },
 };

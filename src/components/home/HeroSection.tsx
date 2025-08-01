@@ -10,7 +10,7 @@ const HeroSection: React.FC = () => {
       sx={{
         bgcolor: 'black',
         color: 'white',
-        minHeight: '100vh',         // full viewport height
+        height: 'calc(100vh - 64px)', // full viewport height
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between', // push CTA to bottom
@@ -71,7 +71,7 @@ const HeroSection: React.FC = () => {
       </Container>
 
       {/* CTA */}
-      <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 8 } }}>
+      <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 0 } }}>
         <Button
           variant="contained"
           size="large"

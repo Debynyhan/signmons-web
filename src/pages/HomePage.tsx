@@ -37,28 +37,37 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
     <main>
       <motion.div initial="hidden" animate="visible" variants={fadeUp}>
         {/* Hero section wrapper with relative positioning */}
-        <section aria-label="Hero" style={{ position: 'relative', overflow: 'hidden' }}>
+        <section
+          aria-label="Hero"
+          style={{ position: 'relative', overflow: 'hidden', height: 'calc(100vh - 64px)' }}
+        >
           {/* 3D background shapes */}
-          <HeroShapes />
+          <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+            <HeroShapes />
+          </div>
 
           {/* Content container with semi-transparent gradient */}
           <Box
+            component="div"
             sx={{
+              position: 'relative',
+              zIndex: 1,
+
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: { xs: 'flex-start', md: 'space-between' },
+              justifyContent: 'space-between',
               alignItems: 'center',
-              minHeight: { xs: 'auto', md: '100vh' },
+              minHeight: 'calc(100vh - 64px)',
               background:
-                'radial-gradient(circle at center, rgba(49,52,70,0.8) 0%, rgba(43,43,43,0.8) 100%)',
+                'radial-gradient(circle at center, rgba(43, 45, 59, 0.8) 0%, rgba(17, 17, 17, 0.8) 100%)',
               color: 'text.primary',
               px: 2,
-              py: { xs: 4, md: 8 },
+              py: 4,
             }}
           >
             <Grid
               container
-              rowSpacing={{ xs: 6, md: 4 }}
+              rowSpacing={{ xs: 10, md: 2 }}
               columnSpacing={{ xs: 0, md: 4 }}
               alignItems="center"
               justifyContent="center"
@@ -89,19 +98,29 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
                 </motion.div>
 
                 <motion.div variants={fadeUp}>
-                  <Typography
-                    variant="body1"
-                    align={isMobile ? 'center' : 'left'}
-                    sx={{
-                      color: 'text.secondary',
-                      mb: 2,
-                      maxWidth: { xs: '95%', md: '80%' },
-                    }}
-                  >
-                    Professional vehicle decals, window graphics, websites, and yard signs installed{' '}
-                    <strong>on-site in Cleveland</strong>. Boost your brand 24/7.
-                  </Typography>
-                </motion.div>
+  <Typography
+    variant="body1"
+    align={isMobile ? 'center' : 'left'}
+    sx={{
+      color: 'common.white', // high-contrast
+      mb: 2,
+      maxWidth: { xs: '95%', md: '80%' },
+      fontWeight: 500,
+      fontSize: { xs: '1.125rem', md: '1.25rem' },
+    }}
+  >
+    Professional vehicle decals, window graphics, websites, and yard signs installed{' '}
+    <strong
+      style={{
+        color: theme.palette.secondary.main, // use your accent or purple/blue
+        fontWeight: 800,
+      }}
+    >
+      on-site in Cleveland
+    </strong>
+    . Boost your brand 24/7.
+  </Typography>
+</motion.div>
 
                 {!isMobile && (
                   <motion.div variants={popIn}>
@@ -110,8 +129,8 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
                       sx={{
                         bgcolor: 'secondary.main',
                         color: '#fff',
-                        mt: 2,
-                        mb: 14,
+                        mt: 4,
+                        mb: 4,
                       }}
                     >
                       GET YOUR FREE DESIGN PROOF
@@ -130,16 +149,13 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
             </Grid>
 
             {isMobile && (
-              <motion.div
-                variants={popIn}
-                style={{ width: '100%', maxWidth: 360, margin: '32px auto 0' }}
-              >
+              <motion.div variants={popIn} style={{ width: '100%', maxWidth: 360, margin: 'auto' }}>
                 <MotionButton
                   fullWidth
                   onClick={() => navigate('start-design')}
                   sx={{ bgcolor: 'secondary.main', color: '#fff', py: 2 }}
                 >
-                  GET YOUR FREE DESIGN PROOF
+                  GET YOUR FREE DESIGN
                 </MotionButton>
               </motion.div>
             )}
