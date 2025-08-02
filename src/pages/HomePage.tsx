@@ -36,59 +36,58 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
   return (
     <main>
       <motion.div initial="hidden" animate="visible" variants={fadeUp}>
-        {/* Hero section wrapper with relative positioning */}
+        {/* The main section container. It will now take up the full viewport height */}
         <section
           aria-label="Hero"
-          style={{ position: 'relative', overflow: 'hidden', height: 'calc(100vh - 64px)' }}
+          style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}
         >
           {/* 3D background shapes */}
           <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
             <HeroShapes />
           </div>
 
-          {/* Content container with semi-transparent gradient */}
-          <Box
-            component="div"
-            sx={{
-              position: 'relative',
-              zIndex: 1,
-
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              minHeight: 'calc(100vh - 64px)',
-              background:
-                'radial-gradient(circle at center, rgba(43, 45, 59, 0.8) 0%, rgba(17, 17, 17, 0.8) 100%)',
-              color: 'text.primary',
-              px: 2,
-              py: 4,
-            }}
-          >
-            <Grid
-              container
-              rowSpacing={{ xs: 10, md: 2 }}
-              columnSpacing={{ xs: 0, md: 4 }}
-              alignItems="center"
-              justifyContent="center"
+          {/* Conditional rendering for mobile and desktop layouts */}
+          {isMobile ? (
+            // MOBILE & TABLET LAYOUT
+            <Box
+              component="div"
               sx={{
-                flexDirection: { xs: 'column', md: 'row' },
-                width: '100%',
-                maxWidth: 1200,
+                position: 'relative',
+                zIndex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                // This is the key change: it spaces out the children vertically
+                justifyContent: 'center',
+                // Keep minHeight to ensure it takes up the full screen height
+                minHeight: '100vh',
+                background:
+                  'radial-gradient(circle at center, rgba(43, 45, 59, 0.8) 0%, rgba(17, 17, 17, 0.8) 100%)',
+                color: 'text.primary',
+                px: 2,
+                py: 4, // Add padding to the top and bottom of the container
               }}
             >
-              <Grid item xs={12} md={6}>
+              {/* Text container pushed to the top */}
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center', // Center text horizontally
+                  textAlign: 'center',
+                  // Add top margin to push content down
+                  
+                }}
+              >
                 <motion.div variants={slideIn}>
                   <Typography
                     component="h1"
-                    variant={isMobile ? 'h4' : 'h3'}
-                    align={isMobile ? 'center' : 'left'}
+                    variant="h4"
+                    align="center"
                     sx={{
-                      width: '100%',
                       fontWeight: 800,
                       lineHeight: 1.2,
                       mb: 2,
-                      maxWidth: '95%',
+                      maxWidth: '100%',
                     }}
                   >
                     <AnimatedHeadline
@@ -96,70 +95,172 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
                     />
                   </Typography>
                 </motion.div>
-
                 <motion.div variants={fadeUp}>
-  <Typography
-    variant="body1"
-    align={isMobile ? 'center' : 'left'}
-    sx={{
-      color: 'common.white', // high-contrast
-      mb: 2,
-      maxWidth: { xs: '95%', md: '80%' },
-      fontWeight: 500,
-      fontSize: { xs: '1.125rem', md: '1.25rem' },
-    }}
-  >
-    Professional vehicle decals, window graphics, websites, and yard signs installed{' '}
-    <strong
-      style={{
-        color: theme.palette.secondary.main, // use your accent or purple/blue
-        fontWeight: 800,
-      }}
-    >
-      on-site in Cleveland
-    </strong>
-    . Boost your brand 24/7.
-  </Typography>
-</motion.div>
-
-                {!isMobile && (
-                  <motion.div variants={popIn}>
-                    <MotionButton
-                      onClick={() => navigate('start-design')}
-                      sx={{
-                        bgcolor: 'secondary.main',
-                        color: '#fff',
-                        mt: 4,
-                        mb: 4,
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    sx={{
+                      color: 'common.white',
+                      mb: 2,
+                      maxWidth: '95%',
+                      fontWeight: 500,
+                      fontSize: '1.125rem',
+                    }}
+                  >
+                    Professional vehicle decals, window graphics, websites, and yard signs installed{' '}
+                    <strong
+                      style={{
+                        color: theme.palette.secondary.main,
+                        fontWeight: 800,
                       }}
                     >
-                      GET YOUR FREE DESIGN PROOF
-                    </MotionButton>
-                  </motion.div>
-                )}
-              </Grid>
+                      on-site in Cleveland
+                    </strong>
+                    . Boost your brand 24/7.
+                  </Typography>
+                </motion.div>
+              </Box>
 
-              <Grid item xs={12} md={6}>
+              {/* Van container centered vertically */}
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%',
+                  margin: 'auto', // Center the van image
+                  
+                }}
+              >
                 <AnimatedTruck
                   src="/my-branded-truck.png"
                   alt="Custom wraps for tradesmen"
                   speed={13}
                 />
-              </Grid>
-            </Grid>
+              </Box>
 
-            {isMobile && (
-              <motion.div variants={popIn} style={{ width: '100%', maxWidth: 360, margin: 'auto' }}>
-                <MotionButton
-                  fullWidth
-                  onClick={() => navigate('start-design')}
-                  sx={{ bgcolor: 'secondary.main', color: '#fff', py: 2 }}
-                >
-                  GET YOUR FREE DESIGN
-                </MotionButton>
-              </motion.div>
-            )}
-          </Box>
+              {/* Button container pushed to the bottom */}
+              <Box sx={{ width: '100%', maxWidth: 360, margin: 'auto', mt: 4 }}>
+                <motion.div variants={popIn}>
+                  <MotionButton
+                    fullWidth
+                    onClick={() => navigate('start-design')}
+                    sx={{ bgcolor: 'secondary.main', color: '#fff', py: 2 }}
+                  >
+                    GET YOUR FREE DESIGN
+                  </MotionButton>
+                </motion.div>
+              </Box>
+            </Box>
+          ) : (
+            // DESKTOP LAYOUT
+            <Box
+              component="div"
+              sx={{
+                position: 'relative',
+                zIndex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 'calc(100vh - 64px)',
+                background:
+                  'radial-gradient(circle at center, rgba(43, 45, 59, 0.8) 0%, rgba(17, 17, 17, 0.8) 100%)',
+                color: 'text.primary',
+                px: 2,
+                py: 4,
+              }}
+            >
+              <Grid
+                container
+                rowSpacing={{ xs: 10, md: 2 }}
+                columnSpacing={{ xs: 0, md: 4 }}
+                alignItems="center"
+                justifyContent="center"
+                sx={{
+                  flexDirection: { xs: 'column', md: 'row' },
+                  width: '100%',
+                  maxWidth: 1200,
+                }}
+              >
+                <Grid item xs={12} md={6}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: { xs: 'center', md: 'flex-start' },
+                      width: '100%',
+                      maxWidth: 520,
+                      mx: { xs: 'auto', md: 0 },
+                    }}
+                  >
+                    <motion.div variants={slideIn}>
+                      <Typography
+                        component="h1"
+                        variant="h3"
+                        align="left"
+                        sx={{
+                          fontWeight: 800,
+                          lineHeight: 1.2,
+                          mb: 2,
+                          maxWidth: '100%',
+                        }}
+                      >
+                        <AnimatedHeadline
+                          words={['MOBILE', 'DECALS', '&', 'WEBSITES', 'FOR', 'TRADESMEN']}
+                        />
+                      </Typography>
+                    </motion.div>
+
+                    <motion.div variants={fadeUp}>
+                      <Typography
+                        variant="body1"
+                        align="left"
+                        sx={{
+                          color: 'common.white',
+                          mb: 2,
+                          maxWidth: '80%',
+                          fontWeight: 500,
+                          fontSize: '1.25rem',
+                        }}
+                      >
+                        Professional vehicle decals, window graphics, websites, and yard signs
+                        installed{' '}
+                        <strong
+                          style={{
+                            color: theme.palette.secondary.main,
+                            fontWeight: 800,
+                          }}
+                        >
+                          on-site in Cleveland
+                        </strong>
+                        . Boost your brand 24/7.
+                      </Typography>
+                    </motion.div>
+                    <motion.div variants={popIn}>
+                      <MotionButton
+                        onClick={() => navigate('start-design')}
+                        sx={{
+                          bgcolor: 'secondary.main',
+                          color: '#fff',
+                        }}
+                      >
+                        GET YOUR FREE DESIGN
+                      </MotionButton>
+                    </motion.div>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <AnimatedTruck
+                    src="/my-branded-truck.png"
+                    alt="Custom wraps for tradesmen"
+                    speed={13}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          )}
         </section>
       </motion.div>
     </main>

@@ -71,7 +71,7 @@ const HeroSection: React.FC = () => {
       </Container>
 
       {/* CTA */}
-      <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 0 } }}>
+      <Box sx={{ textAlign: 'center', mb: { xs: 2, md: 0 } }}>
         <Button
           variant="contained"
           size="large"
