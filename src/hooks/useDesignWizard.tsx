@@ -1,6 +1,6 @@
 // src/hooks/useDesignWizard.ts
 import { useState } from 'react';
-import { useLocalStorage } from './useLocalStorage';
+import { useStorage } from './useLocalStorage';
 
 import type {
   WizardState,
@@ -18,44 +18,74 @@ import { steps } from '../types/consultation';
 export function useDesignWizard() {
   // --- 1) track which step we're on ---
   const [stepIndex, setStepIndex] = useState<number>(0);
+  // storage options: use sessionStorage and clear on init to reset on refresh
+  const storageOpts = { storage: window.sessionStorage, clearOnInit: true };
 
-  // --- 2) persist each slice in localStorage ---
-  const [industry, setIndustry] = useLocalStorage<string>('wizard-industry', '');
+  // --- 2) persist each slice in sessionStorage and reset on refresh ---
+  const [industry, setIndustry] = useStorage<string>('wizard-industry', '', storageOpts);
 
-  const [vehicle, setVehicle] = useLocalStorage<VehicleInfo>('wizard-vehicle', {
-    type: '',
-    make: '',
-    model: '',
-    year: '',
-    color: '',
-  });
+  const [vehicle, setVehicle] = useStorage<VehicleInfo>(
+    'wizard-vehicle',
+    {
+      type: '',
+      make: '',
+      model: '',
+      year: '',
+      color: '',
+    },
+    storageOpts,
+  );
 
-  const [style, setStyle] = useLocalStorage<string>('wizard-style', 'Custom');
+  const [style, setStyle] = useStorage<string>('wizard-style', 'Custom', storageOpts);
 
-  const [assets, setAssets] = useLocalStorage<WizardAssetsInfo>('wizard-assets', {
-    logos: [],
-    tagline: '',
-  });
+  const [assets, setAssets] = useStorage<WizardAssetsInfo>(
+    'wizard-assets',
+    {
+      logos: [],
+      tagline: '',
+    },
+    storageOpts,
+  );
 
-  const [colors, setColors] = useLocalStorage<ColorsInfo>('wizard-colors', {
-    primary: '#000000',
-    accent: '#ffffff',
-  });
+  const [colors, setColors] = useStorage<ColorsInfo>(
+    'wizard-colors',
+    {
+      primary: '#000000',
+      accent: '#ffffff',
+    },
+    storageOpts,
+  );
 
-  const [contact, setContact] = useLocalStorage<ContactInfo>('wizard-contact', {
-    businessName: '',
-    email: '',
-    phone: '',
-  });
+  const [contact, setContact] = useStorage<ContactInfo>(
+    'wizard-contact',
+    {
+      businessName: '',
+      email: '',
+      phone: '',
+    },
+    storageOpts,
+  );
 
-  const [timeline, setTimeline] = useLocalStorage<TimelineInfo>('wizard-timeline', {
-    date: '',
-    rush: false,
-  });
+  const [timeline, setTimeline] = useStorage<TimelineInfo>(
+    'wizard-timeline',
+    {
+      date: '',
+      rush: false,
+    },
+    storageOpts,
+  );
 
-  const [budget, setBudget] = useLocalStorage<BudgetInfo>('wizard-budget', { min: 0, max: 0 });
+  const [budget, setBudget] = useStorage<BudgetInfo>(
+    'wizard-budget',
+    { min: 0, max: 0 },
+    storageOpts,
+  );
 
-  const [details, setDetails] = useLocalStorage<DetailsInfo>('wizard-details', { notes: '' });
+  const [details, setDetails] = useStorage<DetailsInfo>(
+    'wizard-details',
+    { notes: '' },
+    storageOpts,
+  );
 
   // --- 3) step navigation helpers ---
   const next = () => setStepIndex((i) => Math.min(i + 1, steps.length - 1));
