@@ -1,6 +1,7 @@
 // src/components/consultation/ConsultationWizard.tsx
 
-import { Box, Button, Stepper, Step, StepLabel } from '@mui/material';
+import { useState } from 'react';
+import { Box, Button, Stepper, Step, StepLabel, CircularProgress } from '@mui/material';
 
 import { useDesignWizard } from '../../hooks/useDesignWizard';
 import { steps } from '../../types/consultation';
@@ -42,7 +43,9 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
   } = useDesignWizard();
 
   const { showToast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = async () => {
+    setIsSubmitting(true);
     try {
       // `state` is your in-flow WizardState;
       // submitDesignRequest will handle uploads + Firestore write
@@ -52,6 +55,8 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
     } catch (err) {
       console.error(err);
       showToast('Sorry, something went wrong. Try again.', 'error');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -104,12 +109,18 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
             onClick={() => {
               /* handled inside step */
             }}
+            disabled={isSubmitting}
           >
             Next
           </Button>
         ) : (
-          <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Submit
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? <CircularProgress size={20} /> : 'Submit'}
           </Button>
         )}
       </Box>
