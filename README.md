@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -37,11 +38,13 @@ export default tseslint.config([
       // other options...
     },
   },
-])
+]);
 ```
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
 # signmons-web
+
 Custom decals and Web apps
 
 # Signmons
@@ -71,18 +74,19 @@ Signmons is a lean, single‐page React + Firebase MVP that guides the user thro
 
 ## 🛠 Tech Stack
 
-- **Framework:** React (v18) with TypeScript  
-- **3D:** React Three Fiber  
-- **UI:** MUI (Material-UI) + Framer Motion  
-- **State & hooks:** Custom `useDesignWizard` + `useLocalStorage`  
-- **Backend:** Firebase (Firestore + Storage)  
+- **Framework:** React (v18) with TypeScript
+- **3D:** React Three Fiber
+- **UI:** MUI (Material-UI) + Framer Motion
+- **State & hooks:** Custom `useDesignWizard` + `useLocalStorage`
+- **Backend:** Firebase (Firestore + Storage)
 - **Deploy:** Firebase Hosting (or your choice of static host)
 
 ---
 
 ## 📦 Getting Started
 
-1. **Clone & install**  
+1. **Clone & install**
+
    ```bash
    git clone git@github.com:YOUR-ORG/signmons.git
    cd signmons
@@ -91,6 +95,7 @@ Signmons is a lean, single‐page React + Firebase MVP that guides the user thro
 
 2. **Configure**  
    Copy `.env.example → .env` and fill in your Firebase credentials:
+
    ```properties
    VITE_FIREBASE_API_KEY=…
    VITE_FIREBASE_AUTH_DOMAIN=…
@@ -100,18 +105,20 @@ Signmons is a lean, single‐page React + Firebase MVP that guides the user thro
    VITE_FIREBASE_APP_ID=…
    ```
 
-3. **Run locally**  
+3. **Run locally**
+
    ```bash
    npm run dev
    ```
 
-4. **Build & deploy**  
+4. **Build & deploy**
    ```bash
    npm run build
    firebase deploy
    ```
 
 ### 📂 Folder Structure
+
 ```
 src/
 ├── components/
@@ -128,17 +135,17 @@ src/
 
 � **Future Scope**
 
-- User accounts & history  
-- Live preview  
-- Payment & scheduling  
+- User accounts & history
+- Live preview
+- Payment & scheduling
 - Admin dashboard
 
 📝 **Contributing**
 
-1. Create a branch: `git checkout -b feature/awesome`  
-2. Commit your changes: `git commit -m "Add awesome feature"`  
-3. Push to the branch: `git push origin feature/awesome`  
-4. Open a Pull Request  
+1. Create a branch: `git checkout -b feature/awesome`
+2. Commit your changes: `git commit -m "Add awesome feature"`
+3. Push to the branch: `git push origin feature/awesome`
+4. Open a Pull Request
 
 Please adhere to our code style guide and keep things DRY, secure (OWASP best practices), and component-driven (single responsibility).
 bash
