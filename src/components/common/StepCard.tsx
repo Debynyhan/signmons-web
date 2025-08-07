@@ -32,10 +32,22 @@ const StepCard: React.FC<StepCardProps> = ({ selected, onClick, label, icon }) =
           position: 'relative',
           borderRadius: 2,
           overflow: 'hidden',
-          background: 'rgba(17,17,27,0.4)',
+          background: selected
+            ? `${theme.palette.primary.main}33` // light tint
+            : 'rgba(17,17,27,0.4)',
           backdropFilter: 'blur(12px)',
-          transition: 'border-color 200ms, box-shadow 200ms',
+          transition: 'border-color 200ms, box-shadow 200ms, background 200ms',
+          cursor: 'pointer',
+          '&:hover': {
+            background: selected
+              ? `${theme.palette.primary.main}55`
+              : `${theme.palette.background.paper}22`,
+          },
           border: selected ? `2px solid ${theme.palette.primary.main}` : `2px solid transparent`,
+          minHeight: 140,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
           '&:focus-visible': {
             outline: `2px solid ${theme.palette.primary.light}`,
           },
@@ -47,11 +59,12 @@ const StepCard: React.FC<StepCardProps> = ({ selected, onClick, label, icon }) =
             flexDirection: 'column',
             alignItems: 'center',
             color: 'common.white',
+            px: 2,
             py: 3,
           }}
         >
           <Box mb={1}>{icon}</Box>
-          <Typography variant="subtitle1">{label}</Typography>
+          <Typography variant="h6">{label}</Typography>
         </CardContent>
       </CardActionArea>
     </motion.div>

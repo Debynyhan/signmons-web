@@ -5,6 +5,8 @@ import { Box, Typography, TextField, Button, Grid } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import { vehicleTypes, vehicleMakes, vehicleModels } from '../../constants/vehicleData';
 import type { VehicleInfo } from '../../types/consultation';
+// Local state type for controlled Autocomplete fields
+type LocalVehicleInfo = { [K in keyof VehicleInfo]: string | null };
 
 interface VehicleStepProps {
   initialInfo?: VehicleInfo;
@@ -19,25 +21,38 @@ const years = Array.from({ length: 31 }, (_, i) => String(currentYear - i));
 const colorOptions = ['White', 'Black', 'Red', 'Blue', 'Silver', 'Gray', 'Other'];
 
 const VehicleStep: React.FC<VehicleStepProps> = ({ initialInfo, onNext }) => {
-  const [info, setInfo] = useState<VehicleInfo>(
-    initialInfo ?? { type: '', make: '', model: '', year: '', color: '' },
-  );
+  const [info, setInfo] = useState<LocalVehicleInfo>(() => ({
+    type: initialInfo?.type || null,
+    make: initialInfo?.make || null,
+    model: initialInfo?.model || null,
+    year: initialInfo?.year || null,
+    color: initialInfo?.color || null,
+  }));
 
   // Sync if user navigates Back
   useEffect(() => {
-    if (initialInfo) setInfo(initialInfo);
+    if (initialInfo) {
+      setInfo({
+        type: initialInfo.type || null,
+        make: initialInfo.make || null,
+        model: initialInfo.model || null,
+        year: initialInfo.year || null,
+        color: initialInfo.color || null,
+      });
+    }
   }, [initialInfo]);
 
-  const isValid = !!info.type && !!info.make && !!info.model && !!info.year && !!info.color;
+  const isValid = [info.type, info.make, info.model, info.year, info.color].every(
+    (v) => v !== null && v !== '',
+  );
 
   const handleChange =
     <K extends keyof VehicleInfo>(field: K) =>
     (_event: any, value: string | null) => {
-      setInfo((previous) => ({
-        ...previous,
-        [field]: value ?? '',
-        // reset dependent fields
-        ...(field === 'make' ? { model: '' } : {}),
+      setInfo((prev) => ({
+        ...prev,
+        [field]: value,
+        ...(field === 'make' ? { model: null } : {}),
       }));
     };
 
@@ -54,7 +69,6 @@ const VehicleStep: React.FC<VehicleStepProps> = ({ initialInfo, onNext }) => {
             options={vehicleTypes}
             value={info.type}
             onChange={handleChange('type')}
-            disableClearable
             autoHighlight
             isOptionEqualToValue={(option, value) => option === value}
             renderInput={(params) => <TextField {...params} label="Vehicle Type" fullWidth />}
@@ -67,7 +81,6 @@ const VehicleStep: React.FC<VehicleStepProps> = ({ initialInfo, onNext }) => {
             options={vehicleMakes}
             value={info.make}
             onChange={handleChange('make')}
-            disableClearable
             autoHighlight
             isOptionEqualToValue={(option, value) => option === value}
             renderInput={(params) => <TextField {...params} label="Make" fullWidth />}
@@ -80,7 +93,6 @@ const VehicleStep: React.FC<VehicleStepProps> = ({ initialInfo, onNext }) => {
             options={info.make ? vehicleModels[info.make as keyof typeof vehicleModels] || [] : []}
             value={info.model}
             onChange={handleChange('model')}
-            disableClearable
             autoHighlight
             isOptionEqualToValue={(option, value) => option === value}
             renderInput={(params) => <TextField {...params} label="Model" fullWidth />}
@@ -93,7 +105,6 @@ const VehicleStep: React.FC<VehicleStepProps> = ({ initialInfo, onNext }) => {
             options={years}
             value={info.year}
             onChange={handleChange('year')}
-            disableClearable
             isOptionEqualToValue={(option, value) => option === value}
             renderInput={(params) => <TextField {...params} label="Year" fullWidth />}
           />
@@ -105,7 +116,6 @@ const VehicleStep: React.FC<VehicleStepProps> = ({ initialInfo, onNext }) => {
             options={colorOptions}
             value={info.color}
             onChange={handleChange('color')}
-            disableClearable
             isOptionEqualToValue={(option, value) => option === value}
             renderInput={(params) => <TextField {...params} label="Color" fullWidth />}
           />
@@ -114,7 +124,19 @@ const VehicleStep: React.FC<VehicleStepProps> = ({ initialInfo, onNext }) => {
         {/* Continue Button */}
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button variant="contained" disabled={!isValid} onClick={() => onNext(info)}>
+            <Button
+              variant="contained"
+              disabled={!isValid}
+              onClick={() =>
+                onNext({
+                  type: info.type!,
+                  make: info.make!,
+                  model: info.model!,
+                  year: info.year!,
+                  color: info.color!,
+                })
+              }
+            >
               Continue
             </Button>
           </Box>
