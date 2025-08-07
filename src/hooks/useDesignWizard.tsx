@@ -1,6 +1,6 @@
 // src/hooks/useDesignWizard.ts
 import { useState } from 'react';
-import { useStorage } from './useLocalStorage';
+import { useStorage } from './useStorage';
 
 import type {
   WizardState,

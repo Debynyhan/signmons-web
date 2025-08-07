@@ -1,6 +1,6 @@
 // src/components/consultation/ConsultationWizard.tsx
-import React from 'react';
-import { Container, MobileStepper, Box, Typography, Button } from '@mui/material';
+
+import { Box, Button, Stepper, Step, StepLabel } from '@mui/material';
 
 import { useDesignWizard } from '../../hooks/useDesignWizard';
 import { steps } from '../../types/consultation';
@@ -42,7 +42,6 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
   } = useDesignWizard();
 
   const { showToast } = useToast();
-
   const handleSubmit = async () => {
     try {
       // `state` is your in-flow WizardState;
@@ -56,60 +55,64 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
     }
   };
 
+  // Dynamically render the current step component
+  const renderStep = () => {
+    switch (currentStep) {
+      case 'Industry':
+        return <IndustryStep selected={state.industry} onSelect={selectIndustry} />;
+      case 'Vehicle':
+        return <VehicleStep initialInfo={state.vehicle} onNext={selectVehicle} />;
+      case 'Style':
+        return <StyleStep selected={state.style} onSelect={selectStyle} />;
+      case 'Assets':
+        return <AssetsStep initialInfo={state.assets} onNext={selectAssets} />;
+      case 'Colors':
+        return <ColorsStep initialInfo={state.colors} onNext={selectColors} />;
+      case 'Contact':
+        return <ContactStep initialInfo={state.contact} onNext={selectContact} />;
+      case 'Timeline':
+        return <TimelineStep initialInfo={state.timeline} onNext={selectTimeline} />;
+      case 'Budget':
+        return <BudgetStep initialInfo={state.budget} onNext={selectBudget} />;
+      case 'Details':
+        return <DetailsStep initialInfo={state.details} onNext={selectDetails} />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <Container maxWidth="sm" sx={{ py: 4 }}>
-      <MobileStepper
-        variant="dots"
-        steps={steps.length}
-        position="static"
-        activeStep={stepIndex}
-        sx={{ mb: 4 }}
-        backButton={<Button size="small" disabled />}
-        nextButton={<Button size="small" disabled />}
-      />
+    <Box>
+      <Stepper activeStep={stepIndex} alternativeLabel>
+        {steps.map((step) => (
+          <Step key={step}>
+            <StepLabel>{step}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
 
-      {currentStep === 'Industry' && (
-        <IndustryStep selected={state.industry} onSelect={selectIndustry} />
-      )}
+      <Box mt={4}>{renderStep()}</Box>
 
-      {currentStep === 'Vehicle' && (
-        <VehicleStep initialInfo={state.vehicle} onNext={selectVehicle} />
-      )}
+      <Box mt={2} display="flex" justifyContent="space-between">
+        <Button disabled={stepIndex === 0} onClick={back}>
+          Back
+        </Button>
 
-      {currentStep === 'Style' && <StyleStep selected={state.style} onSelect={selectStyle} />}
-
-      {currentStep === 'Assets' && <AssetsStep initialInfo={state.assets} onNext={selectAssets} />}
-
-      {currentStep === 'Colors' && <ColorsStep initialInfo={state.colors} onNext={selectColors} />}
-
-      {currentStep === 'Contact' && (
-        <ContactStep initialInfo={state.contact} onNext={selectContact} />
-      )}
-
-      {currentStep === 'Timeline' && (
-        <TimelineStep initialInfo={state.timeline} onNext={selectTimeline} />
-      )}
-
-      {currentStep === 'Budget' && <BudgetStep initialInfo={state.budget} onNext={selectBudget} />}
-
-      {currentStep === 'Details' && (
-        <DetailsStep initialInfo={state.details} onNext={selectDetails} />
-      )}
-
-      {currentStep === 'Review' && (
-        <Box textAlign="center">
-          <Typography variant="h5" gutterBottom>
-            Review Your Selections
-          </Typography>
-          {/* You can render a concise summary of `state` here */}
-          <Box mt={4} display="flex" justifyContent="center" gap={2}>
-            <Button onClick={back}>Go Back</Button>
-            <Button variant="contained" onClick={handleSubmit}>
-              Send My Free Mockup
-            </Button>
-          </Box>
-        </Box>
-      )}
-    </Container>
+        {stepIndex < steps.length - 1 ? (
+          <Button
+            variant="contained"
+            onClick={() => {
+              /* handled inside step */
+            }}
+          >
+            Next
+          </Button>
+        ) : (
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Submit
+          </Button>
+        )}
+      </Box>
+    </Box>
   );
 }
