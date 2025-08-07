@@ -1,9 +1,13 @@
 // src/components/context/ToastContext.tsx
-import { createContext, useContext, useState, ReactNode } from 'react';
-import { Snackbar, Alert, AlertColor } from '@mui/material';
+import { createContext, useContext, ReactNode, useState } from 'react';
+import { AlertColor } from '@mui/material';
 
 type ToastContextType = {
+  open: boolean;
+  message: string;
+  severity: AlertColor;
   showToast: (message: string, severity?: AlertColor) => void;
+  hideToast: () => void;
 };
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
@@ -17,16 +21,16 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     setMessage(msg);
     setSeverity(level);
     setOpen(true);
+    console.log(`TOAST [${level.toUpperCase()}]:`, msg);
+  };
+
+  const hideToast = () => {
+    setOpen(false);
   };
 
   return (
-    <ToastContext.Provider value={{ showToast }}>
+    <ToastContext.Provider value={{ open, message, severity, showToast, hideToast }}>
       {children}
-      <Snackbar open={open} autoHideDuration={3000} onClose={() => setOpen(false)}>
-        <Alert severity={severity} variant="filled" onClose={() => setOpen(false)}>
-          {message}
-        </Alert>
-      </Snackbar>
     </ToastContext.Provider>
   );
 };

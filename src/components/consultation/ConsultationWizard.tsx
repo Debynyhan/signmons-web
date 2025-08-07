@@ -1,5 +1,5 @@
 // src/components/consultation/ConsultationWizard.tsx
-import React from 'react';
+
 import {
   Container,
   Stepper,
@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-
 import { useDesignWizard } from '../../hooks/useDesignWizard';
 import { steps } from '../../types/consultation';
 import type { WizardState } from '../../types/consultation';
@@ -58,8 +57,6 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
 
   const handleSubmit = async () => {
     try {
-      // `state` is your in-flow WizardState;
-      // submitDesignRequest will handle uploads + Firestore write
       await submitDesignRequest(state as WizardState);
       showToast('Your mockup request is on its way!', 'success');
       navigate('thank-you');
@@ -69,7 +66,6 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
     }
   };
 
-  // Custom step icon: check for completed, dot for others
   const StepIconComponent = ({ active, completed }: { active?: boolean; completed?: boolean }) =>
     completed ? (
       <CheckCircleIcon color="primary" />
@@ -90,27 +86,19 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
       {currentStep === 'Industry' && (
         <IndustryStep selected={state.industry} onSelect={selectIndustry} />
       )}
-
       {currentStep === 'Vehicle' && (
         <VehicleStep initialInfo={state.vehicle} onNext={selectVehicle} />
       )}
-
       {currentStep === 'Style' && <StyleStep selected={state.style} onSelect={selectStyle} />}
-
       {currentStep === 'Assets' && <AssetsStep initialInfo={state.assets} onNext={selectAssets} />}
-
       {currentStep === 'Colors' && <ColorsStep initialInfo={state.colors} onNext={selectColors} />}
-
       {currentStep === 'Contact' && (
         <ContactStep initialInfo={state.contact} onNext={selectContact} />
       )}
-
       {currentStep === 'Timeline' && (
         <TimelineStep initialInfo={state.timeline} onNext={selectTimeline} />
       )}
-
       {currentStep === 'Budget' && <BudgetStep initialInfo={state.budget} onNext={selectBudget} />}
-
       {currentStep === 'Details' && (
         <DetailsStep initialInfo={state.details} onNext={selectDetails} />
       )}
@@ -118,7 +106,7 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
       {currentStep === 'Review' && (
         <Box textAlign="center">
           <Typography variant="h5" gutterBottom>
-            Review and Confirm Your Selections
+            Review Your Selections
           </Typography>
           <Box mt={2}>
             <List>

@@ -1,6 +1,5 @@
 // src/hooks/useDesignWizard.ts
 import { useState } from 'react';
-import { useLocalStorage } from './useLocalStorage';
 
 import type {
   WizardState,
@@ -20,9 +19,9 @@ export function useDesignWizard() {
   const [stepIndex, setStepIndex] = useState<number>(0);
 
   // --- 2) persist each slice in localStorage ---
-  const [industry, setIndustry] = useLocalStorage<string>('wizard-industry', '');
+  const [industry, setIndustry] = useState<string>('');
 
-  const [vehicle, setVehicle] = useLocalStorage<VehicleInfo>('wizard-vehicle', {
+  const [vehicle, setVehicle] = useState<VehicleInfo>({
     type: '',
     make: '',
     model: '',
@@ -30,32 +29,19 @@ export function useDesignWizard() {
     color: '',
   });
 
-  const [style, setStyle] = useLocalStorage<string>('wizard-style', 'Custom');
+  const [style, setStyle] = useState<string>('Custom');
 
-  const [assets, setAssets] = useLocalStorage<WizardAssetsInfo>('wizard-assets', {
-    logos: [],
-    tagline: '',
-  });
+  const [assets, setAssets] = useState<WizardAssetsInfo>({ logos: [], tagline: '' });
 
-  const [colors, setColors] = useLocalStorage<ColorsInfo>('wizard-colors', {
-    primary: '#000000',
-    accent: '#ffffff',
-  });
+  const [colors, setColors] = useState<ColorsInfo>({ primary: '#000000', accent: '#ffffff' });
 
-  const [contact, setContact] = useLocalStorage<ContactInfo>('wizard-contact', {
-    businessName: '',
-    email: '',
-    phone: '',
-  });
+  const [contact, setContact] = useState<ContactInfo>({ businessName: '', email: '', phone: '' });
 
-  const [timeline, setTimeline] = useLocalStorage<TimelineInfo>('wizard-timeline', {
-    date: '',
-    rush: false,
-  });
+  const [timeline, setTimeline] = useState<TimelineInfo>({ date: '', rush: false });
 
-  const [budget, setBudget] = useLocalStorage<BudgetInfo>('wizard-budget', { min: 0, max: 0 });
+  const [budget, setBudget] = useState<BudgetInfo>({ min: 0, max: 0 });
 
-  const [details, setDetails] = useLocalStorage<DetailsInfo>('wizard-details', { notes: '' });
+  const [details, setDetails] = useState<DetailsInfo>({ notes: '' });
 
   // --- 3) step navigation helpers ---
   const next = () => setStepIndex((i) => Math.min(i + 1, steps.length - 1));

@@ -4,8 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
 
 // Context Providers
-import { ToastProvider } from './context/ToastContext';
+import { ToastProvider, useToast } from './context/ToastContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import ToastContainer from './components/common/ToastContainer';
 
 // Layout Components
 import Header from './components/layout/Header';
@@ -17,10 +18,13 @@ type PageName = 'home' | 'start-design' | 'thank-you';
 
 const AppContent: React.FC = () => {
   const { userId, isAuthReady } = useAuth();
+  // Test ToastContext
+  const { showToast } = useToast();
   const [currentPage, setCurrentPage] = useState<PageName>('home');
 
   useEffect(() => {
     console.log('🔥 FIREBASE API KEY →', import.meta.env.VITE_FIREBASE_API_KEY);
+    showToast('ToastContext is working!', 'info');
   }, []);
 
   const handleNavigate = (page: PageName) => {
@@ -72,6 +76,7 @@ const App: React.FC = () => (
   <AuthProvider>
     <ToastProvider>
       <AppContent />
+      <ToastContainer />
     </ToastProvider>
   </AuthProvider>
 );
