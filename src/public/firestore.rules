@@ -1,0 +1,14 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow users to submit design requests
+    match /designRequests/{requestId} {
+      allow create: if true;
+      allow read: if true;
+    }
+    // Allow public read access to all other documents (if needed)
+    match /{document=**} {
+      allow read: if true;
+    }
+  }
+}

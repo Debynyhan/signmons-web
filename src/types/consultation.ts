@@ -17,7 +17,7 @@ export type WizardStep = (typeof steps)[number];
 
 /** Raw in-flow assets (before upload) */
 export interface WizardAssetsInfo {
-  logos: File[]; // <-- must be File[] here
+  logos: File[];
   tagline: string;
 }
 
@@ -47,7 +47,6 @@ export interface TimelineInfo {
   rush: boolean;
 }
 
-
 // ——— Export the data shape ———
 export interface BudgetInfo {
   min: number;
@@ -61,30 +60,36 @@ export interface DetailsInfo {
 
 export type StyleOption = 'Bold' | 'Minimal' | 'Industrial' | 'Playful' | 'Custom';
 
-/** The full wizard state during the UI flow */
+/** Wizard state during the UI flow */
 export interface WizardState {
   industry: string;
-  vehicle: VehicleInfo;
-  style: string; // your StyleOption
+  vehicle: {
+    type: string;
+    make: string;
+    model: string;
+    year: string;
+    color: string;
+  };
+  style: string;
   assets: WizardAssetsInfo;
-  colors: ColorsInfo;
-  contact: ContactInfo;
-  timeline: TimelineInfo;
-  budget: BudgetInfo;
-  details: DetailsInfo;
+  colors: { primary: string; accent: string };
+  contact: { businessName: string; email: string; phone: string };
+  timeline: { date: string; rush: boolean };
+  budget: { min: number; max: number };
+  details: { notes: string };
 }
 
 /** What actually lands in Firestore */
 export interface FirestoreRequest {
   industry: string;
-  vehicle: VehicleInfo;
+  vehicle: WizardState['vehicle'];
   style: string;
   assets: { logos: string[]; tagline: string };
-  colors: ColorsInfo;
-  contact: ContactInfo;
-  timeline: TimelineInfo;
-  budget: BudgetInfo;
-  details: DetailsInfo;
+  colors: WizardState['colors'];
+  contact: WizardState['contact'];
+  timeline: WizardState['timeline'];
+  budget: WizardState['budget'];
+  details: WizardState['details'];
   createdAt: string;
 }
 
