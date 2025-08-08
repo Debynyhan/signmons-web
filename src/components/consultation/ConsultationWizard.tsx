@@ -134,7 +134,40 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
               <ListItem>
                 <ListItemText
                   primary="Colors"
-                  secondary={`Primary: ${state.colors.primary}, Accent: ${state.colors.accent}`}
+                  secondary={
+                    <span>
+                      <span
+                        style={{ display: 'inline-flex', alignItems: 'center', marginRight: 16 }}
+                      >
+                        <span
+                          style={{
+                            width: 20,
+                            height: 20,
+                            borderRadius: '50%',
+                            background: state.colors.primary,
+                            display: 'inline-block',
+                            border: '1px solid #ccc',
+                            marginRight: 6,
+                          }}
+                        />
+                        Primary
+                      </span>
+                      <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                        <span
+                          style={{
+                            width: 20,
+                            height: 20,
+                            borderRadius: '50%',
+                            background: state.colors.accent,
+                            display: 'inline-block',
+                            border: '1px solid #ccc',
+                            marginRight: 6,
+                          }}
+                        />
+                        Accent
+                      </span>
+                    </span>
+                  }
                 />
               </ListItem>
               <ListItem>
@@ -150,10 +183,7 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
                 />
               </ListItem>
               <ListItem>
-                <ListItemText
-                  primary="Budget"
-                  secondary={`$${state.budget.min} - $${state.budget.max}`}
-                />
+                <ListItemText primary="Budget" secondary={`$${state.budget.min}`} />
               </ListItem>
               <ListItem>
                 <ListItemText primary="Details" secondary={state.details.notes} />

@@ -1,8 +1,7 @@
 // src/components/consultation/BudgetStep.tsx
 
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, Grid, TextField, FormHelperText, Button } from '@mui/material';
-import { isPositiveInteger, isWithinRange } from '../../utils/validationUtils';
+import React, { useState } from 'react';
+import { Box, Typography, Button, Slider } from '@mui/material';
 import type { BudgetInfo } from '../../types/consultation';
 
 interface BudgetStepProps {
@@ -10,99 +9,85 @@ interface BudgetStepProps {
   onNext: (info: BudgetInfo) => void;
 }
 
-// Business requirement: minimum budget $100
 const MIN_BUDGET = 100;
+const MAX_BUDGET = 2000;
+const STEP = 50;
 
 const BudgetStep: React.FC<BudgetStepProps> = ({ initialInfo, onNext }) => {
-  // Track values as strings for full control
-  const [minStr, setMinStr] = useState<string>(initialInfo != null ? String(initialInfo.min) : '');
-  const [maxStr, setMaxStr] = useState<string>(initialInfo != null ? String(initialInfo.max) : '');
-  const [error, setError] = useState<string | null>(null);
-
-  // Validate whenever minStr/maxStr change
-  useEffect(() => {
-    if (!isPositiveInteger(minStr, MIN_BUDGET)) {
-      setError(`Min must be an integer ≥ $${MIN_BUDGET}`);
-    } else if (!isPositiveInteger(maxStr)) {
-      setError('Max must be a non-negative integer');
-    } else if (!isWithinRange(minStr, maxStr, MIN_BUDGET)) {
-      setError('Max must be ≥ Min');
-    } else {
-      setError(null);
-    }
-  }, [minStr, maxStr]);
-
-  const isValid = !error;
+  const initialValue =
+    initialInfo?.min && initialInfo.min >= MIN_BUDGET && initialInfo.min <= MAX_BUDGET
+      ? initialInfo.min
+      : MIN_BUDGET;
+  const [value, setValue] = useState<number>(initialValue);
 
   return (
     <Box>
       <Typography variant="h5" align="center" gutterBottom>
-        What’s your budget range?
+        What’s your budget?
       </Typography>
       <Typography variant="body2" color="textSecondary" align="center" sx={{ mb: 2 }}>
-        Helps me tailor options to your price point. Minimum ${MIN_BUDGET}.
+        Select your project budget. Minimum ${MIN_BUDGET}.
       </Typography>
-
-      <Grid container spacing={2} justifyContent="center">
-        {/* Min budget */}
-        <Grid item xs={6}>
-          <TextField
-            label="Min ($)"
-            type="text"
-            placeholder={String(MIN_BUDGET)}
-            value={minStr}
-            onChange={(e) => setMinStr(e.target.value)}
-            fullWidth
-            inputProps={{
-              inputMode: 'numeric',
-              pattern: '[0-9]*',
-            }}
-            error={!!error && !isPositiveInteger(minStr, MIN_BUDGET)}
-          />
-        </Grid>
-
-        {/* Max budget */}
-        <Grid item xs={6}>
-          <TextField
-            label="Max ($)"
-            type="text"
-            placeholder="e.g. 1000"
-            value={maxStr}
-            onChange={(e) => setMaxStr(e.target.value)}
-            fullWidth
-            inputProps={{
-              inputMode: 'numeric',
-              pattern: '[0-9]*',
-            }}
-            error={!!error && !isWithinRange(minStr, maxStr, MIN_BUDGET)}
-          />
-        </Grid>
-
-        {/* Validation error */}
-        {error && (
-          <Grid item xs={12}>
-            <FormHelperText error>{error}</FormHelperText>
-          </Grid>
-        )}
-
-        {/* Continue */}
-        <Grid item xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button
-              variant="contained"
-              disabled={!isValid}
-              onClick={() =>
-                onNext({
-                  min: Number(minStr),
-                  max: Number(maxStr),
-                })
-              }
-            >
-              Continue
-            </Button>
-          </Box>
-        </Grid>
-      </Grid>
+      <Box sx={{ width: '100%', maxWidth: 400, mx: 'auto', mt: 4 }}>
+        <Slider
+          value={value}
+          min={MIN_BUDGET}
+          max={MAX_BUDGET}
+          step={STEP}
+          marks={[
+            { value: MIN_BUDGET, label: `$${MIN_BUDGET}` },
+            { value: MAX_BUDGET, label: `$${MAX_BUDGET}` },
+          ]}
+          valueLabelDisplay="on"
+          onChange={(_event: Event, newValue: number | number[]) =>
+            setValue(Array.isArray(newValue) ? newValue[0] : newValue)
+          }
+          sx={{
+            mb: 3,
+            color: 'primary.main',
+            height: 8,
+            '& .MuiSlider-thumb': {
+              height: 28,
+              width: 28,
+              backgroundColor: '#fff',
+              border: '3px solid',
+              borderColor: 'primary.main',
+              boxShadow: 2,
+              '&:hover, &.Mui-focusVisible': {
+                boxShadow: 4,
+              },
+            },
+            '& .MuiSlider-track': {
+              border: 'none',
+              height: 8,
+              borderRadius: 4,
+            },
+            '& .MuiSlider-rail': {
+              opacity: 0.5,
+              backgroundColor: '#bdbdbd',
+              height: 8,
+              borderRadius: 4,
+            },
+            '& .MuiSlider-valueLabel': {
+              backgroundColor: 'primary.main',
+              color: '#222',
+              borderRadius: 2,
+              fontWeight: 700,
+              fontSize: 16,
+              top: -36,
+              '&:before': {
+                display: 'none',
+              },
+            },
+          }}
+          valueLabelFormat={(v: number) => `$${v}`}
+        />
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
+          <Button variant="contained" onClick={() => onNext({ min: value, max: value })}>
+            Continue
+          </Button>
+        </Box>
+      </Box>
     </Box>
   );
 };
