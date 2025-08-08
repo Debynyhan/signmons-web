@@ -24,8 +24,7 @@ const GlassCard: React.FC<GlassCardProps> = ({ children, sx }) => {
         backdropFilter: 'blur(12px) saturate(140%)',
         WebkitBackdropFilter: 'blur(12px) saturate(140%)',
         border: '1px solid rgba(255,255,255,0.12)',
-        boxShadow:
-          '0 12px 34px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.06)',
+        boxShadow: '0 12px 34px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.06)',
         overflow: 'hidden',
         '&:after': {
           content: '""',
@@ -33,8 +32,7 @@ const GlassCard: React.FC<GlassCardProps> = ({ children, sx }) => {
           inset: 0,
           pointerEvents: 'none',
           borderRadius: 'inherit',
-          boxShadow:
-            '0 0 0 1px rgba(0,255,240,0.08), 0 0 80px rgba(120,80,255,0.10) inset',
+          boxShadow: '0 0 0 1px rgba(0,255,240,0.08), 0 0 80px rgba(120,80,255,0.10) inset',
         },
         ...sx,
       }}
