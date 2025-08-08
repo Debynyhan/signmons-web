@@ -56,7 +56,7 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
       sx={{
         position: 'absolute',
         inset: 0,
-        zIndex: -1,
+        zIndex: 0, // was -1; raise so it renders above section background
         width: '100%',
         height: '100%',
         pointerEvents: 'none',

@@ -42,7 +42,6 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-      // The background gradient can stay here or be removed in favor of the overlay box
       background:
         'radial-gradient(circle at center, rgba(43,45,59,0.95) 0%, rgba(17,17,17,0.97) 100%)',
       color: 'text.primary',
@@ -50,35 +49,34 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
       py: 4,
     }}
   >
-    {/* --- Background shapes and a separate overlay for a solid black effect --- */}
-
-    {/* Hero Shapes as the bottom layer (zIndex: 0) */}
+    {/* Background shapes as mid layer */}
     <Box
       sx={{
         position: 'absolute',
         inset: 0,
-        zIndex: 0, // This is the base layer
+        zIndex: 0,
         width: '100%',
         height: '100%',
+        pointerEvents: 'none',
       }}
     >
       <HeroShapes />
     </Box>
 
-    {/* A solid black overlay on top of the shapes (zIndex: 1) */}
+    {/* Overlay above shapes */}
     <Box
       sx={{
         position: 'absolute',
         inset: 0,
-        zIndex: 1, // This is the middle layer, on top of the shapes
+        zIndex: 1,
         width: '100%',
         height: '100%',
-        bgcolor: 'rgba(0,0,0,0.62)', // A dark black overlay
-        pointerEvents: 'none', // Prevents this overlay from blocking clicks
+        bgcolor: 'rgba(0,0,0,0.48)',
+        pointerEvents: 'none',
       }}
     />
 
-    {/* --- All main content on the top layer (zIndex: 2) --- */}
+    {/* Content top layer */}
     <Box
       sx={{
         position: 'relative',
@@ -87,8 +85,8 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
         flexDirection: 'column',
         alignItems: 'center',
         textAlign: 'center',
-        flex: 1, // Allows this box to grow and push the content down
-        justifyContent: 'space-between', // Pushes the button to the bottom
+        flex: 1,
+        justifyContent: 'space-between',
       }}
     >
       <Box
