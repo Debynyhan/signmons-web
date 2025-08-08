@@ -1,10 +1,10 @@
 // src/components/consultation/ColorsStep.tsx
 
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Grid, TextField, FormHelperText, Button } from '@mui/material';
+import { Box, Typography, Grid, FormHelperText, Button } from '@mui/material';
 import type { ColorsInfo } from '../../types/consultation';
 import { sanitizeHex, ensureContrast } from '../../utils/validationUtils';
-
+import AnimatedColorField from '../common/AnimatedColorField';
 
 interface ColorsStepProps {
   initialInfo?: ColorsInfo;
@@ -36,32 +36,32 @@ const ColorsStep: React.FC<ColorsStepProps> = ({ initialInfo, onNext }) => {
         Choose a primary and an accent color for your branding.
       </Typography>
 
-      <Grid container spacing={4} justifyContent="center">
-        {/* Primary Color */}
-        <Grid item xs={6} sm={4}>
-          <Typography>Primary Color</Typography>
-          <TextField
-            type="color"
-            value={primary}
-            onChange={(e) => setPrimary(sanitizeHex(e.target.value))}
-            fullWidth
-            sx={{ height: 56, p: 0 }}
-          />
-        </Grid>
+      {/* Centered, equal-width columns for the two pickers */}
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr 1fr', sm: 'repeat(2, 240px)' },
+          justifyContent: 'center',
+          justifyItems: 'center',
+          columnGap: { xs: 2, sm: 6 },
+          rowGap: 3,
+          mb: 2,
+        }}
+      >
+        <AnimatedColorField
+          label="Primary Color"
+          color={primary}
+          onChange={(c) => setPrimary(sanitizeHex(c))}
+        />
+        <AnimatedColorField
+          label="Accent Color"
+          color={accent}
+          onChange={(c) => setAccent(sanitizeHex(c))}
+        />
+      </Box>
 
-        {/* Accent Color */}
-        <Grid item xs={6} sm={4}>
-          <Typography>Accent Color</Typography>
-          <TextField
-            type="color"
-            value={accent}
-            onChange={(e) => setAccent(sanitizeHex(e.target.value))}
-            fullWidth
-            sx={{ height: 56, p: 0 }}
-          />
-        </Grid>
-
-        {/* Live preview swatches */}
+      {/* Live preview swatches */}
+      <Grid container>
         <Grid item xs={12}>
           <Box
             sx={{
@@ -97,7 +97,7 @@ const ColorsStep: React.FC<ColorsStepProps> = ({ initialInfo, onNext }) => {
         )}
 
         {/* Continue button */}
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={{ mt: 2 }}>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button
               variant="contained"

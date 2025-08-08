@@ -1,7 +1,16 @@
 // src/components/consultation/AssetsStep.tsx
 
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { Box, Typography, Grid, Button, FormHelperText, TextField } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Grid,
+  Button,
+  FormHelperText,
+  TextField,
+  LinearProgress,
+} from '@mui/material';
+import { compressImage, formatBytes } from '../../utils/image';
 
 // ——— Export the data shape for upstream consumption ———
 export interface AssetsInfo {
@@ -12,7 +21,7 @@ export interface AssetsInfo {
 // Security constants
 const MAX_FILES = 3;
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
-const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml'] as const;
+const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml', 'image/webp'] as const;
 const MAX_TAGLINE_LEN = 100;
 
 interface AssetsStepProps {
@@ -22,6 +31,8 @@ interface AssetsStepProps {
 
 const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
   const [logos, setLogos] = useState<File[]>(initialInfo?.logos || []);
+  const [meta, setMeta] = useState<Record<string, { original: number; compressed: number }>>({});
+  const [compressing, setCompressing] = useState(false);
   const [tagline, setTagline] = useState(initialInfo?.tagline.slice(0, MAX_TAGLINE_LEN) || '');
 
   // Error messages
@@ -36,7 +47,7 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
     }
     for (const file of logos) {
       if (!ALLOWED_TYPES.includes(file.type as any)) {
-        setFileError('Logos must be PNG, JPEG, or SVG');
+        setFileError('Logos must be PNG, JPEG, SVG, or WebP');
         return;
       }
       if (file.size > MAX_FILE_SIZE) {
@@ -56,12 +67,45 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
     }
   }, [tagline]);
 
-  const isValid = logos.length > 0 && !fileError && !taglineError;
+  const isValid = logos.length > 0 && !fileError && !taglineError && !compressing;
 
-  const handleFiles = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFiles = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    const picked = Array.from(e.target.files);
-    setLogos((prev) => [...prev, ...picked].slice(0, MAX_FILES));
+    const room = Math.max(0, MAX_FILES - logos.length);
+    const picked = Array.from(e.target.files).slice(0, room);
+
+    setCompressing(true);
+    try {
+      const processed: File[] = [];
+      const newMeta: Record<string, { original: number; compressed: number }> = { ...meta };
+
+      for (const f of picked) {
+        const originalSize = f.size;
+        // Compress raster; keep SVG as-is
+        let out: File = f;
+        try {
+          if (f.type !== 'image/svg+xml') {
+            out = await compressImage(f, {
+              maxWidth: 1600,
+              maxHeight: 1600,
+              quality: 0.86,
+              mime: 'image/webp',
+            });
+          }
+        } catch {
+          out = f; // fallback
+        }
+        processed.push(out);
+        newMeta[out.name] = { original: originalSize, compressed: out.size };
+      }
+
+      setMeta(newMeta);
+      setLogos((prev) => [...prev, ...processed].slice(0, MAX_FILES));
+    } finally {
+      setCompressing(false);
+      // Reset so same file can be reselected
+      e.currentTarget.value = '';
+    }
   };
 
   const removeLogo = (idx: number) => {
@@ -79,16 +123,22 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
 
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Button variant="outlined" component="label" fullWidth>
-            Select Logo Files (max {MAX_FILES})
+          <Button variant="outlined" component="label" fullWidth disabled={compressing}>
+            {compressing ? 'Optimizing…' : `Select Logo Files (max ${MAX_FILES})`}
             <input
               type="file"
-              accept={ALLOWED_TYPES.join(',')}
+              accept={(ALLOWED_TYPES as readonly string[]).join(',')}
               multiple
               hidden
               onChange={handleFiles}
             />
           </Button>
+          {compressing && (
+            <Box sx={{ mt: 1 }}>
+              <LinearProgress />
+              <FormHelperText>Compressing selected images for faster upload…</FormHelperText>
+            </Box>
+          )}
           {fileError ? (
             <FormHelperText error>{fileError}</FormHelperText>
           ) : logos.length === 0 ? (
@@ -96,30 +146,39 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
           ) : null}
         </Grid>
 
-        {logos.map((file, i) => (
-          <Grid item xs={12} sm={6} key={i}>
-            <Box
-              sx={{
-                p: 1,
-                border: '1px solid',
-                borderColor: 'divider',
-                borderRadius: 1,
-                position: 'relative',
-              }}
-            >
-              <Typography noWrap sx={{ pr: 6 }}>
-                {file.name}
-              </Typography>
-              <Button
-                size="small"
-                onClick={() => removeLogo(i)}
-                sx={{ position: 'absolute', top: 4, right: 4 }}
+        {logos.map((file, i) => {
+          const m = meta[file.name];
+          const saved = m ? Math.max(0, m.original - m.compressed) : undefined;
+          return (
+            <Grid item xs={12} sm={6} key={i}>
+              <Box
+                sx={{
+                  p: 1,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  borderRadius: 1,
+                  position: 'relative',
+                }}
               >
-                Remove
-              </Button>
-            </Box>
-          </Grid>
-        ))}
+                <Typography noWrap sx={{ pr: 6 }}>
+                  {file.name}
+                </Typography>
+                {m && (
+                  <Typography variant="caption" color="text.secondary">
+                    {`Original: ${formatBytes(m.original)} • Optimized: ${formatBytes(m.compressed)}${saved ? ` • Saved: ${formatBytes(saved)}` : ''}`}
+                  </Typography>
+                )}
+                <Button
+                  size="small"
+                  onClick={() => removeLogo(i)}
+                  sx={{ position: 'absolute', top: 4, right: 4 }}
+                >
+                  Remove
+                </Button>
+              </Box>
+            </Grid>
+          );
+        })}
 
         <Grid item xs={12}>
           <TextField
