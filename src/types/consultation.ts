@@ -39,6 +39,7 @@ export interface ContactInfo {
   businessName: string;
   email: string;
   phone: string;
+  website?: string; // optional website URL
 }
 
 // ——— Export the data shape ———
@@ -73,7 +74,7 @@ export interface WizardState {
   style: string;
   assets: WizardAssetsInfo;
   colors: { primary: string; accent: string };
-  contact: { businessName: string; email: string; phone: string };
+  contact: { businessName: string; email: string; phone: string; website?: string };
   timeline: { date: string; rush: boolean };
   budget: { min: number; max: number };
   details: { notes: string };

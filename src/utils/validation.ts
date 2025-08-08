@@ -46,6 +46,14 @@ export const wizardSchema = z
           .string()
           .nonempty({ message: 'Phone number is required' })
           .transform((val: string) => sanitizeString(val)),
+        website: z
+          .string()
+          .optional()
+          .transform((v) => (v ? v.trim() : v))
+          .refine(
+            (v) => !v || /^https?:\/\//i.test(v) || /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(v),
+            { message: 'Invalid website URL' },
+          ),
       })
       .required(),
     timeline: z

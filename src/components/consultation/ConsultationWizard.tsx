@@ -196,7 +196,9 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
               <ListItem>
                 <ListItemText
                   primary="Contact"
-                  secondary={`${state.contact.businessName}, ${state.contact.email}`}
+                  secondary={`${state.contact.businessName}, ${state.contact.email}${
+                    state.contact.website ? `, ${state.contact.website}` : ''
+                  }`}
                 />
               </ListItem>
               <ListItem>
