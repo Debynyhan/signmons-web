@@ -16,7 +16,6 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import { useDesignWizard } from '../../hooks/useDesignWizard';
 import { steps } from '../../types/consultation';
-import type { WizardState } from '../../types/consultation';
 import type { PageName } from '../../types/navigation';
 
 import IndustryStep from './IndustryStep';
@@ -31,6 +30,7 @@ import DetailsStep from './DetailsStep';
 
 import { useToast } from '../../context/ToastContext';
 import { submitDesignRequest } from '../../utils/firestoreUtils';
+import { wizardSchema } from '../../utils/validation';
 
 interface ConsultationWizardProps {
   navigate: (page: PageName) => void;
@@ -56,8 +56,17 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
   const { showToast } = useToast();
 
   const handleSubmit = async () => {
+    // Validate entire wizard state
+    const result = wizardSchema.safeParse(state);
+    if (!result.success) {
+      // Extract validation messages
+      const messages = result.error.issues.map((issue) => issue.message).join('; ');
+      showToast(`Validation error: ${messages}`, 'error');
+      console.error('Validation errors:', result.error);
+      return;
+    }
     try {
-      await submitDesignRequest(state as WizardState);
+      await submitDesignRequest(result.data);
       showToast('Your mockup request is on its way!', 'success');
       navigate('thank-you');
     } catch (err) {
@@ -103,7 +112,7 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
         <DetailsStep initialInfo={state.details} onNext={selectDetails} />
       )}
 
-      {currentStep === 'Review' && (
+      {currentStep === 'Review' ? (
         <Box textAlign="center">
           <Typography variant="h5" gutterBottom>
             Review Your Selections
@@ -158,6 +167,13 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
             </Button>
           </Box>
         </Box>
+      ) : (
+        // Non-review steps: show Back button for navigation
+        stepIndex > 0 && (
+          <Box mt={4} display="flex" justifyContent="flex-start">
+            <Button onClick={back}>Back</Button>
+          </Box>
+        )
       )}
     </Container>
   );
