@@ -11,6 +11,7 @@ import ProcessSteps from '../components/home/ProcessSteps';
 import PricingPackages from '../components/home/PricingPackages';
 import FAQ from '../components/home/FAQ';
 import FinalCTA from '../components/home/FinalCTA';
+import GlassCard from '../components/common/GlassCard';
 
 interface HomePageProps {
   navigate: (page: PageName) => void;
@@ -28,23 +29,30 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       <CredibilityStrip />
       <StickyCTA onPrimaryClick={goStart} />
 
-      <Container sx={{ py: 4 }}>
-        <Box sx={{ mb: 5 }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 4, md: 6 }, display: 'grid', gap: { xs: 3, md: 4 } }}>
+        <GlassCard>
           <PortfolioGrid filter={'All'} setFilter={() => {}} onCTA={goStart} />
-        </Box>
-        <Box sx={{ mb: 5 }}>
+        </GlassCard>
+
+        <GlassCard>
           <Testimonials />
-        </Box>
-        <Box sx={{ mb: 5 }}>
+        </GlassCard>
+
+        <GlassCard>
           <ProcessSteps />
-        </Box>
-        <Box sx={{ mb: 5 }}>
+        </GlassCard>
+
+        <GlassCard>
           <PricingPackages onCTA={goStart} />
-        </Box>
-        <Box sx={{ mb: 5 }}>
+        </GlassCard>
+
+        <GlassCard>
           <FAQ />
-        </Box>
-        <FinalCTA onClick={goStart} />
+        </GlassCard>
+
+        <GlassCard sx={{ textAlign: 'center' }}>
+          <FinalCTA onClick={goStart} />
+        </GlassCard>
       </Container>
     </main>
   );
