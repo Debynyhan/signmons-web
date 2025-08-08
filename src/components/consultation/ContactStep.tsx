@@ -5,8 +5,6 @@ import { Box, Typography, Grid, TextField, Button } from '@mui/material';
 import { trimAndClamp, isValidEmail, isValidPhone, stripHtmlTags } from '../../utils/stringUtils';
 import type { ContactInfo } from '../../types/consultation';
 
-
-
 interface ContactStepProps {
   initialInfo?: ContactInfo;
   onNext: (info: ContactInfo) => void;
@@ -65,13 +63,7 @@ const ContactStep: React.FC<ContactStepProps> = ({ initialInfo, onNext }) => {
   }, [website]);
 
   const isValid =
-    !nameError &&
-    !emailError &&
-    !phoneError &&
-    !websiteError &&
-    businessName &&
-    email &&
-    phone;
+    !nameError && !emailError && !phoneError && !websiteError && businessName && email && phone;
 
   return (
     <Box>

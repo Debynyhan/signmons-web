@@ -50,10 +50,9 @@ export const wizardSchema = z
           .string()
           .optional()
           .transform((v) => (v ? v.trim() : v))
-          .refine(
-            (v) => !v || /^https?:\/\//i.test(v) || /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(v),
-            { message: 'Invalid website URL' },
-          ),
+          .refine((v) => !v || /^https?:\/\//i.test(v) || /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(v), {
+            message: 'Invalid website URL',
+          }),
       })
       .required(),
     timeline: z
