@@ -83,14 +83,37 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
     );
 
   return (
-    <Container maxWidth="sm" sx={{ py: 4 }}>
-      <Stepper activeStep={stepIndex} alternativeLabel sx={{ mb: 4 }} connector={null}>
-        {steps.map((label, index) => (
-          <Step key={label} completed={index < stepIndex}>
-            <StepLabel StepIconComponent={StepIconComponent} />
-          </Step>
-        ))}
-      </Stepper>
+    <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Box sx={{ width: '100%' }}>
+        <Stepper
+          activeStep={stepIndex}
+          alternativeLabel
+          connector={null}
+          sx={{
+            width: '100%',
+            mb: 4,
+            mx: 'auto',
+            justifyContent: 'center',
+            '& .MuiStepIcon-root, & .MuiSvgIcon-root': {
+              fontSize: { xs: 16, sm: 18, md: 18, lg: 20 },
+            },
+            '& .MuiStepLabel-label': {
+              fontSize: { xs: 9, sm: 10, md: 11, lg: 12 },
+              px: { xs: 0.25, sm: 0.5, md: 0.5, lg: 1 },
+            },
+            '& .MuiStep-root': {
+              minWidth: { xs: 24, sm: 32, md: 32, lg: 40 },
+              px: { xs: 0.25, sm: 0.5, md: 0.5, lg: 1 },
+            },
+          }}
+        >
+          {steps.map((label, index) => (
+            <Step key={label} completed={index < stepIndex}>
+              <StepLabel StepIconComponent={StepIconComponent} />
+            </Step>
+          ))}
+        </Stepper>
+      </Box>
 
       {currentStep === 'Industry' && (
         <IndustryStep selected={state.industry} onSelect={selectIndustry} />

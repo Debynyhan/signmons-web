@@ -107,7 +107,9 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
                 position: 'relative',
               }}
             >
-              <Typography noWrap>{file.name}</Typography>
+              <Typography noWrap sx={{ pr: 6 }}>
+                {file.name}
+              </Typography>
               <Button
                 size="small"
                 onClick={() => removeLogo(i)}
