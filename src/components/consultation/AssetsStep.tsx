@@ -149,6 +149,7 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
         {logos.map((file, i) => {
           const m = meta[file.name];
           const saved = m ? Math.max(0, m.original - m.compressed) : undefined;
+          const savingsText = saved !== undefined ? ` • Saved: ${formatBytes(saved)}` : '';
           return (
             <Grid item xs={12} sm={6} key={i}>
               <Box
@@ -164,8 +165,8 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
                   {file.name}
                 </Typography>
                 {m && (
-                  <Typography variant="caption" color="text.secondary">
-                    {`Original: ${formatBytes(m.original)} • Optimized: ${formatBytes(m.compressed)}${saved ? ` • Saved: ${formatBytes(saved)}` : ''}`}
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
+                    {`Original: ${formatBytes(m.original)} • Optimized: ${formatBytes(m.compressed)}${savingsText}`}
                   </Typography>
                 )}
                 <Button

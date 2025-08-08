@@ -1,8 +1,8 @@
 // src/utils/image.ts
 // Client-side image compression utility for logo uploads
 // - Downscales very large raster images
-// - Converts to WebP (or JPEG) with controllable quality
-// - Preserves transparency (use WebP)
+// - Converts to WebP when available, otherwise falls back to JPEG/PNG
+// - Preserves transparency by preferring PNG when alpha is present
 // - Skips SVG (keeps vector intact)
 
 export async function compressImage(
@@ -44,14 +44,35 @@ export async function compressImage(
   ctx.clearRect(0, 0, targetW, targetH);
   ctx.drawImage(bitmap, 0, 0, targetW, targetH);
 
-  const blob: Blob | null = await new Promise((resolve) => canvas.toBlob(resolve, mime, quality));
+  // Prefer WebP; if not supported on this device, fall back smartly
+  let usedMime: 'image/webp' | 'image/jpeg' | 'image/png' = mime;
+  let blob = await canvasToBlob(canvas, 'image/webp', quality);
+  if (!blob) {
+    const hasAlpha = await canvasHasAlpha(canvas);
+    if (!hasAlpha) {
+      // JPEG gives best size when no transparency
+      blob = await canvasToBlob(canvas, 'image/jpeg', clampQuality(quality));
+      usedMime = 'image/jpeg';
+    }
+    if (!blob) {
+      // Final guaranteed fallback
+      blob = await canvasToBlob(canvas, 'image/png');
+      usedMime = 'image/png';
+    }
+  }
+
   if (!blob) return file;
 
-  const compressed = new File([blob], renameWithExt(file.name, mime), {
-    type: mime,
+  const compressed = new File([blob], renameWithExt(file.name, usedMime), {
+    type: usedMime,
     lastModified: Date.now(),
   });
   return compressed.size < file.size ? compressed : file;
+}
+
+function clampQuality(q?: number): number | undefined {
+  if (typeof q !== 'number') return undefined;
+  return Math.min(0.95, Math.max(0.5, q));
 }
 
 function renameWithExt(name: string, mime: string): string {
@@ -78,15 +99,14 @@ async function loadImageBitmapFallback(file: File): Promise<ImageBitmap | null> 
           const ctx = canvas.getContext('2d');
           if (!ctx) return resolve(null);
           ctx.drawImage(img, 0, 0);
-          canvas.toBlob(async (b) => {
-            if (!b) return resolve(null);
-            try {
-              const bmp = await createImageBitmap(b);
-              resolve(bmp);
-            } catch {
-              resolve(null);
-            }
-          });
+          const b = await canvasToBlob(canvas, 'image/png');
+          if (!b) return resolve(null);
+          try {
+            const bmp = await createImageBitmap(b);
+            resolve(bmp);
+          } catch {
+            resolve(null);
+          }
         } catch {
           resolve(null);
         }
@@ -98,6 +118,32 @@ async function loadImageBitmapFallback(file: File): Promise<ImageBitmap | null> 
     };
     img.src = url;
   });
+}
+
+function canvasToBlob(
+  canvas: HTMLCanvasElement,
+  type?: string,
+  quality?: number,
+): Promise<Blob | null> {
+  return new Promise((resolve) => canvas.toBlob(resolve, type, quality));
+}
+
+async function canvasHasAlpha(canvas: HTMLCanvasElement): Promise<boolean> {
+  // Sample on a small canvas for performance
+  const sampleSize = 200;
+  const s = document.createElement('canvas');
+  s.width = sampleSize;
+  s.height = sampleSize;
+  const c = s.getContext('2d', { alpha: true });
+  if (!c) return true; // assume alpha to be safe
+  c.imageSmoothingQuality = 'high';
+  c.clearRect(0, 0, sampleSize, sampleSize);
+  c.drawImage(canvas, 0, 0, sampleSize, sampleSize);
+  const data = c.getImageData(0, 0, sampleSize, sampleSize).data;
+  for (let i = 3; i < data.length; i += 4) {
+    if (data[i] < 255) return true;
+  }
+  return false;
 }
 
 export function formatBytes(bytes: number): string {
