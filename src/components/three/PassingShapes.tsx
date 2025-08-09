@@ -2,15 +2,11 @@ import React, { useMemo, useRef } from 'react';
 import { useTheme } from '@mui/material';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { createStandardEmissiveMaterial } from './materials';
+import { applyPositionGradient, createGradientStandardMaterial, getVibrantGradientStops } from './materials';
 
 const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   const theme = useTheme();
-  const palette = [
-    new THREE.Color(theme.palette.secondary.main || '#17EAD9').getHex(),
-    new THREE.Color(theme.palette.primary.main || '#7A5CE6').getHex(),
-    new THREE.Color(theme.palette.info?.main || '#ff37c7').getHex(),
-  ];
+  const gradientStops = useMemo(() => getVibrantGradientStops(theme), [theme]);
 
   const pool = isMobile ? 1 : 2;
   const meshesRef = useRef<THREE.Mesh[]>([]);
@@ -20,14 +16,14 @@ const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
 
   const geos = useMemo(
     () => ({
-      tetra: new THREE.TetrahedronGeometry(0.4),
-      sphere: new THREE.SphereGeometry(0.35, 16, 16),
-      box: new THREE.BoxGeometry(0.38, 0.38, 0.38),
+      tetra: applyPositionGradient(new THREE.TetrahedronGeometry(0.4), gradientStops, 'y'),
+      sphere: applyPositionGradient(new THREE.SphereGeometry(0.35, 16, 16), gradientStops, 'y'),
+      box: applyPositionGradient(new THREE.BoxGeometry(0.38, 0.38, 0.38), gradientStops, 'y'),
     }),
-    [],
+    [gradientStops],
   );
 
-  const material = useMemo(() => createStandardEmissiveMaterial(palette[0]), [palette]);
+  const material = useMemo(() => createGradientStandardMaterial(), []);
 
   const spawnOne = (t: number) => {
     const idx = activeRef.current.findIndex((a) => !a);

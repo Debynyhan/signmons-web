@@ -3,17 +3,15 @@ import { useTheme } from '@mui/material';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { SHAPES } from './constants';
+import { applyPositionGradient, createGradientStandardMaterial, getVibrantGradientStops } from './materials';
 
 const AnchoredShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   const meshRefs = useRef<THREE.Mesh[]>([]);
   const groupRef = useRef<THREE.Group>(null);
   const theme = useTheme();
 
-  const palette = [
-    new THREE.Color(theme.palette.primary.main || '#7A5CE6').getHex(),
-    new THREE.Color(theme.palette.secondary.main || '#17EAD9').getHex(),
-    new THREE.Color(theme.palette.info?.main || '#ff37c7').getHex(),
-  ];
+  const gradientStops = useMemo(() => getVibrantGradientStops(theme), [theme]);
+  const material = useMemo(() => createGradientStandardMaterial(), []);
 
   const speed = SHAPES.speed;
 
@@ -70,21 +68,25 @@ const AnchoredShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   return (
     <group ref={groupRef}>
       {basePositions.map((pos, i) => (
-        <mesh
-          key={`${isMobile ? 'm' : 'd'}-${i}`}
-          ref={(el) => (meshRefs.current[i] = el!)}
-          position={pos.toArray()}
-        >
-          {i % 3 === 0 && <tetrahedronGeometry args={[0.65]} />}
-          {i % 3 === 1 && <sphereGeometry args={[0.52, 24, 24]} />}
-          {i % 3 === 2 && <boxGeometry args={[0.6, 0.6, 0.6]} />}
-          <meshStandardMaterial
-            color={palette[i % palette.length]}
-            roughness={0.8}
-            metalness={0.12}
-            emissive={new THREE.Color('#0b1020')}
-            emissiveIntensity={0.18}
-          />
+        <mesh key={`${isMobile ? 'm' : 'd'}-${i}`} ref={(el) => (meshRefs.current[i] = el!)} position={pos.toArray()} material={material}>
+          {i % 3 === 0 && (
+            <tetrahedronGeometry
+              args={[0.65]}
+              onUpdate={(g: THREE.TetrahedronGeometry) => applyPositionGradient(g, gradientStops, 'y')}
+            />
+          )}
+          {i % 3 === 1 && (
+            <sphereGeometry
+              args={[0.52, 24, 24]}
+              onUpdate={(g: THREE.SphereGeometry) => applyPositionGradient(g, gradientStops, 'y')}
+            />
+          )}
+          {i % 3 === 2 && (
+            <boxGeometry
+              args={[0.6, 0.6, 0.6]}
+              onUpdate={(g: THREE.BoxGeometry) => applyPositionGradient(g, gradientStops, 'y')}
+            />
+          )}
         </mesh>
       ))}
     </group>
