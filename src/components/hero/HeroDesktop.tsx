@@ -122,12 +122,9 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
                   textShadow: '0 3px 12px rgba(0,0,0,0.5)',
                 }}
               >
-                Decals, wraps, and websites that shout your name (so you don’t have to).
-                <strong style={{ color: '#17EAD9', fontWeight: 800 }}>
-                  {' '}
-                  Boost your brand 24/7
-                </strong>
-                .
+                Decals, wraps, and websites that shout your name (so you don’t have to).{' '}
+                <strong style={{ color: '#17EAD9', fontWeight: 800 }}>Boost</strong> your brand
+                24/7.
               </Typography>
             </motion.div>
           </Box>

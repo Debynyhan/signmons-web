@@ -157,10 +157,10 @@ const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   const mat = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
-        roughness: 0.85,
-        metalness: 0.08,
-        emissive: new THREE.Color('#08101e'),
-        emissiveIntensity: 0.15,
+        roughness: 0.2,
+        metalness: 0.8,
+        emissive: new THREE.Color('#13346cff'),
+        emissiveIntensity: 0.25,
         color: palette[0],
       }),
     [palette],

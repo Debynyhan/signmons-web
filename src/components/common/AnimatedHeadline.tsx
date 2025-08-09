@@ -6,39 +6,46 @@ interface AnimatedHeadlineProps {
   words: string[];
 }
 
-// Container variant: one-time staggered children animation
+// Container variant: keep original timing
 const containerVariants: Variants = {
   initial: {},
   animate: {
     transition: {
-      delayChildren: 2, // wait before first word
-      staggerChildren: 0.6, // 0.6s between words
+      delayChildren: 2,
+      staggerChildren: 0.6,
       ease: 'easeInOut',
     },
   },
 };
 
-// Variants for non-last words: scale and color animated with reverse
+// Default words: pulse to teal then revert to white
 const wordVariants: Variants = {
   initial: { scale: 1, color: '#FFFFFF' },
   animate: {
     scale: 1.3,
-    color: '#1976d2',
+    color: '#17EAD9',
     transition: { duration: 0.3, repeat: 1, repeatType: 'reverse' },
   },
 };
 
-// Variants for last word: animate once, scale up then back, color stays blue
+// Last word (e.g., YOU): pulse teal, end white
 const lastWordVariants: Variants = {
   initial: { scale: 1, color: '#FFFFFF' },
   animate: {
     scale: [1, 1.3, 1],
-    color: ['#FFFFFF', '#1976d2', '#1976d2'],
-    transition: {
-      duration: 0.6,
-      times: [0, 0.3, 1],
-      ease: 'linear',
-    },
+    color: ['#FFFFFF', '#17EAD9', '#FFFFFF'],
+    transition: { duration: 0.6, times: [0, 0.3, 1], ease: 'linear' },
+  },
+};
+
+// BRANDING emphasis: stays teal and bold
+const brandingVariants: Variants = {
+  initial: { scale: 1, color: '#17EAD9', fontWeight: 800 },
+  animate: {
+    scale: [1, 1.3, 1],
+    color: '#17EAD9',
+    fontWeight: 800,
+    transition: { duration: 0.6, ease: 'linear' },
   },
 };
 
@@ -52,7 +59,13 @@ const AnimatedHeadline: React.FC<AnimatedHeadlineProps> = ({ words }) => {
       style={{ display: 'inline-block' }} // use inline-block so parent text-align controls alignment
     >
       {words.map((word, idx) => {
-        const variants = idx === lastIndex ? lastWordVariants : wordVariants;
+        const upper = word.toUpperCase();
+        const variants =
+          upper === 'BRANDING'
+            ? brandingVariants
+            : idx === lastIndex
+              ? lastWordVariants
+              : wordVariants;
         return (
           <motion.span
             key={idx}

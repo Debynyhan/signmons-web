@@ -13,18 +13,20 @@ const scaleVariant: Variants = {
   },
 };
 
-// Animate glowing box-shadow
+// Subtler glow
 const glowPulse: Variants = {
-  initial: { boxShadow: '0 0 18px #a259ff77, 0 0 48px #00eaff33' },
+  initial: { boxShadow: '0 0 10px #7a5ce644, 0 0 28px #00eaff22' },
   animate: {
     boxShadow: [
-      '0 0 18px #a259ff77, 0 0 48px #00eaff33',
-      '0 0 32px #a259ffcc, 0 0 72px #00eaff66',
-      '0 0 18px #a259ff77, 0 0 48px #00eaff33',
+      '0 0 10px #7a5ce644, 0 0 28px #00eaff22',
+      '0 0 16px #7a5ce677, 0 0 36px #00eaff33',
+      '0 0 10px #7a5ce644, 0 0 28px #00eaff22',
     ],
     transition: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' },
   },
 };
+
+const RADIUS = 10; // rectangular with rounded corners
 
 const MotionButton: React.FC<ButtonProps> = ({ children, sx, ...rest }) => (
   <Box
@@ -33,7 +35,7 @@ const MotionButton: React.FC<ButtonProps> = ({ children, sx, ...rest }) => (
       justifyContent: 'center',
       alignItems: 'center',
       width: '100%',
-      my: 2, // margin vertical for spacing, adjust as needed
+      my: 2,
     }}
   >
     <motion.div variants={scaleVariant} initial="hidden" animate="visible">
@@ -41,27 +43,35 @@ const MotionButton: React.FC<ButtonProps> = ({ children, sx, ...rest }) => (
         variants={glowPulse}
         initial="initial"
         animate="animate"
-        style={{ display: 'inline-block', borderRadius: '9999px' }}
+        style={{ display: 'inline-block', borderRadius: `${RADIUS}px` }}
       >
         <Button
           {...rest}
           sx={{
-            px: { xs: 3, sm: 5 }, // smaller padding on xs (mobile), default on sm+
-            py: { xs: 1, sm: 1.5 },
-            fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' },
-            borderRadius: '9999px',
-            fontWeight: 900,
+            px: { xs: 3, sm: 5 },
+            py: { xs: 1.1, sm: 1.6 },
+            fontSize: { xs: '1rem', sm: '1.15rem', md: '1.3rem' },
+            borderRadius: `${RADIUS}px !important`,
+            fontWeight: 800,
             letterSpacing: '0.06em',
-            boxShadow: '0 0 18px #a259ff77, 0 0 48px #00eaff33', // fallback
-            background: 'linear-gradient(90deg, #00eaff 0%, #a259ff 100%)',
-            color: '#181827',
-            minWidth: { xs: 200, sm: 240 }, // responsive min width
+            boxShadow: '0 0 10px #7a5ce644, 0 0 28px #00eaff22',
+            // Slightly darker gradient (about ~20% dimmer perceived)
+            background: 'linear-gradient(90deg, #00C2D1 0%, #8245E0 100%)',
+            color: '#FFFFFF',
+            minWidth: { xs: 200, sm: 240 },
             transition: 'transform 0.2s cubic-bezier(.4,0,.2,1)',
+            // Ensure ~20% dimming even if background overridden
+            filter: 'brightness(0.8)',
             '&:hover': {
-              transform: 'scale(1.04)',
-              background: 'linear-gradient(90deg, #a259ff 0%, #00eaff 100%)',
-              boxShadow: '0 0 28px 0 #00eaffbb',
+              transform: 'scale(1.03)',
+              background: 'linear-gradient(90deg, #8245E0 0%, #00C2D1 100%)',
+              boxShadow: '0 0 16px #7a5ce677, 0 0 36px #00eaff33',
+              filter: 'brightness(0.85)',
             },
+            // Ensure inner content wrapper doesn't keep pill corners
+            '& .MuiButton-startIcon, & .MuiButton-endIcon': { borderRadius: `${RADIUS}px` },
+            // Target the root class explicitly as a fallback
+            '&.MuiButton-root': { borderRadius: `${RADIUS}px` },
             ...sx,
           }}
         >
