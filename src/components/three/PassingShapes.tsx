@@ -2,7 +2,11 @@ import React, { useMemo, useRef } from 'react';
 import { useTheme } from '@mui/material';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { applyPositionGradient, createGradientStandardMaterial, getVibrantGradientStops } from './materials';
+import {
+  applyPositionGradient,
+  createGradientStandardMaterial,
+  getVibrantGradientStops,
+} from './materials';
 
 const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   const theme = useTheme();
@@ -12,7 +16,8 @@ const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   const meshesRef = useRef<THREE.Mesh[]>([]);
   const activeRef = useRef<boolean[]>(Array(pool).fill(false));
   const velRef = useRef<THREE.Vector3[]>(Array.from({ length: pool }, () => new THREE.Vector3()));
-  const nextSpawnRef = useRef<number>(0);
+  const alphaRef = useRef<number[]>(Array(pool).fill(0));
+  const nextSpawnRef = useRef<number>(0.5); // slight initial delay
 
   const geos = useMemo(
     () => ({
@@ -23,7 +28,12 @@ const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
     [gradientStops],
   );
 
-  const material = useMemo(() => createGradientStandardMaterial(), []);
+  const material = useMemo(() => {
+    const m = createGradientStandardMaterial();
+    m.transparent = true;
+    m.opacity = 0;
+    return m;
+  }, []);
 
   const spawnOne = (t: number) => {
     const idx = activeRef.current.findIndex((a) => !a);
@@ -43,6 +53,7 @@ const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
     const depthFactor = 1 + (0.8 - (z + 1.2) / 2.2);
     velRef.current[idx].set(dir * baseSpeed * depthFactor, 0, (Math.random() - 0.5) * 0.15);
 
+    alphaRef.current[idx] = 0; // start transparent and fade in
     activeRef.current[idx] = true;
     nextSpawnRef.current = t + (3 + Math.random() * 4);
   };
@@ -51,16 +62,26 @@ const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
     const t = state.clock.getElapsedTime();
     if (t > nextSpawnRef.current) spawnOne(t);
 
+    const fadeSpeed = 1.5; // seconds to fade in/out
     for (let i = 0; i < pool; i++) {
       const m = meshesRef.current[i];
       if (!m || !activeRef.current[i]) continue;
       const v = velRef.current[i];
       m.position.addScaledVector(v, delta);
-      m.rotation.x += 0.15 * delta;
-      m.rotation.y += 0.18 * delta;
-      if (m.position.x > 8 || m.position.x < -8) {
+      m.rotation.x += 0.12 * delta;
+      m.rotation.y += 0.15 * delta;
+
+      // fade in to 0.9 then fade out when near exit bounds
+      const distFromCenter = Math.abs(m.position.x);
+      const targetOpacity =
+        distFromCenter < 4 ? 0.9 : Math.max(0, 0.9 - (distFromCenter - 4) * 0.3);
+      alphaRef.current[i] += (targetOpacity - alphaRef.current[i]) * Math.min(1, fadeSpeed * delta);
+      (m.material as THREE.MeshStandardMaterial).opacity = alphaRef.current[i];
+
+      if (m.position.x > 8 || m.position.x < -8 || alphaRef.current[i] < 0.02) {
         activeRef.current[i] = false;
         m.visible = false;
+        alphaRef.current[i] = 0;
       }
     }
   });

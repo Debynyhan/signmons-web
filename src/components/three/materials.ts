@@ -81,16 +81,14 @@ export function applyPositionGradient(
   let min = Infinity;
   let max = -Infinity;
   for (let i = 0; i < pos.count; i++) {
-    const value =
-      (axisIndex === 0 ? pos.getX(i) : axisIndex === 1 ? pos.getY(i) : pos.getZ(i));
+    const value = axisIndex === 0 ? pos.getX(i) : axisIndex === 1 ? pos.getY(i) : pos.getZ(i);
     if (value < min) min = value;
     if (value > max) max = value;
   }
   const range = Math.max(1e-6, max - min);
   const colors = new Float32Array(pos.count * 3);
   for (let i = 0; i < pos.count; i++) {
-    const value =
-      (axisIndex === 0 ? pos.getX(i) : axisIndex === 1 ? pos.getY(i) : pos.getZ(i));
+    const value = axisIndex === 0 ? pos.getX(i) : axisIndex === 1 ? pos.getY(i) : pos.getZ(i);
     const t = (value - min) / range;
     const c = sampleGradient(stops, t);
     const i3 = i * 3;

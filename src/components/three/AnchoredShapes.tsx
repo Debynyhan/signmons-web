@@ -3,7 +3,11 @@ import { useTheme } from '@mui/material';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { SHAPES } from './constants';
-import { applyPositionGradient, createGradientStandardMaterial, getVibrantGradientStops } from './materials';
+import {
+  applyPositionGradient,
+  createGradientStandardMaterial,
+  getVibrantGradientStops,
+} from './materials';
 
 const AnchoredShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   const meshRefs = useRef<THREE.Mesh[]>([]);
@@ -44,7 +48,17 @@ const AnchoredShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
     [basePositions],
   );
 
-  useFrame((state) => {
+  const freqs = useMemo(
+    () =>
+      basePositions.map((_, i) => ({
+        x: 0.25 * speed + i * 0.01,
+        y: 0.2 * speed + i * 0.008,
+        z: 0.16 * speed + i * 0.006,
+      })),
+    [basePositions, speed],
+  );
+
+  useFrame((state, delta) => {
     const t = state.clock.getElapsedTime();
 
     if (groupRef.current) {
@@ -55,24 +69,34 @@ const AnchoredShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
       if (!mesh) return;
       const base = basePositions[i];
       const phase = phases[i];
+      const f = freqs[i];
 
-      mesh.position.x = base.x + Math.sin(t * 0.25 * speed + phase.x) * 0.14;
-      mesh.position.y = base.y + Math.cos(t * 0.2 * speed + phase.y) * 0.11;
-      mesh.position.z = base.z + Math.sin(t * 0.16 * speed + phase.z) * 0.1;
+      mesh.position.x = base.x + Math.sin(t * f.x + phase.x) * 0.14;
+      mesh.position.y = base.y + Math.cos(t * f.y + phase.y) * 0.11;
+      mesh.position.z = base.z + Math.sin(t * f.z + phase.z) * 0.1;
 
-      mesh.rotation.x += (0.0005 + i * 0.00003) * speed;
-      mesh.rotation.y += (0.0007 + i * 0.00002) * speed;
+      const rx = (0.12 + i * 0.01) * delta * 0.1 * speed;
+      const ry = (0.16 + i * 0.01) * delta * 0.1 * speed;
+      mesh.rotation.x += rx;
+      mesh.rotation.y += ry;
     });
   });
 
   return (
     <group ref={groupRef}>
       {basePositions.map((pos, i) => (
-        <mesh key={`${isMobile ? 'm' : 'd'}-${i}`} ref={(el) => (meshRefs.current[i] = el!)} position={pos.toArray()} material={material}>
+        <mesh
+          key={`${isMobile ? 'm' : 'd'}-${i}`}
+          ref={(el) => (meshRefs.current[i] = el!)}
+          position={pos.toArray()}
+          material={material}
+        >
           {i % 3 === 0 && (
             <tetrahedronGeometry
               args={[0.65]}
-              onUpdate={(g: THREE.TetrahedronGeometry) => applyPositionGradient(g, gradientStops, 'y')}
+              onUpdate={(g: THREE.TetrahedronGeometry) =>
+                applyPositionGradient(g, gradientStops, 'y')
+              }
             />
           )}
           {i % 3 === 1 && (
