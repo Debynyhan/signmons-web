@@ -89,24 +89,18 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
         justifyContent: 'space-between',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          textAlign: 'center',
-        }}
-      >
+      {/* Headline + copy without GlassCard */}
+      <Box sx={{ width: '100%', maxWidth: 600, mx: 'auto', mb: 2 }}>
         <motion.div variants={slideIn} initial="hidden" animate="visible">
           <Typography
             component="h1"
-            variant="h4"
+            variant="h5"
             align="center"
             sx={{
               fontWeight: 800,
               lineHeight: 1.2,
-              mb: 2,
-              maxWidth: '100%',
+              mb: 1.5,
+              textShadow: '0 4px 16px rgba(0,0,0,0.6)',
             }}
           >
             <AnimatedHeadline words={['BRANDING', 'THAT', 'ROLLS', 'WITH', 'YOU']} />
@@ -118,10 +112,9 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
             align="center"
             sx={{
               color: 'common.white',
-              mb: 2,
-              maxWidth: '95%',
+              maxWidth: '100%',
               fontWeight: 500,
-              fontSize: '1.125rem',
+              textShadow: '0 3px 12px rgba(0,0,0,0.55)',
             }}
           >
             Decals, wraps, and websites that shout your name (so you don’t have to).
@@ -137,7 +130,7 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
           justifyContent: 'center',
           alignItems: 'center',
           width: '100%',
-          mt: 12,
+          mt: 10,
           mb: 4,
         }}
       >
@@ -145,13 +138,7 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
       </Box>
 
       {/* Button at the bottom */}
-      <Box
-        sx={{
-          width: '100%',
-          maxWidth: 360,
-          margin: 'auto',
-        }}
-      >
+      <Box sx={{ width: '100%', maxWidth: 360, margin: 'auto' }}>
         <motion.div variants={popIn} initial="hidden" animate="visible">
           <MotionButton
             fullWidth

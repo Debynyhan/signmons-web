@@ -70,9 +70,13 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
   const isValid = logos.length > 0 && !fileError && !taglineError && !compressing;
 
   const handleFiles = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
+    // Capture the input element before any awaits so we can safely reset it later
+    const inputEl = e.currentTarget;
+    const fileList = inputEl?.files;
+    if (!fileList) return;
+
     const room = Math.max(0, MAX_FILES - logos.length);
-    const picked = Array.from(e.target.files).slice(0, room);
+    const picked = Array.from(fileList).slice(0, room);
 
     setCompressing(true);
     try {
@@ -103,8 +107,8 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
       setLogos((prev) => [...prev, ...processed].slice(0, MAX_FILES));
     } finally {
       setCompressing(false);
-      // Reset so same file can be reselected
-      e.currentTarget.value = '';
+      // Reset so same file can be reselected; use captured element to avoid pooled-event nulls
+      if (inputEl) inputEl.value = '';
     }
   };
 

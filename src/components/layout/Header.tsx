@@ -20,21 +20,66 @@ const Header: React.FC<HeaderProps> = ({ userId, currentPage, onNavigate }) => {
 
   return (
     <AppBar
-      component="header" // semantic header landmark
+      component="header"
       position="sticky"
-      sx={{ bgcolor: 'background.paper', boxShadow: 3 }}
+      sx={{
+        position: 'sticky',
+        top: 0,
+        backdropFilter: 'blur(10px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(10px) saturate(140%)',
+        bgcolor: 'rgba(15,22,36,0.72)',
+        borderBottom: '1px solid rgba(255,255,255,0.08)',
+        boxShadow: '0 6px 24px -6px rgba(0,0,0,0.45)',
+        overflow: 'hidden',
+        zIndex: (t: any) => t.zIndex.appBar,
+        // Animated vertical accent strip (same gradient as GlassCard accent)
+        '&:before': {
+          content: '""',
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: { xs: 4, sm: 5 },
+          background: `linear-gradient(180deg, ${theme.palette.secondary?.main || '#17EAD9'} 0%, ${
+            theme.palette.primary?.main || '#7A5CE6'
+          } 60%, ${theme.palette.info?.main || '#ff37c7'} 100%)`,
+          backgroundSize: '100% 200%',
+          animation: 'accentScroll 14s linear infinite',
+          opacity: 0.95,
+          pointerEvents: 'none',
+        },
+        '@keyframes accentScroll': {
+          '0%': { backgroundPosition: '0 0' },
+          '100%': { backgroundPosition: '0 200%' },
+        },
+      }}
     >
       <Toolbar
-        component="nav" // semantic nav landmark
+        component="nav"
         aria-label="Main navigation"
-        sx={{ justifyContent: 'space-between' }}
+        sx={{ justifyContent: 'space-between', pl: { xs: 1, sm: 1.5 } }}
       >
-        {/* Brand + User ID */}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             variant="h6"
             component="div"
-            sx={{ color: 'primary.main', fontWeight: 'bold' }}
+            sx={{
+              fontWeight: 700,
+              letterSpacing: '-0.5px',
+              position: 'relative',
+              background: `linear-gradient(90deg, ${theme.palette.secondary?.main || '#17EAD9'}, ${
+                theme.palette.primary?.main || '#7A5CE6'
+              }, ${theme.palette.info?.main || '#ff37c7'})`,
+              backgroundSize: '200% 100%',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              color: 'transparent',
+              animation: 'brandShift 18s linear infinite',
+              '@keyframes brandShift': {
+                '0%': { backgroundPosition: '0% 50%' },
+                '100%': { backgroundPosition: '200% 50%' },
+              },
+            }}
           >
             Signmons
           </Typography>
@@ -53,11 +98,7 @@ const Header: React.FC<HeaderProps> = ({ userId, currentPage, onNavigate }) => {
           )}
         </Box>
 
-        {/* Navigation Buttons */}
-        <Box
-          component="div" // kept as div, nav is on Toolbar
-          sx={{ display: 'flex', gap: isMobile ? 1 : 2 }}
-        >
+        <Box component="div" sx={{ display: 'flex', gap: isMobile ? 1 : 2 }}>
           <Button
             color="inherit"
             onClick={() => onNavigate('home')}
@@ -66,7 +107,6 @@ const Header: React.FC<HeaderProps> = ({ userId, currentPage, onNavigate }) => {
           >
             {!isMobile && 'Home'}
           </Button>
-
           <Button
             color="inherit"
             onClick={() => onNavigate('start-design')}

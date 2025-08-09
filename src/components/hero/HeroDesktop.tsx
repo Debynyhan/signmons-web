@@ -56,11 +56,11 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
       sx={{
         position: 'absolute',
         inset: 0,
-        zIndex: 0, // was -1; raise so it renders above section background
+        zIndex: 0, // renders above background gradient
         width: '100%',
         height: '100%',
         pointerEvents: 'none',
-        opacity: 0.9, // subtle background
+        opacity: 0.9,
       }}
     >
       <HeroShapes />
@@ -91,45 +91,51 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
             mx: { xs: 'auto', md: 0 },
           }}
         >
-          <motion.div variants={slideIn} initial="hidden" animate="visible">
-            <Typography
-              component="h1"
-              variant="h3"
-              align="left"
-              sx={{
-                fontWeight: 800,
-                lineHeight: 1.2,
-                mb: 2,
-                maxWidth: '100%',
-              }}
-            >
-              <AnimatedHeadline words={['BRANDING', 'THAT', 'ROLLS', 'WITH', 'YOU']} />
-            </Typography>
-          </motion.div>
+          {/* Headline + subcopy without GlassCard */}
+          <Box sx={{ width: '100%', mb: 2 }}>
+            <motion.div variants={slideIn} initial="hidden" animate="visible">
+              <Typography
+                component="h1"
+                variant="h3"
+                align="left"
+                sx={{
+                  fontWeight: 800,
+                  lineHeight: 1.2,
+                  mb: 1.5,
+                  maxWidth: '100%',
+                  textShadow: '0 4px 16px rgba(0,0,0,0.55)',
+                }}
+              >
+                <AnimatedHeadline words={['BRANDING', 'THAT', 'ROLLS', 'WITH', 'YOU']} />
+              </Typography>
+            </motion.div>
 
-          <motion.div variants={fadeUp} initial="hidden" animate="visible">
-            <Typography
-              variant="body1"
-              align="left"
-              sx={{
-                color: 'common.white',
-                mb: 2,
-                maxWidth: '80%',
-                fontWeight: 500,
-                fontSize: '1.25rem',
-              }}
-            >
-              Decals, wraps, and websites that shout your name (so you don’t have to).
-              <strong style={{ color: '#17EAD9', fontWeight: 800 }}> Boost your brand 24/7</strong>.
-            </Typography>
-          </motion.div>
+            <motion.div variants={fadeUp} initial="hidden" animate="visible">
+              <Typography
+                variant="body1"
+                align="left"
+                sx={{
+                  color: 'common.white',
+                  maxWidth: '92%',
+                  fontWeight: 500,
+                  fontSize: '1.15rem',
+                  textShadow: '0 3px 12px rgba(0,0,0,0.5)',
+                }}
+              >
+                Decals, wraps, and websites that shout your name (so you don’t have to).
+                <strong style={{ color: '#17EAD9', fontWeight: 800 }}>
+                  {' '}
+                  Boost your brand 24/7
+                </strong>
+                .
+              </Typography>
+            </motion.div>
+          </Box>
+
           <motion.div variants={popIn} initial="hidden" animate="visible">
             <MotionButton
               onClick={() => navigate('start-design')}
-              sx={{
-                bgcolor: 'secondary.main',
-                color: '#fff',
-              }}
+              sx={{ bgcolor: 'secondary.main', color: '#fff' }}
             >
               GET YOUR FREE DESIGN
             </MotionButton>

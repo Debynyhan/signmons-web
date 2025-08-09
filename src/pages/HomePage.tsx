@@ -41,32 +41,32 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
         sx={{ py: { xs: 4, md: 6 }, display: 'grid', gap: { xs: 3, md: 4 } }}
       >
         {/* Services Provided (title handled inside component) */}
-        <GlassCard>
+        <GlassCard accent="left">
           <PortfolioGrid filter={'All'} setFilter={() => {}} onCTA={goStart} />
         </GlassCard>
 
-        <GlassCard>
+        <GlassCard accent="right">
           <Typography variant="h5" sx={gradientTitleSx}>
             What Clients Say
           </Typography>
           <Testimonials />
         </GlassCard>
 
-        <GlassCard>
+        <GlassCard accent="left">
           <Typography variant="h5" sx={gradientTitleSx}>
             How It Works
           </Typography>
           <ProcessSteps />
         </GlassCard>
 
-        <GlassCard>
+        <GlassCard accent="right">
           <Typography variant="h5" sx={gradientTitleSx}>
             Transparent Pricing
           </Typography>
           <PricingPackages onCTA={goStart} />
         </GlassCard>
 
-        <GlassCard>
+        <GlassCard accent="left">
           <Typography variant="h5" sx={gradientTitleSx}>
             Frequently Asked Questions
           </Typography>
