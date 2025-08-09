@@ -2,10 +2,11 @@
 import React from 'react';
 import { useTheme, useMediaQuery } from '@mui/material';
 import { Canvas } from '@react-three/fiber';
-import { DPR, CAMERA_FOV, CAMERA_Z, FOG, LIGHTS } from '../three/constants';
+import { DPR, CAMERA_FOV, CAMERA_Z, FOG } from '../three/constants';
 import GalaxyParticles from '../three/GalaxyParticles';
 import PassingShapes from '../three/PassingShapes';
 import AnchoredShapes from '../three/AnchoredShapes';
+import LightRig from '../three/LightRig';
 
 const HeroShapes: React.FC = () => {
   const theme = useTheme();
@@ -29,12 +30,7 @@ const HeroShapes: React.FC = () => {
       >
         <fog attach="fog" args={[FOG.color, FOG.near, FOG.far]} />
 
-        <ambientLight color={LIGHTS.ambient.color} intensity={LIGHTS.ambient.intensity} />
-        <directionalLight
-          color={LIGHTS.directional.color}
-          intensity={LIGHTS.directional.intensity}
-          position={LIGHTS.directional.position}
-        />
+        <LightRig intensityScale={1} />
 
         <GalaxyParticles isMobile={isMobile} />
         <PassingShapes isMobile={isMobile} />
