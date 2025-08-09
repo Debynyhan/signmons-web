@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { memo, useMemo, useRef } from 'react';
 import { useTheme } from '@mui/material';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -101,4 +101,4 @@ const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   );
 };
 
-export default PassingShapes;
+export default memo(PassingShapes);

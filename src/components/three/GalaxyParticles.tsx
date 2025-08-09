@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { memo, useEffect, useMemo, useRef } from 'react';
 import { useTheme } from '@mui/material';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -100,4 +100,4 @@ export const GalaxyParticles: React.FC<{ isMobile: boolean; count?: number }> = 
   );
 };
 
-export default GalaxyParticles;
+export default memo(GalaxyParticles);
