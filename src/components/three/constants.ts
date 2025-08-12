@@ -36,3 +36,18 @@ export const SHAPES = {
   mobile: 3,
   desktop: 6,
 };
+
+// Foreground model defaults
+export const MODEL = {
+  url: '/models/signmons3D.glb',
+  desktop: {
+    position: [2.6, -1.1, 0.6] as [number, number, number],
+    rotationY: -0.25,
+    scale: 1.2,
+  },
+  mobile: {
+    position: [0.2, -1.1, 1.1] as [number, number, number],
+    rotationY: 0.0,
+    scale: 0.95,
+  },
+} as const;
