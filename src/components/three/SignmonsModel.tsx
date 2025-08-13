@@ -25,7 +25,7 @@ const SignmonsModel: React.FC<SignmonsModelProps> = ({
   spin = 0.18,
 }) => {
   const group = useRef<THREE.Group>(null!);
-  const { scene, animations } = useGLTF(url, true) as unknown as {
+  const { scene, animations } = useGLTF(url) as unknown as {
     scene: THREE.Group;
     animations: THREE.AnimationClip[];
   };

@@ -6,6 +6,7 @@ import { motion, Variants } from 'framer-motion';
 import HeroShapes from '../common/HeroBackground';
 import MotionButton from '../common/MotionButton';
 import AnimatedHeadline from '../common/AnimatedHeadline';
+import { COPY } from '../../content/positioning';
 import { PageName } from '../../types/navigation';
 
 // Animation variants (keep these in sync with HeroMobile)
@@ -105,7 +106,7 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
                   textShadow: '0 4px 16px rgba(0,0,0,0.55)',
                 }}
               >
-                <AnimatedHeadline words={['BRANDING', 'THAT', 'ROLLS', 'WITH', 'YOU']} />
+                {COPY.hero.h1}
               </Typography>
             </motion.div>
 
@@ -117,13 +118,11 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
                   color: 'common.white',
                   maxWidth: '92%',
                   fontWeight: 500,
-                  fontSize: '1.15rem',
+                  fontSize: '1.05rem',
                   textShadow: '0 3px 12px rgba(0,0,0,0.5)',
                 }}
               >
-                Decals, wraps, and websites that shout your name (so you don’t have to).{' '}
-                <strong style={{ color: '#17EAD9', fontWeight: 800 }}>Boost</strong> your brand
-                24/7.
+                {COPY.hero.sub}
               </Typography>
             </motion.div>
           </Box>
@@ -155,7 +154,7 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
             onClick={() => navigate('start-design')}
             sx={{ bgcolor: 'secondary.main', color: '#fff', py: 2 }}
           >
-            GET YOUR FREE DESIGN
+            {COPY.hero.cta}
           </MotionButton>
         </motion.div>
       </Box>
