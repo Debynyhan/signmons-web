@@ -5,7 +5,6 @@ import { Box, Grid, Typography } from '@mui/material';
 import { motion, Variants } from 'framer-motion';
 import HeroShapes from '../common/HeroBackground';
 import MotionButton from '../common/MotionButton';
-import AnimatedHeadline from '../common/AnimatedHeadline';
 import { COPY } from '../../content/positioning';
 import { PageName } from '../../types/navigation';
 

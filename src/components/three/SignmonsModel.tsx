@@ -1,6 +1,8 @@
 import React, { memo, useEffect, useMemo, useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { useAnimations, useGLTF } from '@react-three/drei';
+import { useFrame, useLoader, useThree } from '@react-three/fiber';
+import { useAnimations } from '@react-three/drei';
+import { GLTFLoader, KTX2Loader } from 'three-stdlib';
+import { MeshoptDecoder } from 'meshoptimizer';
 import * as THREE from 'three';
 
 export type SignmonsModelProps = {
@@ -25,10 +27,27 @@ const SignmonsModel: React.FC<SignmonsModelProps> = ({
   spin = 0.18,
 }) => {
   const group = useRef<THREE.Group>(null!);
-  const { scene, animations } = useGLTF(url) as unknown as {
-    scene: THREE.Group;
-    animations: THREE.AnimationClip[];
-  };
+  const gl = useThree((state) => state.gl);
+
+  const ktx2 = useMemo(() => {
+    try {
+      const loader = new KTX2Loader().setTranscoderPath('/basis/');
+      // Detect renderer support for KTX2/Basis
+      // Safe if basis transcoder files are missing; loader just won't decode.
+      return loader.detectSupport(gl);
+    } catch (e) {
+      return undefined;
+    }
+  }, [gl]);
+
+  const gltf = useLoader(GLTFLoader as any, url, (loader: any) => {
+    // Enable Meshopt for compressed geometry
+    (GLTFLoader as any).setMeshoptDecoder?.(MeshoptDecoder);
+    // Enable KTX2 texture decoding when available
+    if (ktx2 && loader.setKTX2Loader) loader.setKTX2Loader(ktx2);
+  }) as unknown as { scene: THREE.Group; animations: THREE.AnimationClip[] };
+
+  const { scene, animations } = gltf;
   const { actions, names } = useAnimations(animations, group);
 
   useEffect(() => {
@@ -76,7 +95,5 @@ const SignmonsModel: React.FC<SignmonsModelProps> = ({
     </group>
   );
 };
-
-useGLTF.preload('/models/signmons3D.glb');
 
 export default memo(SignmonsModel);
