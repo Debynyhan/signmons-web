@@ -4,6 +4,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { motion, Variants } from 'framer-motion';
 import HeroShapes from '../common/HeroBackground';
+import TapForSound from '../common/TapForSound';
 import MotionButton from '../common/MotionButton';
 import { COPY } from '../../content/positioning';
 import { PageName } from '../../types/navigation';
@@ -14,11 +15,6 @@ const EASING: [number, number, number, number] = [0.42, 0, 0.58, 1];
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASING } },
-};
-
-const slideIn: Variants = {
-  hidden: { opacity: 0, x: -50 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASING } },
 };
 
 const popIn: Variants = {
@@ -43,12 +39,16 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
       flexDirection: 'column',
       justifyContent: 'center',
       background:
-        'radial-gradient(1000px 600px at 50% 25%, rgba(122,92,230,0.38), rgba(0,234,255,0.22) 45%, rgba(0,0,0,0) 70%), radial-gradient(circle at center, rgba(26,28,44,0.9) 0%, rgba(14,14,20,0.9) 100%)',
+        'radial-gradient(circle at center, rgba(0, 234, 255, 0.9) 0%, rgba(162, 89, 255, 0.9) 50%, rgba(17,17,17, 0.95) 100%)',
       color: 'text.primary',
       px: 2,
       py: 2,
     }}
   >
+    <TapForSound
+      position="top-right"
+      onTap={() => window.dispatchEvent(new CustomEvent('signmons-start-audio'))}
+    />
     {/* Background shapes as mid layer */}
     <Box
       sx={{
@@ -89,37 +89,50 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
     >
       {/* Headline + copy without GlassCard */}
       <Box sx={{ width: '100%', maxWidth: 600, mx: 'auto', mb: 2 }}>
-        <motion.div variants={slideIn} initial="hidden" animate="visible">
-          <Typography
-            component="h1"
-            variant="h3"
-            align="center"
-            sx={{
-              color: 'primary.light',
-              fontWeight: 900,
-              lineHeight: 1.15,
-              letterSpacing: '-0.01em',
-              mb: 1.6,
-              fontSize: { xs: '2rem', sm: '2.4rem' },
-              textShadow:
-                '0 1px 0 rgba(0,0,0,0.85), 0 5px 18px rgba(0,0,0,0.55), 0 0 16px rgba(0,234,255,0.34), 0 0 28px rgba(122,92,230,0.25), 0 0 50px rgba(122,92,230,0.18)',
-            }}
-          >
-            {COPY.hero.h1}
-          </Typography>
-        </motion.div>
+        <Typography
+          component="h1"
+          variant="h3"
+          align="center"
+          sx={{
+            color: 'common.white',
+            fontWeight: 900,
+            lineHeight: 1.15,
+            letterSpacing: '-0.01em',
+            mb: 1.6,
+            fontSize: { xs: '2rem', sm: '2.4rem' },
+            textShadow: '0 2px 0 rgba(0,0,0,0.6)',
+          }}
+        >
+          <Box component="span" sx={{ color: (t: any) => t.palette.secondary.light }}>
+            Websites
+          </Box>
+          {'. Branding. Marketing.'}
+        </Typography>
         <motion.div variants={fadeUp} initial="hidden" animate="visible">
           <Typography
             variant="body1"
             align="center"
             sx={{
-              color: 'text.primary',
+              color: 'common.white',
               maxWidth: '100%',
               fontWeight: 500,
-              textShadow: '0 2px 10px rgba(0,0,0,0.45)',
+              fontSize: '1.1rem',
+              lineHeight: 1.5,
+              textShadow: '0 2px 0 rgba(0,0,0,0.6)',
             }}
           >
-            {COPY.hero.sub}
+            {'Online, on '}
+            <Box
+              component="span"
+              sx={{
+                color: (t: any) => t.palette.secondary.light,
+                fontWeight: 800,
+                fontSize: '1.1em',
+              }}
+            >
+              vehicles
+            </Box>
+            {', on merch — Signmons makes it happen.'}
           </Typography>
         </motion.div>
       </Box>

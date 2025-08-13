@@ -60,6 +60,7 @@ const AnchoredShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
 
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime();
+    const omega = (Math.PI * 2) / SHAPES.spinZPeriodSec; // full turn per period
 
     if (groupRef.current) {
       groupRef.current.rotation.y = t * 0.016;
@@ -79,6 +80,9 @@ const AnchoredShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
       const ry = (0.14 + i * 0.01) * delta * 0.1 * speed;
       mesh.rotation.x += rx;
       mesh.rotation.y += ry;
+      // Precise clockwise Z spin: full 360° per configured period; small per-index phase
+      const zPhase = i * 0.6;
+      mesh.rotation.z = -omega * t + zPhase;
     });
   });
 

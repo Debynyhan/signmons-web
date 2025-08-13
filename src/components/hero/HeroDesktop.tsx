@@ -4,6 +4,7 @@ import React from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import { motion, Variants } from 'framer-motion';
 import HeroShapes from '../common/HeroBackground';
+import TapForSound from '../common/TapForSound';
 import MotionButton from '../common/MotionButton';
 import { COPY } from '../../content/positioning';
 import { PageName } from '../../types/navigation';
@@ -14,11 +15,6 @@ const EASING: [number, number, number, number] = [0.42, 0, 0.58, 1];
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASING } },
-};
-
-const slideIn: Variants = {
-  hidden: { opacity: 0, x: -50 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASING } },
 };
 
 const popIn: Variants = {
@@ -44,13 +40,17 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
       height: 'calc(100dvh - 64px)',
       boxSizing: 'border-box',
       background:
-        'radial-gradient(1200px 700px at 40% 20%, rgba(122,92,230,0.35), rgba(0,234,255,0.20) 40%, rgba(0,0,0,0) 70%), radial-gradient(circle at center, rgba(26, 28, 44, 0.85) 0%, rgba(14, 14, 20, 0.85) 100%)',
+        'radial-gradient(circle at center, rgba(0, 234, 255, 0.9) 0%, rgba(162, 89, 255, 0.9) 50%, rgba(17,17,17, 0.95) 100%)',
       color: 'text.primary',
       px: 2,
       py: 2,
       overflow: 'hidden',
     }}
   >
+    <TapForSound
+      position="top-right"
+      onTap={() => window.dispatchEvent(new CustomEvent('signmons-start-audio'))}
+    />
     {/* 3D background shapes */}
     <Box
       sx={{
@@ -93,26 +93,27 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
         >
           {/* Headline + subcopy without GlassCard */}
           <Box sx={{ width: '100%', mb: 2 }}>
-            <motion.div variants={slideIn} initial="hidden" animate="visible">
-              <Typography
-                component="h1"
-                variant="h1"
-                align="left"
-                sx={{
-                  color: 'primary.light',
-                  fontWeight: 900,
-                  lineHeight: 1.15,
-                  letterSpacing: '-0.02em',
-                  mb: 1.5,
-                  maxWidth: '100%',
-                  fontSize: { xs: '2.2rem', sm: '2.8rem', md: '3.6rem', lg: '4.2rem' },
-                  textShadow:
-                    '0 1px 0 rgba(0,0,0,0.85), 0 6px 22px rgba(0,0,0,0.55), 0 0 22px rgba(0,234,255,0.35), 0 0 40px rgba(122,92,230,0.28), 0 0 64px rgba(122,92,230,0.18)',
-                }}
-              >
-                {COPY.hero.h1}
-              </Typography>
-            </motion.div>
+            <Typography
+              component="h1"
+              variant="h1"
+              align="left"
+              sx={{
+                color: 'common.white',
+                fontWeight: 900,
+                lineHeight: 1.15,
+                letterSpacing: '-0.02em',
+                mb: 1.5,
+                maxWidth: '100%',
+                fontSize: { xs: '2.2rem', sm: '2.8rem', md: '3.6rem', lg: '4.2rem' },
+                // Small, sharp shadow for contrast
+                textShadow: '0 2px 0 rgba(0,0,0,0.6)',
+              }}
+            >
+              <Box component="span" sx={{ color: (t: any) => t.palette.secondary.light }}>
+                Websites
+              </Box>
+              {'. Branding. Marketing.'}
+            </Typography>
 
             <motion.div variants={fadeUp} initial="hidden" animate="visible">
               <Typography
@@ -122,11 +123,24 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
                   color: 'common.white',
                   maxWidth: '92%',
                   fontWeight: 500,
-                  fontSize: '1.05rem',
-                  textShadow: '0 3px 12px rgba(0,0,0,0.5)',
+                  fontSize: '1.2rem',
+                  lineHeight: 1.5,
+                  // Match headline's small, sharp shadow for better contrast
+                  textShadow: '0 2px 0 rgba(0,0,0,0.6)',
                 }}
               >
-                {COPY.hero.sub}
+                {'Online, on '}
+                <Box
+                  component="span"
+                  sx={{
+                    color: (t: any) => t.palette.secondary.light,
+                    fontWeight: 800,
+                    fontSize: '1.1em',
+                  }}
+                >
+                  vehicles
+                </Box>
+                {', on merch — Signmons makes it happen.'}
               </Typography>
             </motion.div>
           </Box>

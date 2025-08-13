@@ -35,6 +35,8 @@ export const SHAPES = {
   speed: 0.26, // base speed factor
   mobile: 2,
   desktop: 5,
+  // Full 360° z-rotation period in seconds (change once, affects all shapes)
+  spinZPeriodSec: 60,
 };
 
 // Foreground model defaults

@@ -14,6 +14,7 @@ export type SignmonsModelProps = {
   playFirstClip?: boolean;
   bob?: boolean;
   spin?: number; // radians/sec
+  amp?: number; // optional audio amplitude 0..1
 };
 
 const SignmonsModel: React.FC<SignmonsModelProps> = ({
@@ -25,6 +26,7 @@ const SignmonsModel: React.FC<SignmonsModelProps> = ({
   playFirstClip = true,
   bob = true,
   spin = 0.18,
+  amp = 0,
 }) => {
   const group = useRef<THREE.Group>(null!);
   const gl = useThree((state) => state.gl);
@@ -80,7 +82,8 @@ const SignmonsModel: React.FC<SignmonsModelProps> = ({
     group.current.rotation.y += spin * delta;
     if (bob) {
       const t = state.clock.getElapsedTime();
-      group.current.position.y = baseY + Math.sin(t * 0.9) * 0.06;
+      const depth = 0.06 + amp * 0.05;
+      group.current.position.y = baseY + Math.sin(t * 0.9) * depth;
     }
   });
 

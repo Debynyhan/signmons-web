@@ -7,6 +7,7 @@ import {
   createGradientStandardMaterial,
   getVibrantGradientStops,
 } from './materials';
+import { SHAPES } from './constants';
 
 const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   const theme = useTheme();
@@ -60,6 +61,7 @@ const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
 
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime();
+    const omega = (Math.PI * 2) / SHAPES.spinZPeriodSec; // full turn per period
     if (t > nextSpawnRef.current) spawnOne(t);
 
     const fadeSpeed = 1.3; // seconds to fade in/out
@@ -70,6 +72,9 @@ const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
       m.position.addScaledVector(v, delta);
       m.rotation.x += 0.1 * delta;
       m.rotation.y += 0.12 * delta;
+      // Precise clockwise Z spin, with slight per-index phase to avoid sync
+      const zPhase = i * 0.4;
+      m.rotation.z = -omega * t + zPhase;
 
       // fade in to 0.9 then fade out when near exit bounds
       const distFromCenter = Math.abs(m.position.x);

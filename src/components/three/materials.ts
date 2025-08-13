@@ -45,13 +45,14 @@ export type GradientStop = { offset: number; color: THREE.Color };
 
 // Centralized vibrant purple/pink gradient derived from theme
 export function getVibrantGradientStops(theme: Theme): GradientStop[] {
-  const purple = new THREE.Color(theme.palette.primary.main || '#7A5CE6');
-  const pink = new THREE.Color(theme.palette.info?.main || '#ff37c7');
-  const pinkLight = lighten(pink, 0.25);
+  // Use brand purple and magenta from theme; avoid teal
+  const purple = new THREE.Color(theme.palette.secondary?.main || '#a259ff');
+  const magenta = new THREE.Color(theme.palette.error?.main || '#ff37c7');
+  const magentaLight = lighten(magenta, 0.2);
   return [
     { offset: 0.0, color: purple },
-    { offset: 0.65, color: pink },
-    { offset: 1.0, color: pinkLight },
+    { offset: 0.65, color: magenta },
+    { offset: 1.0, color: magentaLight },
   ];
 }
 
@@ -106,10 +107,11 @@ export function createGradientStandardMaterial(): THREE.MeshStandardMaterial {
   const mat = new THREE.MeshStandardMaterial({
     color: new THREE.Color('#ffffff'), // base; vertex colors will tint
     vertexColors: true,
-    roughness: 0.55,
-    metalness: 0.25,
-    emissive: new THREE.Color('#0b1020'),
-    emissiveIntensity: 0.18,
+    roughness: 0.45,
+    metalness: 0.3,
+    // Subtle purple-magenta glow
+    emissive: new THREE.Color('#2a0055'),
+    emissiveIntensity: 0.35,
   });
   return mat;
 }
