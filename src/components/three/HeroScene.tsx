@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { AdaptiveDpr, PerformanceMonitor } from '@react-three/drei';
+import { AdaptiveDpr, PerformanceMonitor, Stats } from '@react-three/drei';
 // Optional dev perf overlay (install r3f-perf if desired)
 // import { Perf } from 'r3f-perf';
 import { useTheme, useMediaQuery } from '@mui/material';
@@ -14,7 +14,10 @@ import SignmonsModel from './SignmonsModel';
 const HeroScene: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const [count, setCount] = useState<number>(isMobile ? 450 : PARTICLES.desktopCount);
+  const [count, setCount] = useState<number>(isMobile ? PARTICLES.mobileCount : PARTICLES.desktopCount);
+
+  // Optional perf overlay toggle via env flag
+  const showPerf = import.meta.env.DEV && String(import.meta.env.VITE_PERF_OVERLAY) === 'true';
 
   const camera = useMemo(
     () => ({ position: [0, 0, CAMERA_Z(isMobile)] as [number, number, number], fov: CAMERA_FOV }),
@@ -23,14 +26,14 @@ const HeroScene: React.FC = () => {
 
   return (
     <Canvas
-      gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      gl={{ antialias: !isMobile, alpha: true, powerPreference: 'high-performance', stencil: false }}
       dpr={DPR}
       camera={camera}
       frameloop="always"
       shadows={false}
     >
-  {/* Debug: uncomment if you install r3f-perf */}
-  {/* {import.meta.env.DEV && <Perf position="top-left" minimal />} */}
+  {/* Toggle with VITE_PERF_OVERLAY=true in .env.local */}
+  {showPerf ? <Stats /> : null}
       <fog attach="fog" args={[FOG.color, FOG.near, FOG.far]} />
 
       <PerformanceMonitor

@@ -17,7 +17,7 @@ const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   const activeRef = useRef<boolean[]>(Array(pool).fill(false));
   const velRef = useRef<THREE.Vector3[]>(Array.from({ length: pool }, () => new THREE.Vector3()));
   const alphaRef = useRef<number[]>(Array(pool).fill(0));
-  const nextSpawnRef = useRef<number>(0.5); // slight initial delay
+  const nextSpawnRef = useRef<number>(0.75); // slight initial delay and lower spawn rate
 
   const geos = useMemo(
     () => ({
@@ -49,7 +49,7 @@ const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
     m.rotation.set(Math.random() * 0.5, Math.random() * 0.5, Math.random() * 0.5);
     m.visible = true;
 
-    const baseSpeed = isMobile ? 0.55 : 0.75;
+  const baseSpeed = isMobile ? 0.5 : 0.7;
     const depthFactor = 1 + (0.8 - (z + 1.2) / 2.2);
     velRef.current[idx].set(dir * baseSpeed * depthFactor, 0, (Math.random() - 0.5) * 0.15);
 
@@ -62,14 +62,14 @@ const PassingShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
     const t = state.clock.getElapsedTime();
     if (t > nextSpawnRef.current) spawnOne(t);
 
-    const fadeSpeed = 1.5; // seconds to fade in/out
+  const fadeSpeed = 1.3; // seconds to fade in/out
     for (let i = 0; i < pool; i++) {
       const m = meshesRef.current[i];
       if (!m || !activeRef.current[i]) continue;
       const v = velRef.current[i];
       m.position.addScaledVector(v, delta);
-      m.rotation.x += 0.12 * delta;
-      m.rotation.y += 0.15 * delta;
+  m.rotation.x += 0.1 * delta;
+  m.rotation.y += 0.12 * delta;
 
       // fade in to 0.9 then fade out when near exit bounds
       const distFromCenter = Math.abs(m.position.x);

@@ -69,29 +69,24 @@ export const GalaxyParticles: React.FC<{ isMobile: boolean; count?: number }> = 
     g.setDrawRange(0, Math.min(count, maxCount));
   }, [count, maxCount]);
 
-  useFrame((state, delta) => {
-    const t = state.clock.getElapsedTime();
+  useFrame((_state, delta) => {
     if (pointsRef.current) {
-      pointsRef.current.rotation.y += 0.03 * delta;
-      const mat = pointsRef.current.material as THREE.PointsMaterial;
-      if (mat) {
-        const base = isMobile ? 0.095 : 0.12;
-        // Subtle twinkle to reduce visible jitter
-        mat.size = base + Math.sin(t * 0.7) * 0.006;
-      }
+      // Clamp rotation step to avoid jitter on long frames
+      const step = Math.min(delta, 1 / 30);
+      pointsRef.current.rotation.y += 0.03 * step;
     }
   });
 
   return (
     <points ref={pointsRef} geometry={geometry} position={[0, 0, -2]} frustumCulled={false}>
       <pointsMaterial
-        size={isMobile ? 0.095 : 0.12}
+        size={isMobile ? 0.085 : 0.11}
         sizeAttenuation
         vertexColors
         map={starTexture}
         alphaMap={starTexture}
         transparent
-        opacity={0.9}
+        opacity={0.85}
         depthWrite={false}
         depthTest
         blending={THREE.AdditiveBlending}
