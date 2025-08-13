@@ -41,13 +41,13 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-  height: 'calc(100dvh - 64px)',
-  boxSizing: 'border-box',
+      height: 'calc(100dvh - 64px)',
+      boxSizing: 'border-box',
       background:
         'radial-gradient(1200px 700px at 40% 20%, rgba(122,92,230,0.35), rgba(0,234,255,0.20) 40%, rgba(0,0,0,0) 70%), radial-gradient(circle at center, rgba(26, 28, 44, 0.85) 0%, rgba(14, 14, 20, 0.85) 100%)',
       color: 'text.primary',
       px: 2,
-  py: 2,
+      py: 2,
       overflow: 'hidden',
     }}
   >
@@ -142,12 +142,12 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
         position: 'absolute',
         left: 0,
         right: 0,
-        bottom: 0,
+  bottom: 'calc(env(safe-area-inset-bottom, 0px) + 72px)',
         zIndex: 2,
         display: 'flex',
         justifyContent: 'center',
         px: 2,
-  pb: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
+  pb: 0,
         pointerEvents: 'none',
       }}
     >

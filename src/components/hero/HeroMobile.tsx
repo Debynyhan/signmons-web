@@ -37,8 +37,8 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
     sx={{
       position: 'relative',
       overflow: 'hidden',
-  minHeight: '100dvh',
-  boxSizing: 'border-box',
+      minHeight: '100dvh',
+      boxSizing: 'border-box',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
@@ -46,7 +46,7 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
         'radial-gradient(1000px 600px at 50% 25%, rgba(122,92,230,0.38), rgba(0,234,255,0.22) 45%, rgba(0,0,0,0) 70%), radial-gradient(circle at center, rgba(26,28,44,0.9) 0%, rgba(14,14,20,0.9) 100%)',
       color: 'text.primary',
       px: 2,
-  py: 2,
+      py: 2,
     }}
   >
     {/* Background shapes as mid layer */}
@@ -132,12 +132,12 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
           position: 'absolute',
           left: 0,
           right: 0,
-          bottom: 0,
+    bottom: 'calc(env(safe-area-inset-bottom, 0px) + 64px)',
           zIndex: 3,
           display: 'flex',
           justifyContent: 'center',
           px: 2,
-    pb: 'calc(env(safe-area-inset-bottom, 0px) + 10px)',
+    pb: 0,
           pointerEvents: 'none',
         }}
       >
