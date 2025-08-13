@@ -3,7 +3,6 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged, signInAnonymously, User } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 
-
 // Define the shape of the context data
 interface AuthContextType {
   userId: string | null;

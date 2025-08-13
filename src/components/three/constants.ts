@@ -21,8 +21,8 @@ export const LIGHTS = {
 
 // Particles
 export const PARTICLES = {
-  mobileCount: 600,
-  desktopCount: 1200,
+  mobileCount: 420,
+  desktopCount: 900,
   radiusMobile: 7,
   radiusDesktop: 12,
   branches: 4,
@@ -32,9 +32,9 @@ export const PARTICLES = {
 
 // Shapes
 export const SHAPES = {
-  speed: 0.32, // base speed factor
-  mobile: 3,
-  desktop: 6,
+  speed: 0.26, // base speed factor
+  mobile: 2,
+  desktop: 5,
 };
 
 // Foreground model defaults

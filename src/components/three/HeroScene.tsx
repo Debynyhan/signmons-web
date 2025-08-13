@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { AdaptiveDpr, PerformanceMonitor } from '@react-three/drei';
+// Optional dev perf overlay (install r3f-perf if desired)
+// import { Perf } from 'r3f-perf';
 import { useTheme, useMediaQuery } from '@mui/material';
 import { CAMERA_FOV, CAMERA_Z, DPR, FOG, MODEL, PARTICLES } from './constants';
 import LightRig from './LightRig';
@@ -27,6 +29,8 @@ const HeroScene: React.FC = () => {
       frameloop="always"
       shadows={false}
     >
+  {/* Debug: uncomment if you install r3f-perf */}
+  {/* {import.meta.env.DEV && <Perf position="top-left" minimal />} */}
       <fog attach="fog" args={[FOG.color, FOG.near, FOG.far]} />
 
       <PerformanceMonitor

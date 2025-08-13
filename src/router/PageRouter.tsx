@@ -22,7 +22,7 @@ const PageRouter: React.FC<PageRouterProps> = ({ currentPage, onNavigate }) => {
   switch (currentPage) {
     case 'start-design':
       // our new ConsultationWizard lives inside StartDesignPage
-       pageContent = <StartDesignPage navigate={onNavigate} />;
+      pageContent = <StartDesignPage navigate={onNavigate} />;
       break;
 
     case 'thank-you':

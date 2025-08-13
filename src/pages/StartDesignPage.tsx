@@ -11,7 +11,6 @@ interface StartDesignPageProps {
 
 const StartDesignPage: React.FC<StartDesignPageProps> = ({ navigate }) => (
   <Box sx={{ position: 'relative', width: '100%', minHeight: '100vh' }}>
-
     <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 1, py: 8 }}>
       {/* Wizard panel */}
       <Box
