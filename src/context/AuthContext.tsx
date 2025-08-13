@@ -28,6 +28,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAuthReady, setIsAuthReady] = useState<boolean>(false);
 
   useEffect(() => {
+    // Safety timeout: don't block the whole UI if auth never resolves (dev without .env, offline, etc.)
+    const safety = setTimeout(() => setIsAuthReady((v) => v || true), 2000);
+
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
         setUser(firebaseUser);
@@ -42,7 +45,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setIsAuthReady(true);
     });
 
-    return () => unsubscribe();
+    return () => {
+      clearTimeout(safety);
+      unsubscribe();
+    };
   }, []);
 
   return (

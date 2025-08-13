@@ -4,7 +4,6 @@ import React from 'react';
 import HomePage from '../pages/HomePage';
 import StartDesignPage from '../pages/StartDesignPage';
 import ThankYouPage from '../pages/ThankYouPage';
-import HeroShapes from '../components/common/HeroBackground';
 import { PageName } from '../types/navigation';
 
 interface PageRouterProps {
@@ -36,16 +35,6 @@ const PageRouter: React.FC<PageRouterProps> = ({ currentPage, onNavigate }) => {
       // HomePage needs the navigate prop for its CTA
       pageContent = <HomePage navigate={onNavigate} />;
       break;
-  }
-
-  // Wrap only the HomePage in the HeroShapes background
-  if (currentPage === 'home') {
-    return (
-      <div style={{ position: 'relative', width: '100%', minHeight: '100vh' }}>
-        <HeroShapes />
-        <div style={{ position: 'relative', zIndex: 1 }}>{pageContent}</div>
-      </div>
-    );
   }
 
   return <>{pageContent}</>;

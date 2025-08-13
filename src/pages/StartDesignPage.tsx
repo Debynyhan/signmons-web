@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Box, Container } from '@mui/material';
-import HeroBackground from '../components/common/HeroBackground'; // or HeroShapes if still named so
 import ConsultationWizard from '../components/consultation/ConsultationWizard';
 import type { PageName } from '../types/navigation';
 
@@ -12,8 +11,6 @@ interface StartDesignPageProps {
 
 const StartDesignPage: React.FC<StartDesignPageProps> = ({ navigate }) => (
   <Box sx={{ position: 'relative', width: '100%', minHeight: '100vh' }}>
-    {/* 3D background */}
-    <HeroBackground />
 
     <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 1, py: 8 }}>
       {/* Wizard panel */}
