@@ -95,15 +95,18 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
             <motion.div variants={slideIn} initial="hidden" animate="visible">
               <Typography
                 component="h1"
-                variant="h2"
+                variant="h1"
                 align="left"
                 sx={{
-                  fontWeight: 800,
-                  lineHeight: 1.2,
+                  color: 'primary.light',
+                  fontWeight: 900,
+                  lineHeight: 1.15,
+                  letterSpacing: '-0.02em',
                   mb: 1.5,
                   maxWidth: '100%',
+                  fontSize: { xs: '2.2rem', sm: '2.8rem', md: '3.6rem', lg: '4.2rem' },
                   textShadow:
-                    '0 1px 0 rgba(0,0,0,0.75), 0 3px 16px rgba(0,0,0,0.55), 0 0 18px rgba(0,234,255,0.3), 0 0 30px rgba(122,92,230,0.25)',
+                    '0 1px 0 rgba(0,0,0,0.85), 0 6px 22px rgba(0,0,0,0.55), 0 0 22px rgba(0,234,255,0.35), 0 0 40px rgba(122,92,230,0.28), 0 0 64px rgba(122,92,230,0.18)',
                 }}
               >
                 {COPY.hero.h1}

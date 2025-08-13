@@ -91,15 +91,17 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
         <motion.div variants={slideIn} initial="hidden" animate="visible">
           <Typography
             component="h1"
-            variant="h4"
+            variant="h3"
             align="center"
             sx={{
-              fontWeight: 800,
-              lineHeight: 1.2,
-              mb: 1.5,
               color: 'primary.light',
+              fontWeight: 900,
+              lineHeight: 1.15,
+              letterSpacing: '-0.01em',
+              mb: 1.6,
+              fontSize: { xs: '2rem', sm: '2.4rem' },
               textShadow:
-                '0 1px 0 rgba(0,0,0,0.75), 0 3px 14px rgba(0,0,0,0.55), 0 0 14px rgba(0,234,255,0.3), 0 0 22px rgba(122,92,230,0.22)',
+                '0 1px 0 rgba(0,0,0,0.85), 0 5px 18px rgba(0,0,0,0.55), 0 0 16px rgba(0,234,255,0.34), 0 0 28px rgba(122,92,230,0.25), 0 0 50px rgba(122,92,230,0.18)',
             }}
           >
             {COPY.hero.h1}
