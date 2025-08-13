@@ -132,12 +132,12 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
           position: 'absolute',
           left: 0,
           right: 0,
-    bottom: 'calc(env(safe-area-inset-bottom, 0px) + 64px)',
+          bottom: 'calc(env(safe-area-inset-bottom, 0px) + 64px)',
           zIndex: 3,
           display: 'flex',
           justifyContent: 'center',
           px: 2,
-    pb: 0,
+          pb: 0,
           pointerEvents: 'none',
         }}
       >
@@ -146,7 +146,16 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
             <MotionButton
               fullWidth
               onClick={() => navigate('start-design')}
-              sx={{ bgcolor: 'secondary.main', color: '#fff', py: 2 }}
+              sx={{
+                background: (t) => t.palette.success.main,
+                color: (t) => t.palette.success.contrastText,
+                py: 2,
+                boxShadow: '0 8px 22px rgba(0,255,137,0.35)',
+                '&:hover': {
+                  background: (t) => t.palette.success.dark,
+                  boxShadow: '0 10px 28px rgba(0,255,137,0.45)',
+                },
+              }}
             >
               {COPY.hero.cta}
             </MotionButton>

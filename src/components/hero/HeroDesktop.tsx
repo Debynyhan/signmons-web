@@ -142,12 +142,12 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
         position: 'absolute',
         left: 0,
         right: 0,
-  bottom: 'calc(env(safe-area-inset-bottom, 0px) + 72px)',
+        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 72px)',
         zIndex: 2,
         display: 'flex',
         justifyContent: 'center',
         px: 2,
-  pb: 0,
+        pb: 0,
         pointerEvents: 'none',
       }}
     >
@@ -156,7 +156,17 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
           <MotionButton
             fullWidth
             onClick={() => navigate('start-design')}
-            sx={{ bgcolor: 'secondary.main', color: '#fff', py: 2 }}
+            sx={{
+              // Solid neon green CTA
+              background: (t) => t.palette.success.main,
+              color: (t) => t.palette.success.contrastText,
+              py: 2,
+              boxShadow: '0 10px 28px rgba(0,255,137,0.35)',
+              '&:hover': {
+                background: (t) => t.palette.success.dark,
+                boxShadow: '0 12px 34px rgba(0,255,137,0.45)',
+              },
+            }}
           >
             {COPY.hero.cta}
           </MotionButton>
