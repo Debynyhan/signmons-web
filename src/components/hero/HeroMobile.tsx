@@ -5,7 +5,6 @@ import { Box, Typography } from '@mui/material';
 import { motion, Variants } from 'framer-motion';
 import HeroShapes from '../common/HeroBackground';
 import MotionButton from '../common/MotionButton';
-import AnimatedTruck from '../common/AnimatedTruck';
 import AnimatedHeadline from '../common/AnimatedHeadline';
 import { PageName } from '../../types/navigation';
 
@@ -86,7 +85,7 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
         alignItems: 'center',
         textAlign: 'center',
         flex: 1,
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
       }}
     >
       {/* Headline + copy without GlassCard */}
@@ -123,31 +122,34 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
         </motion.div>
       </Box>
 
-      {/* Van image */}
+      {/* Van image removed on homepage; 3D background now showcases the brand */}
+
+      {/* Bottom-centered CTA overlay */}
       <Box
         sx={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 3,
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          mt: 10,
-          mb: 4,
+          px: 2,
+          pb: 'max(env(safe-area-inset-bottom), 20px)',
+          pointerEvents: 'none',
         }}
       >
-        <AnimatedTruck src="/my-branded-truck.png" alt="Custom wraps for tradesmen" speed={13} />
-      </Box>
-
-      {/* Button at the bottom */}
-      <Box sx={{ width: '100%', maxWidth: 360, margin: 'auto' }}>
-        <motion.div variants={popIn} initial="hidden" animate="visible">
-          <MotionButton
-            fullWidth
-            onClick={() => navigate('start-design')}
-            sx={{ bgcolor: 'secondary.main', color: '#fff', py: 2 }}
-          >
-            GET YOUR FREE DESIGN
-          </MotionButton>
-        </motion.div>
+        <Box sx={{ width: '100%', maxWidth: 420, pointerEvents: 'auto' }}>
+          <motion.div variants={popIn} initial="hidden" animate="visible">
+            <MotionButton
+              fullWidth
+              onClick={() => navigate('start-design')}
+              sx={{ bgcolor: 'secondary.main', color: '#fff', py: 2 }}
+            >
+              GET YOUR FREE DESIGN
+            </MotionButton>
+          </motion.div>
+        </Box>
       </Box>
     </Box>
   </Box>

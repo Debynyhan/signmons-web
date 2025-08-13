@@ -5,7 +5,6 @@ import { Box, Grid, Typography } from '@mui/material';
 import { motion, Variants } from 'framer-motion';
 import HeroShapes from '../common/HeroBackground';
 import MotionButton from '../common/MotionButton';
-import AnimatedTruck from '../common/AnimatedTruck';
 import AnimatedHeadline from '../common/AnimatedHeadline';
 import { PageName } from '../../types/navigation';
 
@@ -128,22 +127,39 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
               </Typography>
             </motion.div>
           </Box>
-
-          <motion.div variants={popIn} initial="hidden" animate="visible">
-            <MotionButton
-              onClick={() => navigate('start-design')}
-              sx={{ bgcolor: 'secondary.main', color: '#fff' }}
-            >
-              GET YOUR FREE DESIGN
-            </MotionButton>
-          </motion.div>
         </Box>
       </Grid>
 
-      <Grid item xs={12} md={6}>
-        <AnimatedTruck src="/my-branded-truck.png" alt="Custom wraps for tradesmen" speed={13} />
-      </Grid>
+      {/* Removed van image on homepage; 3D background now showcases the brand */}
     </Grid>
+
+    {/* Bottom-centered CTA overlay */}
+    <Box
+      sx={{
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 2,
+        display: 'flex',
+        justifyContent: 'center',
+        px: 2,
+        pb: 'max(env(safe-area-inset-bottom), 24px)',
+        pointerEvents: 'none',
+      }}
+    >
+      <Box sx={{ width: '100%', maxWidth: 420, pointerEvents: 'auto' }}>
+        <motion.div variants={popIn} initial="hidden" animate="visible">
+          <MotionButton
+            fullWidth
+            onClick={() => navigate('start-design')}
+            sx={{ bgcolor: 'secondary.main', color: '#fff', py: 2 }}
+          >
+            GET YOUR FREE DESIGN
+          </MotionButton>
+        </motion.div>
+      </Box>
+    </Box>
   </Box>
 );
 

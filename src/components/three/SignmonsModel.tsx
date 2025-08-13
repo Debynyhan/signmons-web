@@ -66,7 +66,12 @@ const SignmonsModel: React.FC<SignmonsModelProps> = ({
   });
 
   return (
-    <group ref={group} position={position} rotation={[0, rotationY, 0]} scale={isMobile ? scale * 0.9 : scale}>
+    <group
+      ref={group}
+      position={position}
+      rotation={[0, rotationY, 0]}
+      scale={isMobile ? scale * 0.9 : scale}
+    >
       <primitive object={scene} />
     </group>
   );

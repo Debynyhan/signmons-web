@@ -56,9 +56,9 @@ const HeroShapes: React.FC = () => {
         <SignmonsModel
           url={MODEL.url}
           isMobile={isMobile}
-          position={(isMobile ? MODEL.mobile.position : MODEL.desktop.position)}
-          rotationY={(isMobile ? MODEL.mobile.rotationY : MODEL.desktop.rotationY)}
-          scale={(isMobile ? MODEL.mobile.scale : MODEL.desktop.scale)}
+          position={isMobile ? MODEL.mobile.position : MODEL.desktop.position}
+          rotationY={isMobile ? MODEL.mobile.rotationY : MODEL.desktop.rotationY}
+          scale={isMobile ? MODEL.mobile.scale : MODEL.desktop.scale}
           playFirstClip
           bob
           spin={0.18}

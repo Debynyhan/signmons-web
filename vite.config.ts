@@ -25,12 +25,12 @@ export default defineConfig({
     hmr: {
       protocol: 'ws',
       host: 'localhost',
-      clientPort: 5173,
+      clientPort: 5174,
     },
     allowedHosts: [
       'localhost',
       '127.0.0.1',
-      '22adeab9f7b9.ngrok-free.app',
+      '7f1ba2ee127c.ngrok-free.app',
       // Add other hostnames as needed
     ],
   },
