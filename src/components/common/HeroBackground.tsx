@@ -57,8 +57,8 @@ const HeroShapes: React.FC = () => {
           position: 'absolute',
           inset: 0,
           background:
-            'radial-gradient(1200px 600px at 50% 40%, rgba(122,92,230,0.18), rgba(23,234,217,0.08) 40%, rgba(0,0,0,0) 70%)',
-          filter: 'saturate(1.2)',
+            'radial-gradient(1200px 600px at 50% 40%, rgba(122,92,230,0.32), rgba(23,234,217,0.18) 40%, rgba(0,0,0,0) 70%)',
+          filter: 'saturate(1.35)',
         }}
       />
 

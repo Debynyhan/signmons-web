@@ -42,7 +42,7 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
       flexDirection: 'column',
       justifyContent: 'center',
       background:
-        'radial-gradient(circle at center, rgba(43,45,59,0.95) 0%, rgba(17,17,17,0.97) 100%)',
+        'radial-gradient(1000px 600px at 50% 25%, rgba(122,92,230,0.38), rgba(0,234,255,0.22) 45%, rgba(0,0,0,0) 70%), radial-gradient(circle at center, rgba(26,28,44,0.9) 0%, rgba(14,14,20,0.9) 100%)',
       color: 'text.primary',
       px: 2,
       py: 4,
@@ -70,16 +70,14 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
         zIndex: 1,
         width: '100%',
         height: '100%',
-        bgcolor: 'rgba(0,0,0,0.48)',
+        bgcolor: 'rgba(0,0,0,0.28)',
         pointerEvents: 'none',
       }}
     />
-
     {/* Content top layer */}
     <Box
       sx={{
         position: 'relative',
-        zIndex: 2,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -93,13 +91,15 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
         <motion.div variants={slideIn} initial="hidden" animate="visible">
           <Typography
             component="h1"
-            variant="h5"
+            variant="h4"
             align="center"
             sx={{
               fontWeight: 800,
               lineHeight: 1.2,
               mb: 1.5,
-              textShadow: '0 4px 16px rgba(0,0,0,0.6)',
+              color: 'primary.light',
+              textShadow:
+                '0 1px 0 rgba(0,0,0,0.75), 0 3px 14px rgba(0,0,0,0.55), 0 0 14px rgba(0,234,255,0.3), 0 0 22px rgba(122,92,230,0.22)',
             }}
           >
             {COPY.hero.h1}
@@ -110,10 +110,10 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
             variant="body1"
             align="center"
             sx={{
-              color: 'common.white',
+              color: 'text.primary',
               maxWidth: '100%',
               fontWeight: 500,
-              textShadow: '0 3px 12px rgba(0,0,0,0.55)',
+              textShadow: '0 2px 10px rgba(0,0,0,0.45)',
             }}
           >
             {COPY.hero.sub}

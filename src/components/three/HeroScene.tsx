@@ -4,7 +4,7 @@ import { AdaptiveDpr, PerformanceMonitor, Stats } from '@react-three/drei';
 // Optional dev perf overlay (install r3f-perf if desired)
 // import { Perf } from 'r3f-perf';
 import { useTheme, useMediaQuery } from '@mui/material';
-import { CAMERA_FOV, CAMERA_Z, DPR, FOG, MODEL, PARTICLES } from './constants';
+import { CAMERA_FOV, CAMERA_Z, FOG, MODEL, PARTICLES } from './constants';
 import LightRig from './LightRig';
 import GalaxyParticles from './GalaxyParticles';
 import PassingShapes from './PassingShapes';
@@ -14,7 +14,9 @@ import SignmonsModel from './SignmonsModel';
 const HeroScene: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const [count, setCount] = useState<number>(isMobile ? PARTICLES.mobileCount : PARTICLES.desktopCount);
+  const [count, setCount] = useState<number>(
+    isMobile ? PARTICLES.mobileCount : PARTICLES.desktopCount,
+  );
 
   // Optional perf overlay toggle via env flag
   const showPerf = import.meta.env.DEV && String(import.meta.env.VITE_PERF_OVERLAY) === 'true';
@@ -24,24 +26,36 @@ const HeroScene: React.FC = () => {
     [isMobile],
   );
 
+  const adaptivePerf = String(import.meta.env.VITE_ADAPTIVE_PERF ?? 'false') === 'true';
+
   return (
     <Canvas
-      gl={{ antialias: !isMobile, alpha: true, powerPreference: 'high-performance', stencil: false }}
-      dpr={DPR}
+      gl={{
+        antialias: !isMobile,
+        alpha: true,
+        powerPreference: 'high-performance',
+        stencil: false,
+        depth: true,
+        logarithmicDepthBuffer: false,
+        premultipliedAlpha: true,
+      }}
+      dpr={[1, 1.5]}
       camera={camera}
       frameloop="always"
       shadows={false}
     >
-  {/* Toggle with VITE_PERF_OVERLAY=true in .env.local */}
-  {showPerf ? <Stats /> : null}
+      {/* Toggle with VITE_PERF_OVERLAY=true in .env.local */}
+      {showPerf ? <Stats /> : null}
       <fog attach="fog" args={[FOG.color, FOG.near, FOG.far]} />
 
-      <PerformanceMonitor
-        onDecline={() => setCount((c) => Math.max(300, Math.floor(c * 0.8)))}
-        onIncline={() =>
-          setCount((c) => Math.min(isMobile ? 600 : PARTICLES.desktopCount, Math.ceil(c * 1.1)))
-        }
-      />
+      {adaptivePerf && (
+        <PerformanceMonitor
+          onDecline={() => setCount((c) => Math.max(300, Math.floor(c * 0.85)))}
+          onIncline={() =>
+            setCount((c) => Math.min(isMobile ? 600 : PARTICLES.desktopCount, Math.ceil(c * 1.08)))
+          }
+        />
+      )}
       <AdaptiveDpr pixelated={false} />
 
       <LightRig intensityScale={1} />

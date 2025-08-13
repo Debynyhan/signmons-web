@@ -13,14 +13,14 @@ const scaleVariant: Variants = {
   },
 };
 
-// Subtler glow
+// Vibrant neon glow
 const glowPulse: Variants = {
-  initial: { boxShadow: '0 0 10px #7a5ce644, 0 0 28px #00eaff22' },
+  initial: { boxShadow: '0 0 14px #7a5ce677, 0 0 36px #00eaff55' },
   animate: {
     boxShadow: [
-      '0 0 10px #7a5ce644, 0 0 28px #00eaff22',
-      '0 0 16px #7a5ce677, 0 0 36px #00eaff33',
-      '0 0 10px #7a5ce644, 0 0 28px #00eaff22',
+      '0 0 14px #7a5ce677, 0 0 36px #00eaff55',
+      '0 0 22px #7a5ce6aa, 0 0 50px #00eaff77',
+      '0 0 14px #7a5ce677, 0 0 36px #00eaff55',
     ],
     transition: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' },
   },
@@ -54,19 +54,18 @@ const MotionButton: React.FC<ButtonProps> = ({ children, sx, ...rest }) => (
             borderRadius: `${RADIUS}px !important`,
             fontWeight: 800,
             letterSpacing: '0.06em',
-            boxShadow: '0 0 10px #7a5ce644, 0 0 28px #00eaff22',
-            // Slightly darker gradient (about ~20% dimmer perceived)
-            background: 'linear-gradient(90deg, #00C2D1 0%, #8245E0 100%)',
+            boxShadow: '0 0 14px #7a5ce677, 0 0 36px #00eaff55',
+            // Brighter vibrant gradient (cyan -> violet)
+            background: 'linear-gradient(90deg, #00E3F8 0%, #7A51FF 50%, #B84CFF 100%)',
             color: '#FFFFFF',
             minWidth: { xs: 200, sm: 240 },
             transition: 'transform 0.2s cubic-bezier(.4,0,.2,1)',
-            // Ensure ~20% dimming even if background overridden
-            filter: 'brightness(0.8)',
+            filter: 'saturate(1.15)',
             '&:hover': {
               transform: 'scale(1.03)',
-              background: 'linear-gradient(90deg, #8245E0 0%, #00C2D1 100%)',
-              boxShadow: '0 0 16px #7a5ce677, 0 0 36px #00eaff33',
-              filter: 'brightness(0.85)',
+              background: 'linear-gradient(90deg, #B84CFF 0%, #7A51FF 50%, #00E3F8 100%)',
+              boxShadow: '0 0 22px #7a5ce6aa, 0 0 50px #00eaff77',
+              filter: 'saturate(1.2)',
             },
             // Ensure inner content wrapper doesn't keep pill corners
             '& .MuiButton-startIcon, & .MuiButton-endIcon': { borderRadius: `${RADIUS}px` },

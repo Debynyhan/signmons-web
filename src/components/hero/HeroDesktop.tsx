@@ -43,7 +43,7 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
       alignItems: 'center',
       height: 'calc(100vh - 64px)',
       background:
-        'radial-gradient(circle at center, rgba(43, 45, 59, 0.8) 0%, rgba(17, 17, 17, 0.8) 100%)',
+        'radial-gradient(1200px 700px at 40% 20%, rgba(122,92,230,0.35), rgba(0,234,255,0.20) 40%, rgba(0,0,0,0) 70%), radial-gradient(circle at center, rgba(26, 28, 44, 0.85) 0%, rgba(14, 14, 20, 0.85) 100%)',
       color: 'text.primary',
       px: 2,
       py: 4,
@@ -59,7 +59,7 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
         width: '100%',
         height: '100%',
         pointerEvents: 'none',
-        opacity: 0.9,
+        opacity: 1,
       }}
     >
       <HeroShapes />
@@ -95,14 +95,15 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
             <motion.div variants={slideIn} initial="hidden" animate="visible">
               <Typography
                 component="h1"
-                variant="h3"
+                variant="h2"
                 align="left"
                 sx={{
                   fontWeight: 800,
                   lineHeight: 1.2,
                   mb: 1.5,
                   maxWidth: '100%',
-                  textShadow: '0 4px 16px rgba(0,0,0,0.55)',
+                  textShadow:
+                    '0 1px 0 rgba(0,0,0,0.75), 0 3px 16px rgba(0,0,0,0.55), 0 0 18px rgba(0,234,255,0.3), 0 0 30px rgba(122,92,230,0.25)',
                 }}
               >
                 {COPY.hero.h1}

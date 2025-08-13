@@ -22,6 +22,26 @@ export const GalaxyParticles: React.FC<{ isMobile: boolean; count?: number }> = 
 
   const starTexture = useMemo(() => createStarTexture(64), []);
 
+  // Memoized PointsMaterial instance to avoid recompiles/prop churn
+  const material = useMemo(() => {
+    const m = new THREE.PointsMaterial({
+      size: isMobile ? 0.085 : 0.11,
+      sizeAttenuation: true,
+      vertexColors: true,
+      map: starTexture,
+      alphaMap: starTexture,
+      transparent: true,
+      opacity: 0.85,
+      depthWrite: false,
+      depthTest: false,
+      blending: THREE.AdditiveBlending,
+      toneMapped: false,
+      alphaTest: 0.1,
+    });
+    return m;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [starTexture, isMobile]);
+
   const { positions, colors } = useMemo(() => {
     const pos = new Float32Array(maxCount * 3);
     const col = new Float32Array(maxCount * 3);
@@ -42,8 +62,22 @@ export const GalaxyParticles: React.FC<{ isMobile: boolean; count?: number }> = 
 
       const t = r / radius;
       const mid = inner.clone().lerp(accent, 0.6);
-      const c =
+      // Base radial gradient color
+      const base =
         t < 0.5 ? inner.clone().lerp(mid, t / 0.5) : mid.clone().lerp(outer, (t - 0.5) / 0.5);
+
+      // Add subtle branch-biased vibrance (cyan vs. magenta) and HSL jitter for variety
+      const branchPhase = (i % branches) / Math.max(1, branches);
+      const bias = branchPhase < 0.5 ? outer : accent; // cyan-heavy vs magenta-heavy halves
+      const mixAmt = 0.2 + Math.random() * 0.3; // 0.2–0.5 blend toward bias
+      const c = base.clone().lerp(bias, mixAmt);
+      const hueJitter = (Math.random() - 0.5) * 0.03; // ~±11° hue shift
+      const satJitter = (Math.random() - 0.5) * 0.12; // subtle saturation jitter
+      const lightJitter = (Math.random() - 0.5) * 0.06; // subtle lightness jitter
+      c.offsetHSL(hueJitter, satJitter, lightJitter);
+      const vibrance = 0.9 + Math.random() * 0.25; // 0.9–1.15 brightness range
+      c.multiplyScalar(vibrance);
+
       col[i3] = c.r;
       col[i3 + 1] = c.g;
       col[i3 + 2] = c.b;
@@ -69,28 +103,16 @@ export const GalaxyParticles: React.FC<{ isMobile: boolean; count?: number }> = 
     g.setDrawRange(0, Math.min(count, maxCount));
   }, [count, maxCount]);
 
-  useFrame((_state, delta) => {
-    if (pointsRef.current) {
-      // Clamp rotation step to avoid jitter on long frames
-      const step = Math.min(delta, 1 / 30);
-      pointsRef.current.rotation.y += 0.03 * step;
-    }
+  useFrame(({ clock }) => {
+    if (!pointsRef.current) return;
+    // Time-based rotation to avoid delta jitter; keep value bounded to avoid precision drift
+    const t = clock.getElapsedTime() % 10000;
+    pointsRef.current.rotation.y = t * 0.03;
   });
 
   return (
     <points ref={pointsRef} geometry={geometry} position={[0, 0, -2]} frustumCulled={false}>
-      <pointsMaterial
-        size={isMobile ? 0.085 : 0.11}
-        sizeAttenuation
-        vertexColors
-        map={starTexture}
-        alphaMap={starTexture}
-        transparent
-        opacity={0.85}
-        depthWrite={false}
-        depthTest
-        blending={THREE.AdditiveBlending}
-      />
+      <primitive attach="material" object={material} />
     </points>
   );
 };

@@ -1,8 +1,8 @@
 // Centralized marketing copy for hero and shared sections
 export const COPY = {
   hero: {
-    h1: 'Branding, websites, and growth systems for small businesses.',
-    sub: 'From identity and ADA-clean UI to full-stack apps and profitable ads — Signmons builds the brand and the engine behind it.',
+    h1: 'Websites. Branding. Marketing.',
+    sub: 'Online, on vehicles, on merch — Signmons makes it happen.',
     cta: 'Get a free brand & website plan',
   },
   proof: ['Built for speed', 'ADA-aware design', 'Full-stack cloud', 'Performance marketing'],

@@ -17,8 +17,9 @@ export function createStarTexture(size: number = 64): THREE.CanvasTexture {
   }
   const tex = new THREE.CanvasTexture(canvas);
   tex.magFilter = THREE.LinearFilter;
-  tex.minFilter = THREE.LinearMipMapLinearFilter;
-  tex.generateMipmaps = true;
+  tex.minFilter = THREE.LinearFilter;
+  tex.generateMipmaps = false;
+  tex.anisotropy = 1;
   tex.needsUpdate = true;
   return tex;
 }

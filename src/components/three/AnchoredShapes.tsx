@@ -75,8 +75,8 @@ const AnchoredShapes: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
       mesh.position.y = base.y + Math.cos(t * f.y + phase.y) * 0.11;
       mesh.position.z = base.z + Math.sin(t * f.z + phase.z) * 0.1;
 
-  const rx = (0.1 + i * 0.01) * delta * 0.1 * speed;
-  const ry = (0.14 + i * 0.01) * delta * 0.1 * speed;
+      const rx = (0.1 + i * 0.01) * delta * 0.1 * speed;
+      const ry = (0.14 + i * 0.01) * delta * 0.1 * speed;
       mesh.rotation.x += rx;
       mesh.rotation.y += ry;
     });
