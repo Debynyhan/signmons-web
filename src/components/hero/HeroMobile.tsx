@@ -160,13 +160,13 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
               fullWidth
               onClick={() => navigate('start-design')}
               sx={{
-                background: (t) => t.palette.success.main,
-                color: (t) => t.palette.success.contrastText,
+                background: '#00BFA5',
+                color: '#fff',
                 py: 2,
-                boxShadow: '0 8px 22px rgba(0,255,137,0.35)',
+                boxShadow: '0 8px 22px rgba(0,191,165,0.35)',
                 '&:hover': {
-                  background: (t) => t.palette.success.dark,
-                  boxShadow: '0 10px 28px rgba(0,255,137,0.45)',
+                  background: '#009E8A',
+                  boxShadow: '0 10px 28px rgba(0,191,165,0.45)',
                 },
               }}
             >

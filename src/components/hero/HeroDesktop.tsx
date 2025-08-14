@@ -43,8 +43,8 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
       background:
         'radial-gradient(circle at center, rgba(0, 234, 255, 0.9) 0%, rgba(162, 89, 255, 0.9) 50%, rgba(17,17,17, 0.95) 100%)',
       color: 'text.primary',
-      px: 2,
-      py: 2,
+      px: { xs: 2, md: 4 },
+      py: { xs: 2, md: 4 },
       overflow: 'hidden',
     }}
   >
@@ -70,7 +70,7 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
     <Grid
       container
       rowSpacing={{ xs: 10, md: 2 }}
-      columnSpacing={{ xs: 0, md: 4 }}
+      columnSpacing={{ xs: 0, md: 6 }}
       alignItems="center"
       justifyContent="center"
       sx={{
@@ -88,12 +88,13 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
             flexDirection: 'column',
             alignItems: { xs: 'center', md: 'flex-start' },
             width: '100%',
-            maxWidth: 520,
+            maxWidth: { xs: 520, md: 520 },
             mx: { xs: 'auto', md: 0 },
+            mt: { xs: 0, md: 2 },
           }}
         >
           {/* Headline + subcopy inside GlassCard (desktop only component) */}
-          <GlassCard sx={{ width: '100%', mb: 2 }} accent="left">
+          <GlassCard sx={{ width: '100%', mb: 3, p: { xs: 2.5, md: 5 } }} accent="left">
             <Typography
               component="h1"
               variant="h1"
@@ -105,7 +106,7 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
                 letterSpacing: '-0.02em',
                 mb: 1.5,
                 maxWidth: '100%',
-                fontSize: { xs: '2.2rem', sm: '2.8rem', md: '3.6rem', lg: '4.2rem' },
+                fontSize: { xs: '2.2rem', sm: '3rem', md: '3.8rem', lg: '4.4rem' },
                 // Small, sharp shadow for contrast
                 textShadow: '0 2px 0 rgba(0,0,0,0.6)',
               }}
@@ -122,9 +123,9 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
                 align="left"
                 sx={{
                   color: 'common.white',
-                  maxWidth: '92%',
+                  maxWidth: '96%',
                   fontWeight: 500,
-                  fontSize: '1.2rem',
+                  fontSize: { xs: '1.2rem', md: '1.25rem' },
                   lineHeight: 1.5,
                   // Match headline's small, sharp shadow for better contrast
                   textShadow: '0 2px 0 rgba(0,0,0,0.6)',
@@ -172,7 +173,7 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
             fullWidth
             onClick={() => navigate('start-design')}
             sx={{
-              // Solid neon green CTA
+              // Original green CTA via theme
               background: (t) => t.palette.success.main,
               color: (t) => t.palette.success.contrastText,
               py: 2,

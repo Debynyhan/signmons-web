@@ -48,13 +48,13 @@ const TapForSound: React.FC<{
           borderRadius: '50px',
           textTransform: 'none',
           color: 'white',
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          border: '1px solid rgba(44, 255, 25, 0.44)',
+          backgroundColor: '#00BFA5',
+          border: '1px solid rgba(255, 255, 255, 0.25)',
           backdropFilter: 'blur(8px)',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+          boxShadow: '0 6px 16px rgba(0,191,165,0.35)',
           transition: 'transform 0.2s ease-in-out, background-color 0.2s',
           '&:hover': {
-            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            backgroundColor: '#009E8A',
             transform: 'scale(1.05)',
           },
         }}
