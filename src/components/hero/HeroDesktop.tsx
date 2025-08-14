@@ -5,6 +5,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import { motion, Variants } from 'framer-motion';
 import HeroShapes from '../common/HeroBackground';
 import TapForSound from '../common/TapForSound';
+import GlassCard from '../common/GlassCard';
 import MotionButton from '../common/MotionButton';
 import { COPY } from '../../content/positioning';
 import { PageName } from '../../types/navigation';
@@ -91,8 +92,8 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
             mx: { xs: 'auto', md: 0 },
           }}
         >
-          {/* Headline + subcopy without GlassCard */}
-          <Box sx={{ width: '100%', mb: 2 }}>
+          {/* Headline + subcopy inside GlassCard (desktop only component) */}
+          <GlassCard sx={{ width: '100%', mb: 2 }} accent="left">
             <Typography
               component="h1"
               variant="h1"
@@ -143,7 +144,7 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
                 {', on merch — Signmons makes it happen.'}
               </Typography>
             </motion.div>
-          </Box>
+          </GlassCard>
         </Box>
       </Grid>
 
