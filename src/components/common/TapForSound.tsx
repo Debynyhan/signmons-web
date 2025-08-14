@@ -49,7 +49,7 @@ const TapForSound: React.FC<{
           textTransform: 'none',
           color: 'white',
           backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
+          border: '1px solid rgba(44, 255, 25, 0.44)',
           backdropFilter: 'blur(8px)',
           boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
           transition: 'transform 0.2s ease-in-out, background-color 0.2s',

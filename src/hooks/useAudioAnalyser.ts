@@ -51,7 +51,9 @@ export function useAudioAnalyser(
   }, [audio]);
 
   const start = async (): Promise<boolean> => {
-    if (startingRef.current) return false;
+    // If audio is already playing, don't restart it.
+    if (startingRef.current || (audio.currentTime > 0 && !audio.paused)) return false;
+
     startingRef.current = true;
     if (!ctxRef.current) {
       const Ctx = (window as any).AudioContext || (window as any).webkitAudioContext;

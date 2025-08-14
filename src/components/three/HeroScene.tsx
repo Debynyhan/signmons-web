@@ -43,22 +43,25 @@ const HeroScene: React.FC = () => {
     };
   }, [start]);
   useEffect(() => {
-    let removed = false;
     const tryStart = async () => {
+      // This is a fallback listener in case the button is not clicked
+      // but the user has signaled intent.
       const ok = await start();
-      if (ok && !removed) {
-        window.removeEventListener('pointerdown', onPointer);
-        window.removeEventListener('signmons-start-audio', onPointer as EventListener);
-        removed = true;
+      if (ok) {
+        // Clean up listener if start was successful
+        window.removeEventListener('signmons-start-audio', onStartEvent as EventListener);
       }
     };
-    const onPointer = () => void tryStart();
+    const onStartEvent = () => void tryStart();
+
+    // If the user has already clicked the button, try starting immediately
     if ((window as any).__signmonsWantsAudio) void tryStart();
-    window.addEventListener('pointerdown', onPointer);
-    window.addEventListener('signmons-start-audio', onPointer as EventListener);
+
+    // Listen for the event from the TapForSound button
+    window.addEventListener('signmons-start-audio', onStartEvent as EventListener);
+
     return () => {
-      window.removeEventListener('pointerdown', onPointer);
-      window.removeEventListener('signmons-start-audio', onPointer as EventListener);
+      window.removeEventListener('signmons-start-audio', onStartEvent as EventListener);
     };
   }, [start]);
 
