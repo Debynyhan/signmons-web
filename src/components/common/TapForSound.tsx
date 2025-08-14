@@ -19,7 +19,10 @@ const TapForSound: React.FC<{
     <Box
       sx={{
         position: 'absolute',
-        top: { xs: '16px', md: '24px' },
+        // Anchor based on provided position (top-right | bottom-right)
+        ...(position === 'bottom-right'
+          ? { bottom: { xs: '16px', md: '24px' }, top: 'auto' }
+          : { top: { xs: '16px', md: '24px' }, bottom: 'auto' }),
         right: { xs: '16px', md: '24px' },
         zIndex: 1001, // Ensure it's above other UI
         pointerEvents: 'auto',

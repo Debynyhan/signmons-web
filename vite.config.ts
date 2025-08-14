@@ -34,11 +34,15 @@ export default defineConfig({
     chunkSizeWarningLimit: 800,
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Separate major vendor libraries
-          'vendor-react': ['react', 'react-dom'],
-          'vendor-mui': ['@mui/material', '@mui/icons-material'],
-          'vendor-framer': ['framer-motion'],
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined;
+          // Order matters: match specific stacks before generic react
+          if (id.includes('firebase')) return 'vendor-firebase';
+          if (id.includes('@react-three') || id.includes('/three') || id.includes('three-')) return 'vendor-three';
+          if (id.includes('framer-motion')) return 'vendor-framer';
+          if (id.includes('@mui') || id.includes('@emotion')) return 'vendor-mui';
+          if (id.includes('/react')) return 'vendor-react';
+          return undefined;
         },
       },
     },
@@ -46,6 +50,7 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
+   
     strictPort: true,
     hmr: {
       protocol: 'ws',

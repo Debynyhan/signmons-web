@@ -2,8 +2,8 @@
 
 import React from 'react';
 import HomePage from '../pages/HomePage';
-import StartDesignPage from '../pages/StartDesignPage';
-import ThankYouPage from '../pages/ThankYouPage';
+const StartDesignPage = React.lazy(() => import('../pages/StartDesignPage'));
+const ThankYouPage = React.lazy(() => import('../pages/ThankYouPage'));
 import { PageName } from '../types/navigation';
 
 interface PageRouterProps {
@@ -22,12 +22,20 @@ const PageRouter: React.FC<PageRouterProps> = ({ currentPage, onNavigate }) => {
   switch (currentPage) {
     case 'start-design':
       // our new ConsultationWizard lives inside StartDesignPage
-      pageContent = <StartDesignPage navigate={onNavigate} />;
+      pageContent = (
+        <React.Suspense fallback={null}>
+          <StartDesignPage navigate={onNavigate} />
+        </React.Suspense>
+      );
       break;
 
     case 'thank-you':
       // ThankYouPage still needs navigation to go “home” or restart
-      pageContent = <ThankYouPage navigate={onNavigate} />;
+      pageContent = (
+        <React.Suspense fallback={null}>
+          <ThankYouPage navigate={onNavigate} />
+        </React.Suspense>
+      );
       break;
 
     case 'home':
