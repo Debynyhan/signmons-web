@@ -21,13 +21,13 @@ export const LIGHTS = {
 
 // Particles
 export const PARTICLES = {
-  mobileCount: 360,
-  desktopCount: 820,
+  mobileCount: 240,
+  desktopCount: 680,
   radiusMobile: 7,
   radiusDesktop: 12,
   branches: 4,
-  spin: 1.0,
-  randomness: 0.32,
+  spin: 0.9,
+  randomness: 0.28,
 };
 
 // Shapes

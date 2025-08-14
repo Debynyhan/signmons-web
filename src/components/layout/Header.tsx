@@ -64,7 +64,8 @@ const Header: React.FC<HeaderProps> = ({ userId, currentPage, onNavigate }) => {
             variant="h6"
             component="div"
             sx={{
-              fontFamily: '"Bruno Ace SC", system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif',
+              fontFamily:
+                '"Bruno Ace SC", system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif',
               fontWeight: 700,
               letterSpacing: '-0.5px',
               position: 'relative',

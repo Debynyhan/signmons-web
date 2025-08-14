@@ -27,26 +27,53 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAuthReady, setIsAuthReady] = useState<boolean>(false);
 
   useEffect(() => {
-    // Safety timeout: don't block the whole UI if auth never resolves (dev without .env, offline, etc.)
-    const safety = setTimeout(() => setIsAuthReady((v) => v || true), 2000);
-
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        setUser(firebaseUser);
-        setUserId(firebaseUser.uid);
-      } else {
-        setUser(null);
-        setUserId(null);
-        signInAnonymously(auth).catch((error) => {
-          console.error('Anonymous sign-in failed:', error);
-        });
-      }
+    // In development, don't block rendering on auth
+    if (import.meta.env.DEV) {
       setIsAuthReady(true);
-    });
+      // Still attach listener in background, but UI won't wait on it
+      try {
+        const unsub = onAuthStateChanged(auth, (firebaseUser) => {
+          if (firebaseUser) {
+            setUser(firebaseUser);
+            setUserId(firebaseUser.uid);
+          } else {
+            setUser(null);
+            setUserId(null);
+          }
+        });
+        return () => unsub();
+      } catch {
+        return;
+      }
+    }
+
+    // Production: attach listener and add a safety timeout to avoid indefinite spinner
+    const safety = setTimeout(() => setIsAuthReady((v) => v || true), 2000);
+    let unsubscribe = () => {};
+    try {
+      unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+        if (firebaseUser) {
+          setUser(firebaseUser);
+          setUserId(firebaseUser.uid);
+        } else {
+          setUser(null);
+          setUserId(null);
+          signInAnonymously(auth).catch((error) => {
+            console.error('Anonymous sign-in failed:', error);
+          });
+        }
+        setIsAuthReady(true);
+      });
+    } catch (e) {
+      console.error('Auth listener failed to attach:', e);
+      setIsAuthReady(true);
+    }
 
     return () => {
       clearTimeout(safety);
-      unsubscribe();
+      try {
+        unsubscribe();
+      } catch {}
     };
   }, []);
 

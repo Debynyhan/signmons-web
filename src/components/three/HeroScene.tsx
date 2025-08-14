@@ -76,7 +76,7 @@ const HeroScene: React.FC = () => {
         logarithmicDepthBuffer: false,
         premultipliedAlpha: true,
       }}
-      dpr={[1, 1.5]}
+      dpr={[1, 1.25]}
       camera={camera}
       frameloop="always"
       shadows={false}
