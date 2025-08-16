@@ -29,14 +29,15 @@ const BudgetStep = React.lazy(() => import('./BudgetStep'));
 const DetailsStep = React.lazy(() => import('./DetailsStep'));
 
 import { useToast } from '../../context/ToastContext';
-import { submitDesignRequest } from '../../utils/firestoreUtils';
+import { designService, type DesignService } from '../../services/designService';
 import { wizardSchema } from '../../utils/validation';
 
 interface ConsultationWizardProps {
   navigate: (page: PageName) => void;
+  service?: DesignService;
 }
 
-export default function ConsultationWizard({ navigate }: ConsultationWizardProps) {
+export default function ConsultationWizard({ navigate, service = designService }: ConsultationWizardProps) {
   const {
     stepIndex,
     currentStep,
@@ -66,7 +67,7 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
       return;
     }
     try {
-      await submitDesignRequest(result.data);
+  await service.submit(result.data);
       showToast('Your mockup request is on its way!', 'success');
       navigate('thank-you');
     } catch (err) {
