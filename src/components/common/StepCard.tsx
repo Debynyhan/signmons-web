@@ -1,7 +1,7 @@
 // src/components/consultation/StepCard.tsx
 
 import React from 'react';
-import { Box, CardActionArea, CardContent, Typography, useTheme } from '@mui/material';
+import { CardActionArea, CardContent, Typography, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 
 interface StepCardProps {
@@ -63,7 +63,7 @@ const StepCard: React.FC<StepCardProps> = ({ selected, onClick, label, icon }) =
             py: 3,
           }}
         >
-          <Box mb={1}>{icon}</Box>
+          <div style={{ marginBottom: '8px' }}>{icon}</div>
           <Typography variant="h6">{label}</Typography>
         </CardContent>
       </CardActionArea>

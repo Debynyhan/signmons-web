@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 
 const TapForSound: React.FC<{
   position?: 'top-right' | 'bottom-right';
@@ -15,56 +15,45 @@ const TapForSound: React.FC<{
 
   if (!visible) return null;
 
+  const positionStyles: React.CSSProperties = {
+    position: 'absolute',
+    right: '16px', // Default for mobile
+    zIndex: 1001,
+    pointerEvents: 'auto',
+  };
+
+  if (position === 'bottom-right') {
+    positionStyles.bottom = '16px';
+  } else {
+    positionStyles.top = '16px';
+  }
+
+  // Larger screens
+  if (window.matchMedia('(min-width: 960px)').matches) {
+    if (position === 'bottom-right') {
+      positionStyles.bottom = '24px';
+    } else {
+      positionStyles.top = '24px';
+    }
+    positionStyles.right = '24px';
+  }
+
   return (
-    <Box
-      sx={{
-        position: 'absolute',
-        // Anchor based on provided position (top-right | bottom-right)
-        ...(position === 'bottom-right'
-          ? { bottom: { xs: '16px', md: '24px' }, top: 'auto' }
-          : { top: { xs: '16px', md: '24px' }, bottom: 'auto' }),
-        right: { xs: '16px', md: '24px' },
-        zIndex: 1001, // Ensure it's above other UI
-        pointerEvents: 'auto',
-      }}
-    >
+    <div style={positionStyles}>
       <Button
         variant="contained"
-        onClick={async () => {
-          (window as any).__signmonsWantsAudio = true;
-          // Try the provided onTap first
-          let ok = false;
-          if (onTap) {
-            ok = Boolean(await onTap());
-          }
-          // Fallback to global starter to ensure same-tick user gesture
-          if (!ok && (window as any).signmonsStartAudio) {
-            ok = Boolean(await (window as any).signmonsStartAudio());
-          }
-          if (!ok) {
-            // Also dispatch a custom event the scene listens for
-            window.dispatchEvent(new CustomEvent('signmons-start-audio'));
-          }
-          if (ok) setVisible(false);
-        }}
-        sx={{
-          borderRadius: '50px',
+        color="primary"
+        onClick={onTap}
+        style={{
+          padding: '8px 16px',
+          borderRadius: '20px',
           textTransform: 'none',
-          color: 'white',
-          backgroundColor: '#00BFA5',
-          border: '1px solid rgba(255, 255, 255, 0.25)',
-          backdropFilter: 'blur(8px)',
-          boxShadow: '0 6px 16px rgba(0,191,165,0.35)',
-          transition: 'transform 0.2s ease-in-out, background-color 0.2s',
-          '&:hover': {
-            backgroundColor: '#009E8A',
-            transform: 'scale(1.05)',
-          },
+          fontWeight: 'bold',
         }}
       >
-        Tap for sound
+        Tap for Sound
       </Button>
-    </Box>
+    </div>
   );
 };
 

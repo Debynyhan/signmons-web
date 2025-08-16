@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const faqs = [
@@ -13,7 +13,7 @@ const faqs = [
 ];
 
 const FAQ: React.FC = () => (
-  <Box>
+  <div>
     {faqs.map((f, i) => (
       <Accordion key={i}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -26,7 +26,7 @@ const FAQ: React.FC = () => (
         </AccordionDetails>
       </Accordion>
     ))}
-  </Box>
+  </div>
 );
 
 export default FAQ;

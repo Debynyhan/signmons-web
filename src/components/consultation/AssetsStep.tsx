@@ -1,15 +1,7 @@
 // src/components/consultation/AssetsStep.tsx
 
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import {
-  Box,
-  Typography,
-  Grid,
-  Button,
-  FormHelperText,
-  TextField,
-  LinearProgress,
-} from '@mui/material';
+import { Typography, Grid, Button, FormHelperText, TextField, LinearProgress } from '@mui/material';
 import { compressImage, formatBytes } from '../../utils/image';
 
 // ——— Export the data shape for upstream consumption ———
@@ -117,7 +109,7 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
   };
 
   return (
-    <Box>
+    <div>
       <Typography variant="h5" align="center" gutterBottom>
         Upload Your Logo(s)
       </Typography>
@@ -138,10 +130,10 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
             />
           </Button>
           {compressing && (
-            <Box sx={{ mt: 1 }}>
+            <div style={{ marginTop: 8 }}>
               <LinearProgress />
               <FormHelperText>Compressing selected images for faster upload…</FormHelperText>
-            </Box>
+            </div>
           )}
           {fileError ? (
             <FormHelperText error>{fileError}</FormHelperText>
@@ -156,12 +148,11 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
           const savingsText = saved !== undefined ? ` • Saved: ${formatBytes(saved)}` : '';
           return (
             <Grid item xs={12} sm={6} key={i}>
-              <Box
-                sx={{
-                  p: 1,
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  borderRadius: 1,
+              <div
+                style={{
+                  padding: 8,
+                  border: '1px solid #444',
+                  borderRadius: 4,
                   position: 'relative',
                 }}
               >
@@ -180,7 +171,7 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
                 >
                   Remove
                 </Button>
-              </Box>
+              </div>
             </Grid>
           );
         })}
@@ -198,7 +189,7 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button
               variant="contained"
               disabled={!isValid}
@@ -206,10 +197,10 @@ const AssetsStep: React.FC<AssetsStepProps> = ({ initialInfo, onNext }) => {
             >
               Continue
             </Button>
-          </Box>
+          </div>
         </Grid>
       </Grid>
-    </Box>
+    </div>
   );
 };
 

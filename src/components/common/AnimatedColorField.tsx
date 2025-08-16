@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 
 interface AnimatedColorFieldProps {
@@ -57,8 +57,8 @@ const AnimatedColorField: React.FC<AnimatedColorFieldProps> = ({
   const baseShadow = '0 8px 24px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(255,255,255,0.08)';
 
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -66,8 +66,8 @@ const AnimatedColorField: React.FC<AnimatedColorFieldProps> = ({
         width: '100%',
       }}
     >
-      <Typography sx={{ mb: 1, fontWeight: 500 }}>{label}</Typography>
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <Typography style={{ marginBottom: 8, fontWeight: 500 }}>{label}</Typography>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <motion.button
           type="button"
           aria-label={`${label}: ${color}`}
@@ -108,7 +108,7 @@ const AnimatedColorField: React.FC<AnimatedColorFieldProps> = ({
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.98 }}
         />
-      </Box>
+      </div>
       <input
         id={id}
         ref={inputRef}
@@ -119,7 +119,7 @@ const AnimatedColorField: React.FC<AnimatedColorFieldProps> = ({
         aria-hidden
         tabIndex={-1}
       />
-    </Box>
+    </div>
   );
 };
 

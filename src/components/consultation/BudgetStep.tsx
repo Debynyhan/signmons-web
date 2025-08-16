@@ -1,7 +1,7 @@
 // src/components/consultation/BudgetStep.tsx
 
 import React, { useState } from 'react';
-import { Box, Typography, Button, Slider } from '@mui/material';
+import { Typography, Button, Slider } from '@mui/material';
 import type { BudgetInfo } from '../../types/consultation';
 
 interface BudgetStepProps {
@@ -21,14 +21,19 @@ const BudgetStep: React.FC<BudgetStepProps> = ({ initialInfo, onNext }) => {
   const [value, setValue] = useState<number>(initialValue);
 
   return (
-    <Box>
+    <div>
       <Typography variant="h5" align="center" gutterBottom>
         What’s your budget?
       </Typography>
-      <Typography variant="body2" color="textSecondary" align="center" sx={{ mb: 2 }}>
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        align="center"
+        style={{ marginBottom: '16px' }}
+      >
         Select your project budget. Minimum ${MIN_BUDGET}.
       </Typography>
-      <Box sx={{ width: '100%', maxWidth: 400, mx: 'auto', mt: 4 }}>
+      <div style={{ width: '100%', maxWidth: 400, margin: '32px auto 0' }}>
         <Slider
           value={value}
           min={MIN_BUDGET}
@@ -82,13 +87,13 @@ const BudgetStep: React.FC<BudgetStepProps> = ({ initialInfo, onNext }) => {
           }}
           valueLabelFormat={(v: number) => `$${v}`}
         />
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '8px' }}>
           <Button variant="contained" onClick={() => onNext({ min: value, max: value })}>
             Continue
           </Button>
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 };
 

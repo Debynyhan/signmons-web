@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 
 interface StickyCTAProps {
   onPrimaryClick: () => void;
@@ -8,28 +8,30 @@ interface StickyCTAProps {
 
 const StickyCTA: React.FC<StickyCTAProps> = ({ onPrimaryClick, onSecondaryClick }) => {
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         position: 'sticky',
         bottom: 0,
         zIndex: 10,
         backdropFilter: 'blur(8px)',
         background: 'linear-gradient(180deg, transparent, rgba(0,0,0,0.6))',
-        py: 1,
-        display: { xs: 'flex', md: 'none' },
-        gap: 1,
-        px: 2,
+        paddingTop: '8px',
+        paddingBottom: '8px',
+        display: 'flex',
+        gap: '8px',
+        paddingLeft: '16px',
+        paddingRight: '16px',
       }}
     >
-      <Button fullWidth variant="contained" onClick={onPrimaryClick}>
-        Get a Free Mockup
+      <Button variant="contained" color="primary" onClick={onPrimaryClick} fullWidth>
+        Start My Free Design
       </Button>
       {onSecondaryClick && (
-        <Button fullWidth variant="outlined" color="inherit" onClick={onSecondaryClick}>
-          See Work
+        <Button variant="outlined" onClick={onSecondaryClick} fullWidth>
+          Learn More
         </Button>
       )}
-    </Box>
+    </div>
   );
 };
 

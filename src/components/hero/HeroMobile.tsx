@@ -1,7 +1,7 @@
 // src/components/HeroMobile.tsx
 
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { motion, Variants } from 'framer-motion';
 import HeroShapes from '../common/HeroBackground';
 import TapForSound from '../common/TapForSound';
@@ -27,10 +27,9 @@ interface HeroMobileProps {
 }
 
 const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
-  <Box
-    component="section"
+  <section
     aria-label="Hero"
-    sx={{
+    style={{
       position: 'relative',
       overflow: 'hidden',
       minHeight: '100dvh',
@@ -40,9 +39,8 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
       justifyContent: 'center',
       background:
         'radial-gradient(circle at center, rgba(0, 234, 255, 0.9) 0%, rgba(162, 89, 255, 0.9) 50%, rgba(17,17,17, 0.95) 100%)',
-      color: 'text.primary',
-      px: 2,
-      py: 2,
+      color: 'white',
+      padding: '16px',
     }}
   >
     <TapForSound
@@ -50,10 +48,13 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
       onTap={() => window.dispatchEvent(new CustomEvent('signmons-start-audio'))}
     />
     {/* Background shapes as mid layer */}
-    <Box
-      sx={{
+    <div
+      style={{
         position: 'absolute',
-        inset: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         zIndex: 0,
         width: '100%',
         height: '100%',
@@ -61,23 +62,26 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
       }}
     >
       <HeroShapes />
-    </Box>
+    </div>
 
     {/* Overlay above shapes */}
-    <Box
-      sx={{
+    <div
+      style={{
         position: 'absolute',
-        inset: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         zIndex: 1,
         width: '100%',
         height: '100%',
-        bgcolor: 'rgba(0,0,0,0.28)',
+        backgroundColor: 'rgba(0,0,0,0.28)',
         pointerEvents: 'none',
       }}
     />
     {/* Content top layer */}
-    <Box
-      sx={{
+    <div
+      style={{
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
@@ -88,32 +92,30 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
       }}
     >
       {/* Headline + copy without GlassCard */}
-      <Box sx={{ width: '100%', maxWidth: 600, mx: 'auto', mb: 2 }}>
+      <div style={{ width: '100%', maxWidth: 600, margin: '0 auto 16px' }}>
         <Typography
           component="h1"
           variant="h3"
           align="center"
-          sx={{
-            color: 'common.white',
+          style={{
+            color: 'white',
             fontWeight: 900,
             lineHeight: 1.15,
             letterSpacing: '-0.01em',
-            mb: 1.6,
-            fontSize: { xs: '2rem', sm: '2.4rem' },
+            marginBottom: '12.8px',
+            fontSize: '2.4rem',
             textShadow: '0 2px 0 rgba(0,0,0,0.6)',
           }}
         >
-          <Box component="span" sx={{ color: (t: any) => t.palette.secondary.light }}>
-            Websites
-          </Box>
+          <span style={{ color: '#00eaff' }}>Websites</span>
           {'. Branding. Marketing.'}
         </Typography>
         <motion.div variants={fadeUp} initial="hidden" animate="visible">
           <Typography
             variant="body1"
             align="center"
-            sx={{
-              color: 'common.white',
+            style={{
+              color: 'white',
               maxWidth: '100%',
               fontWeight: 500,
               fontSize: '1.1rem',
@@ -122,26 +124,25 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
             }}
           >
             {'Online, on '}
-            <Box
-              component="span"
-              sx={{
-                color: (t: any) => t.palette.secondary.light,
+            <span
+              style={{
+                color: '#00eaff',
                 fontWeight: 800,
                 fontSize: '1.1em',
               }}
             >
               vehicles
-            </Box>
+            </span>
             {', on merch — Signmons makes it happen.'}
           </Typography>
         </motion.div>
-      </Box>
+      </div>
 
       {/* Van image removed on homepage; 3D background now showcases the brand */}
 
       {/* Bottom-centered CTA overlay */}
-      <Box
-        sx={{
+      <div
+        style={{
           position: 'absolute',
           left: 0,
           right: 0,
@@ -149,34 +150,29 @@ const HeroMobile: React.FC<HeroMobileProps> = ({ navigate }) => (
           zIndex: 3,
           display: 'flex',
           justifyContent: 'center',
-          px: 2,
-          pb: 0,
+          padding: '0 16px',
           pointerEvents: 'none',
         }}
       >
-        <Box sx={{ width: '100%', maxWidth: 420, pointerEvents: 'auto' }}>
+        <div style={{ width: '100%', maxWidth: 420, pointerEvents: 'auto' }}>
           <motion.div variants={popIn} initial="hidden" animate="visible">
             <MotionButton
               fullWidth
               onClick={() => navigate('start-design')}
-              sx={{
+              style={{
                 background: '#00BFA5',
                 color: '#fff',
-                py: 2,
+                padding: '16px 0',
                 boxShadow: '0 8px 22px rgba(0,191,165,0.35)',
-                '&:hover': {
-                  background: '#009E8A',
-                  boxShadow: '0 10px 28px rgba(0,191,165,0.45)',
-                },
               }}
             >
               {COPY.hero.cta}
             </MotionButton>
           </motion.div>
-        </Box>
-      </Box>
-    </Box>
-  </Box>
+        </div>
+      </div>
+    </div>
+  </section>
 );
 
 export default HeroMobile;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonProps, Box } from '@mui/material';
+import { Button, ButtonProps } from '@mui/material';
 import { motion, Variants } from 'framer-motion';
 
 // Animate scale in
@@ -29,13 +29,13 @@ const glowPulse: Variants = {
 const RADIUS = 10; // rectangular with rounded corners
 
 const MotionButton: React.FC<ButtonProps> = ({ children, sx, ...rest }) => (
-  <Box
-    sx={{
+  <div
+    style={{
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       width: '100%',
-      my: 2,
+      margin: '16px 0',
     }}
   >
     <motion.div variants={scaleVariant} initial="hidden" animate="visible">
@@ -78,7 +78,7 @@ const MotionButton: React.FC<ButtonProps> = ({ children, sx, ...rest }) => (
         </Button>
       </motion.div>
     </motion.div>
-  </Box>
+  </div>
 );
 
 export default MotionButton;

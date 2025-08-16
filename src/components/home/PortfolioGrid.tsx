@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Box, Chip, Grid, Stack, Button, Typography } from '@mui/material';
+import { Chip, Grid, Stack, Button, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import GlassCard from '../common/GlassCard';
 
@@ -27,14 +27,14 @@ const PortfolioGrid: React.FC<PortfolioGridProps> = ({ filter, setFilter, onCTA 
   }, [filter]);
 
   return (
-    <Box>
+    <div>
       {/* Title */}
       <Typography
         variant="h5"
         align="center"
-        sx={{
+        style={{
           fontWeight: 700,
-          mb: 2,
+          marginBottom: 16,
           background: 'linear-gradient(90deg, #A0E9FF, #80FFEA)',
           WebkitBackgroundClip: 'text',
           backgroundClip: 'text',
@@ -45,28 +45,16 @@ const PortfolioGrid: React.FC<PortfolioGridProps> = ({ filter, setFilter, onCTA 
       </Typography>
 
       {/* Filters: single-line, centered; scrollable on mobile */}
-      <Box sx={{ mb: 3 }}>
-        <Box
-          sx={{
-            display: { xs: 'block', md: 'flex' },
-            justifyContent: { md: 'center' },
-            overflowX: { xs: 'auto', md: 'visible' },
+      <div style={{ marginBottom: 24 }}>
+        <div
+          style={{
+            display: 'block',
+            overflowX: 'auto',
             WebkitOverflowScrolling: 'touch',
-            px: { xs: 1, md: 0 },
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-            '&::-webkit-scrollbar': { display: 'none' },
+            paddingInline: 8,
           }}
         >
-          <Stack
-            direction="row"
-            spacing={1.2}
-            sx={{
-              flexWrap: 'nowrap',
-              minWidth: 'max-content',
-              mx: { md: 'auto' },
-            }}
-          >
+          <Stack direction="row" spacing={1.2} sx={{ flexWrap: 'nowrap', minWidth: 'max-content' }}>
             {tags.map((t) => (
               <Chip
                 key={t}
@@ -84,8 +72,8 @@ const PortfolioGrid: React.FC<PortfolioGridProps> = ({ filter, setFilter, onCTA 
               />
             ))}
           </Stack>
-        </Box>
-      </Box>
+        </div>
+      </div>
 
       {/* Tiles */}
       <Grid container spacing={2}>
@@ -97,43 +85,37 @@ const PortfolioGrid: React.FC<PortfolioGridProps> = ({ filter, setFilter, onCTA 
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
             >
-              <GlassCard sx={{ p: 1.5 }}>
-                <Box
-                  sx={{
+              <GlassCard style={{ padding: 12 }}>
+                <div
+                  style={{
                     position: 'relative',
-                    borderRadius: 2,
+                    borderRadius: 8,
                     overflow: 'hidden',
                     border: '1px solid rgba(255,255,255,0.08)',
                     aspectRatio: '4 / 3',
-                    bgcolor: 'rgba(255,255,255,0.02)',
+                    backgroundColor: 'rgba(255,255,255,0.02)',
                   }}
                 >
-                  <Box
-                    component="img"
+                  <img
                     src={img.src}
                     alt={img.title}
                     loading="lazy"
-                    sx={{
+                    style={{
                       position: 'absolute',
                       inset: 0,
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      transform: 'scale(1)',
-                      transition: 'transform 300ms ease',
-                      '&:hover': { transform: 'scale(1.03)' },
-                      display: 'block',
+                      transition: 'transform 0.4s ease-in-out',
                     }}
                   />
-
-                  {/* Subtle inner glow */}
-                  <Box
-                    sx={{
+                  <div
+                    style={{
                       position: 'absolute',
                       inset: 0,
                       background:
-                        'radial-gradient(60% 60% at 50% 40%, rgba(128,255,234,0.12) 0%, rgba(0,0,0,0) 70%)',
-                      pointerEvents: 'none',
+                        'radial-gradient(60% 60% at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%)',
+                      opacity: 1,
                     }}
                   />
 
@@ -152,19 +134,19 @@ const PortfolioGrid: React.FC<PortfolioGridProps> = ({ filter, setFilter, onCTA 
                   >
                     {img.title}
                   </Typography>
-                </Box>
+                </div>
               </GlassCard>
             </motion.div>
           </Grid>
         ))}
       </Grid>
 
-      <Box sx={{ textAlign: 'center', mt: 3 }}>
+      <div style={{ textAlign: 'center', marginTop: 24 }}>
         <Button variant="contained" onClick={onCTA}>
           Get your free mockup
         </Button>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 

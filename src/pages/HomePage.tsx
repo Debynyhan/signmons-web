@@ -73,7 +73,7 @@ const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
           <FAQ />
         </GlassCard>
 
-        <GlassCard sx={{ textAlign: 'center' }}>
+        <GlassCard style={{ textAlign: 'center' }}>
           <Typography variant="h5" sx={{ ...gradientTitleSx, mb: 1.5 }}>
             Ready to Start?
           </Typography>

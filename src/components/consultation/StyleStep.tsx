@@ -1,10 +1,9 @@
 // src/components/consultation/StyleStep.tsx
 
 import React from 'react';
-import { Box, Typography, Grid, CardActionArea, CardContent } from '@mui/material';
+import { Typography, Grid, CardActionArea, CardContent } from '@mui/material';
 import { motion, Variants } from 'framer-motion';
 import type { StyleOption } from '../../types/consultation';
-
 
 interface StyleStepProps {
   selected?: string;
@@ -27,7 +26,7 @@ const tap: Variants = {
 };
 
 const StyleStep: React.FC<StyleStepProps> = ({ selected, onSelect }) => (
-  <Box>
+  <div>
     <Typography variant="h5" align="center" gutterBottom>
       What visual style fits your brand?
     </Typography>
@@ -47,9 +46,7 @@ const StyleStep: React.FC<StyleStepProps> = ({ selected, onSelect }) => (
                 }}
               >
                 <CardContent sx={{ textAlign: 'center' }}>
-                  <Box fontSize={40} mb={1}>
-                    {icon}
-                  </Box>
+                  <div style={{ fontSize: 40, marginBottom: 8 }}>{icon}</div>
                   <Typography variant="subtitle1">{label}</Typography>
                 </CardContent>
               </CardActionArea>
@@ -58,7 +55,7 @@ const StyleStep: React.FC<StyleStepProps> = ({ selected, onSelect }) => (
         );
       })}
     </Grid>
-  </Box>
+  </div>
 );
 
 export default StyleStep;

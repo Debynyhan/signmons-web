@@ -1,7 +1,7 @@
 // src/components/consultation/VehicleStep.tsx
 
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, TextField, Button, Grid } from '@mui/material';
+import { Typography, TextField, Button, Grid } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import { vehicleTypes, vehicleMakes, vehicleModels } from '../../constants/vehicleData';
 import type { VehicleInfo } from '../../types/consultation';
@@ -57,7 +57,7 @@ const VehicleStep: React.FC<VehicleStepProps> = ({ initialInfo, onNext }) => {
     };
 
   return (
-    <Box>
+    <div>
       <Typography variant="h5" align="center" gutterBottom>
         Tell me about your vehicle
       </Typography>
@@ -123,7 +123,7 @@ const VehicleStep: React.FC<VehicleStepProps> = ({ initialInfo, onNext }) => {
 
         {/* Continue Button */}
         <Grid item xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button
               variant="contained"
               disabled={!isValid}
@@ -139,10 +139,10 @@ const VehicleStep: React.FC<VehicleStepProps> = ({ initialInfo, onNext }) => {
             >
               Continue
             </Button>
-          </Box>
+          </div>
         </Grid>
       </Grid>
-    </Box>
+    </div>
   );
 };
 

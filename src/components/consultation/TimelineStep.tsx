@@ -1,15 +1,7 @@
 // src/components/consultation/TimelineStep.tsx
 
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Typography,
-  Grid,
-  TextField,
-  Button,
-  Switch,
-  FormControlLabel,
-} from '@mui/material';
+import { Typography, Grid, TextField, Button, Switch, FormControlLabel } from '@mui/material';
 import { formatDateForInput, isDateInFuture } from '../../utils/dateUtils';
 import type { TimelineInfo } from '../../types/consultation';
 
@@ -39,11 +31,16 @@ const TimelineStep: React.FC<TimelineStepProps> = ({ initialInfo, onNext }) => {
   const isValid = !error;
 
   return (
-    <Box>
+    <div>
       <Typography variant="h5" align="center" gutterBottom>
         When would you like your mockup?
       </Typography>
-      <Typography variant="body2" color="textSecondary" align="center" sx={{ mb: 2 }}>
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        align="center"
+        style={{ marginBottom: '16px' }}
+      >
         Select a delivery date. Rush (24-hr) delivery adds a small fee.
       </Typography>
 
@@ -73,14 +70,14 @@ const TimelineStep: React.FC<TimelineStepProps> = ({ initialInfo, onNext }) => {
 
         {/* Continue button */}
         <Grid item xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button variant="contained" disabled={!isValid} onClick={() => onNext({ date, rush })}>
               Continue
             </Button>
-          </Box>
+          </div>
         </Grid>
       </Grid>
-    </Box>
+    </div>
   );
 };
 

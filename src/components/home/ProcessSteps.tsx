@@ -1,12 +1,12 @@
 import React from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 
 const steps = [
-  { title: 'Tell Us Your Goals', text: 'Share vehicle, colors, budget, and logo assets.' },
-  { title: 'Free Mockup', text: 'We deliver a tailored concept fast.' },
-  { title: 'Refine & Approve', text: 'We revise until you’re thrilled.' },
-  { title: 'Install / Launch', text: 'Pro install or go-live for web in days.' },
+  { title: 'Tell Us Your Goals', desc: 'Share vehicle, colors, budget, and logo assets.' },
+  { title: 'Free Mockup', desc: 'We deliver a tailored concept fast.' },
+  { title: 'Refine & Approve', desc: 'We revise until you’re thrilled.' },
+  { title: 'Install / Launch', desc: 'Pro install or go-live for web in days.' },
 ];
 
 const ProcessSteps: React.FC = () => (
@@ -19,21 +19,22 @@ const ProcessSteps: React.FC = () => (
           viewport={{ once: true }}
           transition={{ delay: i * 0.05 }}
         >
-          <Box
-            sx={{
-              p: 2,
-              borderRadius: 2,
+          <div
+            style={{
+              padding: '16px',
+              borderRadius: '8px',
               border: '1px solid rgba(255,255,255,0.08)',
               textAlign: 'center',
+              height: '100%',
             }}
           >
-            <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+            <Typography variant="subtitle2" style={{ marginBottom: '4px' }}>
               {s.title}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              {s.text}
+              {s.desc}
             </Typography>
-          </Box>
+          </div>
         </motion.div>
       </Grid>
     ))}

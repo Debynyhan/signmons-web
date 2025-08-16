@@ -1,12 +1,12 @@
 import React from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 interface FinalCTAProps {
   onClick: () => void;
 }
 
 const FinalCTA: React.FC<FinalCTAProps> = ({ onClick }) => (
-  <Box sx={{ textAlign: 'center', py: 6 }}>
+  <div style={{ textAlign: 'center', padding: '48px 0' }}>
     <Typography variant="h5" sx={{ mb: 1 }}>
       Ready to Stand Out?
     </Typography>
@@ -16,7 +16,7 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ onClick }) => (
     <Button variant="contained" size="large" onClick={onClick}>
       Get My Free Mockup
     </Button>
-  </Box>
+  </div>
 );
 
 export default FinalCTA;

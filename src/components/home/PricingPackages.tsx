@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Button, Typography, Stack } from '@mui/material';
+import { Grid, Button, Typography } from '@mui/material';
 
 const tiers = [
   {
@@ -23,33 +23,33 @@ const PricingPackages: React.FC<PricingPackagesProps> = ({ onCTA }) => (
   <Grid container spacing={2}>
     {tiers.map((t, i) => (
       <Grid item xs={12} md={4} key={i}>
-        <Box
-          sx={{
-            p: 2,
-            borderRadius: 2,
+        <div
+          style={{
+            padding: 16,
+            borderRadius: 8,
             border: '1px solid rgba(255,255,255,0.08)',
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
           }}
         >
-          <Typography variant="subtitle1" sx={{ mb: 0.5 }}>
+          <Typography variant="subtitle1" style={{ marginBottom: '4px' }}>
             {t.name}
           </Typography>
-          <Typography variant="h6" color="primary" sx={{ mb: 1 }}>
+          <Typography variant="h6" color="primary" style={{ marginBottom: '8px' }}>
             {t.price}
           </Typography>
-          <Stack spacing={0.5} sx={{ flexGrow: 1 }}>
-            {t.bullets.map((b, j) => (
-              <Typography key={j} variant="caption" color="text.secondary">
-                • {b}
-              </Typography>
+          <ul style={{ paddingLeft: '20px', marginBottom: '16px', flexGrow: 1 }}>
+            {t.bullets.map((f) => (
+              <li key={f}>
+                <Typography variant="body2">{f}</Typography>
+              </li>
             ))}
-          </Stack>
-          <Button variant="contained" sx={{ mt: 2 }} onClick={onCTA}>
-            Get a Free Mockup
+          </ul>
+          <Button variant="contained" onClick={() => onCTA()} style={{ marginTop: 'auto' }}>
+            Get Started
           </Button>
-        </Box>
+        </div>
       </Grid>
     ))}
   </Grid>

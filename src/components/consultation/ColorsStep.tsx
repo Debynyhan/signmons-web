@@ -1,7 +1,7 @@
 // src/components/consultation/ColorsStep.tsx
 
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Grid, FormHelperText, Button } from '@mui/material';
+import { Typography, Grid, FormHelperText, Button } from '@mui/material';
 import type { ColorsInfo } from '../../types/consultation';
 import { sanitizeHex, ensureContrast } from '../../utils/validationUtils';
 import AnimatedColorField from '../common/AnimatedColorField';
@@ -28,24 +28,29 @@ const ColorsStep: React.FC<ColorsStepProps> = ({ initialInfo, onNext }) => {
   const isValid = !error;
 
   return (
-    <Box>
+    <div>
       <Typography variant="h5" align="center" gutterBottom>
         Pick Your Brand Colors
       </Typography>
-      <Typography variant="body2" color="textSecondary" align="center" sx={{ mb: 3 }}>
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        align="center"
+        style={{ marginBottom: '24px' }}
+      >
         Choose a primary and an accent color for your branding.
       </Typography>
 
       {/* Centered, equal-width columns for the two pickers */}
-      <Box
-        sx={{
+      <div
+        style={{
           display: 'grid',
-          gridTemplateColumns: { xs: '1fr 1fr', sm: 'repeat(2, 240px)' },
+          gridTemplateColumns: 'repeat(2, 240px)',
           justifyContent: 'center',
           justifyItems: 'center',
-          columnGap: { xs: 2, sm: 6 },
-          rowGap: 3,
-          mb: 2,
+          columnGap: '48px',
+          rowGap: '24px',
+          marginBottom: '16px',
         }}
       >
         <AnimatedColorField
@@ -58,36 +63,36 @@ const ColorsStep: React.FC<ColorsStepProps> = ({ initialInfo, onNext }) => {
           color={accent}
           onChange={(c) => setAccent(sanitizeHex(c))}
         />
-      </Box>
+      </div>
 
       {/* Live preview swatches */}
       <Grid container>
         <Grid item xs={12}>
-          <Box
-            sx={{
+          <div
+            style={{
               display: 'flex',
               justifyContent: 'center',
-              gap: 2,
-              mt: 2,
+              gap: '16px',
+              marginTop: '16px',
             }}
           >
-            <Box
-              sx={{
+            <div
+              style={{
                 width: 40,
                 height: 40,
-                bgcolor: primary,
+                backgroundColor: primary,
                 border: '1px solid #ccc',
               }}
             />
-            <Box
-              sx={{
+            <div
+              style={{
                 width: 40,
                 height: 40,
-                bgcolor: accent,
+                backgroundColor: accent,
                 border: '1px solid #ccc',
               }}
             />
-          </Box>
+          </div>
         </Grid>
 
         {error && (
@@ -97,8 +102,8 @@ const ColorsStep: React.FC<ColorsStepProps> = ({ initialInfo, onNext }) => {
         )}
 
         {/* Continue button */}
-        <Grid item xs={12} sx={{ mt: 2 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Grid item xs={12} style={{ marginTop: '16px' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button
               variant="contained"
               disabled={!isValid}
@@ -106,10 +111,10 @@ const ColorsStep: React.FC<ColorsStepProps> = ({ initialInfo, onNext }) => {
             >
               Continue
             </Button>
-          </Box>
+          </div>
         </Grid>
       </Grid>
-    </Box>
+    </div>
   );
 };
 

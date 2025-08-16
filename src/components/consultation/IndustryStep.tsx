@@ -1,7 +1,7 @@
 // src/components/consultation/IndustryStep.tsx
 
 import React from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import StepCard from '../common/StepCard';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import BuildIcon from '@mui/icons-material/Build';
@@ -26,7 +26,7 @@ const industries = [
 
 const IndustryStep: React.FC<IndustryStepProps> = ({ selected, onSelect }) => {
   return (
-    <Box>
+    <div>
       <Typography variant="h5" align="center" gutterBottom>
         Which industry best describes your work?
       </Typography>
@@ -43,7 +43,7 @@ const IndustryStep: React.FC<IndustryStepProps> = ({ selected, onSelect }) => {
           </Grid>
         ))}
       </Grid>
-    </Box>
+    </div>
   );
 };
 

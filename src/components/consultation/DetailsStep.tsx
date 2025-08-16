@@ -1,7 +1,7 @@
 // src/components/consultation/DetailsStep.tsx
 
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { Box, Typography, Grid, TextField, Button } from '@mui/material';
+import { Typography, Grid, TextField, Button } from '@mui/material';
 import { stripHtmlTags, trimAndClamp } from '../../utils/stringUtils';
 import type { DetailsInfo } from '../../types/consultation';
 
@@ -36,11 +36,16 @@ const DetailsStep: React.FC<DetailsStepProps> = ({ initialInfo, onNext }) => {
   const isValid = error === null;
 
   return (
-    <Box>
+    <div>
       <Typography variant="h5" align="center" gutterBottom>
         Any additional details?
       </Typography>
-      <Typography variant="body2" color="textSecondary" align="center" sx={{ mb: 2 }}>
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        align="center"
+        style={{ marginBottom: '16px' }}
+      >
         Let me know any special instructions, placement notes, or ideas.
       </Typography>
 
@@ -64,7 +69,7 @@ const DetailsStep: React.FC<DetailsStepProps> = ({ initialInfo, onNext }) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button
               variant="contained"
               disabled={!isValid}
@@ -76,10 +81,10 @@ const DetailsStep: React.FC<DetailsStepProps> = ({ initialInfo, onNext }) => {
             >
               Continue
             </Button>
-          </Box>
+          </div>
         </Grid>
       </Grid>
-    </Box>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 // src/components/layout/Header.tsx
 import React from 'react';
-import { AppBar, Toolbar, Box, Typography, Button, useTheme, useMediaQuery } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, useTheme, useMediaQuery } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import PaletteIcon from '@mui/icons-material/Palette';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ userId, currentPage, onNavigate }) => {
         aria-label="Main navigation"
         sx={{ justifyContent: 'space-between', pl: { xs: 1, sm: 1.5 } }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             variant="h6"
             component="div"
@@ -86,21 +86,21 @@ const Header: React.FC<HeaderProps> = ({ userId, currentPage, onNavigate }) => {
             Signmons
           </Typography>
           {userId && (
-            <Box
-              sx={{
-                display: { xs: 'none', md: 'flex' },
+            <div
+              style={{
+                display: 'flex',
                 alignItems: 'center',
-                ml: 2,
-                color: 'text.secondary',
+                marginLeft: 16,
+                color: theme.palette.text.secondary,
               }}
             >
               <AccountCircleIcon sx={{ mr: 1, fontSize: 18 }} />
               <Typography variant="caption">User: {userId.substring(0, 8)}...</Typography>
-            </Box>
+            </div>
           )}
-        </Box>
+        </div>
 
-        <Box component="div" sx={{ display: 'flex', gap: isMobile ? 1 : 2 }}>
+        <div style={{ display: 'flex', gap: isMobile ? 8 : 16 }}>
           <Button
             color="inherit"
             onClick={() => onNavigate('home')}
@@ -117,7 +117,7 @@ const Header: React.FC<HeaderProps> = ({ userId, currentPage, onNavigate }) => {
           >
             {!isMobile && 'Start Design'}
           </Button>
-        </Box>
+        </div>
       </Toolbar>
     </AppBar>
   );

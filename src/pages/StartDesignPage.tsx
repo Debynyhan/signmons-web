@@ -1,7 +1,7 @@
 // src/pages/StartDesignPage.tsx
 
 import React from 'react';
-import { Box, Container } from '@mui/material';
+import { Container } from '@mui/material';
 import ConsultationWizard from '../components/consultation/ConsultationWizard';
 import type { PageName } from '../types/navigation';
 
@@ -10,14 +10,17 @@ interface StartDesignPageProps {
 }
 
 const StartDesignPage: React.FC<StartDesignPageProps> = ({ navigate }) => (
-  <Box sx={{ position: 'relative', width: '100%', minHeight: '100vh' }}>
-    <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 1, py: 8 }}>
+  <div style={{ position: 'relative', width: '100%', minHeight: '100vh' }}>
+    <Container
+      maxWidth="sm"
+      style={{ position: 'relative', zIndex: 1, paddingTop: '64px', paddingBottom: '64px' }}
+    >
       {/* Wizard panel */}
-      <Box
-        sx={{
+      <div
+        style={{
           position: 'relative',
-          p: 4,
-          borderRadius: 3,
+          padding: '32px',
+          borderRadius: '24px',
           background: 'rgba(17,17,27,0.6)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
@@ -27,8 +30,8 @@ const StartDesignPage: React.FC<StartDesignPageProps> = ({ navigate }) => (
         }}
       >
         {/* Accent stripe */}
-        <Box
-          sx={{
+        <div
+          style={{
             position: 'absolute',
             left: 0,
             top: 0,
@@ -41,8 +44,8 @@ const StartDesignPage: React.FC<StartDesignPageProps> = ({ navigate }) => (
         />
 
         {/* Glowing ring behind */}
-        <Box
-          sx={{
+        <div
+          style={{
             position: 'absolute',
             inset: '-8px',
             borderRadius: 4,
@@ -54,9 +57,9 @@ const StartDesignPage: React.FC<StartDesignPageProps> = ({ navigate }) => (
 
         {/* Pass navigate into the wizard */}
         <ConsultationWizard navigate={navigate} />
-      </Box>
+      </div>
     </Container>
-  </Box>
+  </div>
 );
 
 export default StartDesignPage;

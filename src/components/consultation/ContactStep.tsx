@@ -1,7 +1,7 @@
 // src/components/consultation/ContactStep.tsx
 
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Grid, TextField, Button } from '@mui/material';
+import { Typography, Grid, TextField, Button } from '@mui/material';
 import { trimAndClamp, isValidEmail, isValidPhone, stripHtmlTags } from '../../utils/stringUtils';
 import type { ContactInfo } from '../../types/consultation';
 
@@ -66,11 +66,16 @@ const ContactStep: React.FC<ContactStepProps> = ({ initialInfo, onNext }) => {
     !nameError && !emailError && !phoneError && !websiteError && businessName && email && phone;
 
   return (
-    <Box>
+    <div>
       <Typography variant="h5" align="center" gutterBottom>
         Your Contact Info
       </Typography>
-      <Typography variant="body2" color="textSecondary" align="center" sx={{ mb: 2 }}>
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        align="center"
+        style={{ marginBottom: '16px' }}
+      >
         We’ll reach out to deliver your free design mockup.
       </Typography>
 
@@ -128,7 +133,7 @@ const ContactStep: React.FC<ContactStepProps> = ({ initialInfo, onNext }) => {
 
         {/* Continue */}
         <Grid item xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button
               variant="contained"
               disabled={!isValid}
@@ -143,10 +148,10 @@ const ContactStep: React.FC<ContactStepProps> = ({ initialInfo, onNext }) => {
             >
               Continue
             </Button>
-          </Box>
+          </div>
         </Grid>
       </Grid>
-    </Box>
+    </div>
   );
 };
 

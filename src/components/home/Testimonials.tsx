@@ -1,22 +1,22 @@
 import React from 'react';
-import { Avatar, Box, Grid, Rating, Stack, Typography } from '@mui/material';
+import { Avatar, Grid, Stack, Typography, Rating } from '@mui/material';
 import { motion } from 'framer-motion';
 
 const testimonials = [
   {
     name: 'Sarah K.',
     role: 'Bakery Owner',
-    text: 'Our new wrap turned heads day one. We booked 3 new orders that week!',
+    quote: 'Our new wrap turned heads day one. We booked 3 new orders that week!',
   },
   {
     name: 'Mike R.',
     role: 'Contractor',
-    text: 'Clean install and the design pops. Great communication start to finish.',
+    quote: 'Clean install and the design pops. Great communication start to finish.',
   },
   {
     name: 'Jenna P.',
     role: 'Realtor',
-    text: 'Yard signs and website look cohesive—brand feels premium now.',
+    quote: 'Yard signs and website look cohesive—brand feels premium now.',
   },
 ];
 
@@ -31,28 +31,34 @@ const Testimonials: React.FC = () => {
             viewport={{ once: true }}
             transition={{ delay: i * 0.05 }}
           >
-            <Box
-              sx={{
-                p: 2,
-                borderRadius: 2,
+            <div
+              style={{
+                padding: '16px',
+                borderRadius: '8px',
                 border: '1px solid rgba(255,255,255,0.08)',
-                bgcolor: 'rgba(10,18,30,0.6)',
+                backgroundColor: 'rgba(10,18,30,0.6)',
+                height: '100%',
               }}
             >
-              <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 1 }}>
-                <Avatar sx={{ bgcolor: 'primary.main' }}>{t.name.charAt(0)}</Avatar>
-                <Box>
+              <Stack
+                direction="row"
+                spacing={2}
+                alignItems="center"
+                style={{ marginBottom: '8px' }}
+              >
+                <Avatar style={{ backgroundColor: '#00BFA5' }}>{t.name.charAt(0)}</Avatar>
+                <div>
                   <Typography variant="subtitle2">{t.name}</Typography>
                   <Typography variant="caption" color="text.secondary">
                     {t.role}
                   </Typography>
-                </Box>
+                </div>
               </Stack>
-              <Rating value={5} readOnly size="small" sx={{ mb: 1 }} />
+              <Rating value={5} readOnly size="small" style={{ marginBottom: '8px' }} />
               <Typography variant="body2" color="text.secondary">
-                {t.text}
+                {`"${t.quote}"`}
               </Typography>
-            </Box>
+            </div>
           </motion.div>
         </Grid>
       ))}

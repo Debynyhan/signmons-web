@@ -5,7 +5,6 @@ import {
   Stepper,
   Step,
   StepLabel,
-  Box,
   Typography,
   Button,
   List,
@@ -83,28 +82,17 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
     );
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
-      <Box sx={{ width: '100%' }}>
+    <Container maxWidth="xl" style={{ paddingTop: '32px', paddingBottom: '32px' }}>
+      <div style={{ width: '100%' }}>
         <Stepper
           activeStep={stepIndex}
           alternativeLabel
           connector={null}
-          sx={{
+          style={{
             width: '100%',
-            mb: 4,
-            mx: 'auto',
+            marginBottom: '32px',
+            margin: '0 auto',
             justifyContent: 'center',
-            '& .MuiStepIcon-root, & .MuiSvgIcon-root': {
-              fontSize: { xs: 16, sm: 18, md: 18, lg: 20 },
-            },
-            '& .MuiStepLabel-label': {
-              fontSize: { xs: 9, sm: 10, md: 11, lg: 12 },
-              px: { xs: 0.25, sm: 0.5, md: 0.5, lg: 1 },
-            },
-            '& .MuiStep-root': {
-              minWidth: { xs: 24, sm: 32, md: 32, lg: 40 },
-              px: { xs: 0.25, sm: 0.5, md: 0.5, lg: 1 },
-            },
           }}
         >
           {steps.map((label, index) => (
@@ -113,7 +101,7 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
             </Step>
           ))}
         </Stepper>
-      </Box>
+      </div>
 
       {currentStep === 'Industry' && (
         <IndustryStep selected={state.industry} onSelect={selectIndustry} />
@@ -136,11 +124,11 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
       )}
 
       {currentStep === 'Review' ? (
-        <Box textAlign="center">
+        <div style={{ textAlign: 'center' }}>
           <Typography variant="h5" gutterBottom>
             Review Your Selections
           </Typography>
-          <Box mt={2}>
+          <div style={{ marginTop: '16px' }}>
             <List>
               <ListItem>
                 <ListItemText primary="Industry" secondary={state.industry} />
@@ -214,20 +202,22 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
                 <ListItemText primary="Details" secondary={state.details.notes} />
               </ListItem>
             </List>
-          </Box>
-          <Box mt={4} display="flex" justifyContent="center" gap={2}>
+          </div>
+          <div
+            style={{ marginTop: '32px', display: 'flex', justifyContent: 'center', gap: '16px' }}
+          >
             <Button onClick={back}>Go Back</Button>
             <Button variant="contained" onClick={handleSubmit}>
               Confirm and Send
             </Button>
-          </Box>
-        </Box>
+          </div>
+        </div>
       ) : (
         // Non-review steps: show Back button for navigation
         stepIndex > 0 && (
-          <Box mt={4} display="flex" justifyContent="flex-start">
+          <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'flex-start' }}>
             <Button onClick={back}>Back</Button>
-          </Box>
+          </div>
         )
       )}
     </Container>

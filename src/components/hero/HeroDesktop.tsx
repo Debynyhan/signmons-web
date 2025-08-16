@@ -1,7 +1,7 @@
 // src/components/HeroDesktop.tsx
 
 import React from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { motion, Variants } from 'framer-motion';
 import HeroShapes from '../common/HeroBackground';
 import TapForSound from '../common/TapForSound';
@@ -9,6 +9,7 @@ import GlassCard from '../common/GlassCard';
 import MotionButton from '../common/MotionButton';
 import { COPY } from '../../content/positioning';
 import { PageName } from '../../types/navigation';
+import HeroScene from '../three/HeroScene';
 
 // Animation variants (keep these in sync with HeroMobile)
 const EASING: [number, number, number, number] = [0.42, 0, 0.58, 1];
@@ -28,10 +29,9 @@ interface HeroDesktopProps {
 }
 
 const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
-  <Box
-    component="section"
+  <section
     aria-label="Hero"
-    sx={{
+    style={{
       position: 'relative',
       zIndex: 1,
       display: 'flex',
@@ -42,9 +42,8 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
       boxSizing: 'border-box',
       background:
         'radial-gradient(circle at center, rgba(0, 234, 255, 0.9) 0%, rgba(162, 89, 255, 0.9) 50%, rgba(17,17,17, 0.95) 100%)',
-      color: 'text.primary',
-      px: { xs: 2, md: 4 },
-      py: { xs: 2, md: 4 },
+      color: 'white',
+      padding: '16px 32px',
       overflow: 'hidden',
     }}
   >
@@ -53,10 +52,13 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
       onTap={() => window.dispatchEvent(new CustomEvent('signmons-start-audio'))}
     />
     {/* 3D background shapes */}
-    <Box
-      sx={{
+    <div
+      style={{
         position: 'absolute',
-        inset: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         zIndex: 0, // renders above background gradient
         width: '100%',
         height: '100%',
@@ -65,7 +67,7 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
       }}
     >
       <HeroShapes />
-    </Box>
+    </div>
 
     <Grid
       container
@@ -73,8 +75,7 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
       columnSpacing={{ xs: 0, md: 6 }}
       alignItems="center"
       justifyContent="center"
-      sx={{
-        flexDirection: { xs: 'column', md: 'row' },
+      style={{
         width: '100%',
         maxWidth: 1200,
         position: 'relative',
@@ -82,38 +83,35 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
       }}
     >
       <Grid item xs={12} md={6}>
-        <Box
-          sx={{
+        <div
+          style={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: { xs: 'center', md: 'flex-start' },
+            alignItems: 'flex-start',
             width: '100%',
-            maxWidth: { xs: 520, md: 520 },
-            mx: { xs: 'auto', md: 0 },
-            mt: { xs: 0, md: 2 },
+            maxWidth: 520,
+            margin: '0',
+            marginTop: '16px',
           }}
         >
           {/* Headline + subcopy inside GlassCard (desktop only component) */}
-          <GlassCard sx={{ width: '100%', mb: 3, p: { xs: 2.5, md: 5 } }} accent="left">
+          <GlassCard style={{ width: '100%', marginBottom: 24, padding: '40px' }} accent="left">
             <Typography
               component="h1"
               variant="h1"
               align="left"
-              sx={{
-                color: 'common.white',
+              style={{
+                color: 'white',
                 fontWeight: 900,
                 lineHeight: 1.15,
                 letterSpacing: '-0.02em',
-                mb: 1.5,
+                marginBottom: '1.5rem',
                 maxWidth: '100%',
-                fontSize: { xs: '2.2rem', sm: '3rem', md: '3.8rem', lg: '4.4rem' },
-                // Small, sharp shadow for contrast
+                fontSize: '4.4rem',
                 textShadow: '0 2px 0 rgba(0,0,0,0.6)',
               }}
             >
-              <Box component="span" sx={{ color: (t: any) => t.palette.secondary.light }}>
-                Websites
-              </Box>
+              <span style={{ color: '#00eaff' }}>Websites</span>
               {'. Branding. Marketing.'}
             </Typography>
 
@@ -121,40 +119,50 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
               <Typography
                 variant="body1"
                 align="left"
-                sx={{
-                  color: 'common.white',
+                style={{
+                  color: 'white',
                   maxWidth: '96%',
                   fontWeight: 500,
-                  fontSize: { xs: '1.2rem', md: '1.25rem' },
+                  fontSize: '1.25rem',
                   lineHeight: 1.5,
-                  // Match headline's small, sharp shadow for better contrast
                   textShadow: '0 2px 0 rgba(0,0,0,0.6)',
                 }}
               >
                 {'Online, on '}
-                <Box
-                  component="span"
-                  sx={{
-                    color: (t: any) => t.palette.secondary.light,
+                <span
+                  style={{
+                    color: '#00eaff',
                     fontWeight: 800,
                     fontSize: '1.1em',
                   }}
                 >
                   vehicles
-                </Box>
+                </span>
                 {', on merch — Signmons makes it happen.'}
               </Typography>
             </motion.div>
           </GlassCard>
-        </Box>
+        </div>
       </Grid>
-
+      <Grid
+        item
+        xs={12}
+        md={6}
+        style={{
+          position: 'relative',
+          minHeight: 300,
+          height: '100%',
+          pointerEvents: 'auto',
+        }}
+      >
+        <HeroScene />
+      </Grid>
       {/* Removed van image on homepage; 3D background now showcases the brand */}
     </Grid>
 
     {/* Bottom-centered CTA overlay */}
-    <Box
-      sx={{
+    <div
+      style={{
         position: 'absolute',
         left: 0,
         right: 0,
@@ -162,34 +170,28 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
         zIndex: 2,
         display: 'flex',
         justifyContent: 'center',
-        px: 2,
-        pb: 0,
+        padding: '0 16px',
         pointerEvents: 'none',
       }}
     >
-      <Box sx={{ width: '100%', maxWidth: 420, pointerEvents: 'auto' }}>
+      <div style={{ width: '100%', maxWidth: 420, pointerEvents: 'auto' }}>
         <motion.div variants={popIn} initial="hidden" animate="visible">
           <MotionButton
             fullWidth
             onClick={() => navigate('start-design')}
-            sx={{
-              // Original green CTA via theme
-              background: (t) => t.palette.success.main,
-              color: (t) => t.palette.success.contrastText,
-              py: 2,
+            style={{
+              background: '#00C853',
+              color: 'white',
+              padding: '16px 0',
               boxShadow: '0 10px 28px rgba(0,255,137,0.35)',
-              '&:hover': {
-                background: (t) => t.palette.success.dark,
-                boxShadow: '0 12px 34px rgba(0,255,137,0.45)',
-              },
             }}
           >
             {COPY.hero.cta}
           </MotionButton>
         </motion.div>
-      </Box>
-    </Box>
-  </Box>
+      </div>
+    </div>
+  </section>
 );
 
 export default HeroDesktop;
