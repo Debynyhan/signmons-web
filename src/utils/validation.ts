@@ -49,10 +49,26 @@ export const wizardSchema = z
         website: z
           .string()
           .optional()
-          .transform((v) => (v ? v.trim() : v))
-          .refine((v) => !v || /^https?:\/\//i.test(v) || /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(v), {
-            message: 'Invalid website URL',
-          }),
+          // Trim and normalize: add https:// if missing
+          .transform((v) => {
+            const s = v?.trim();
+            if (!s) return undefined;
+            return /^https?:\/\//i.test(s) ? s : `https://${s}`;
+          })
+          // Validate using URL() and restrict to http/https
+          .refine((v) => {
+            if (!v) return true;
+            try {
+              const u = new URL(v);
+              return (
+                (u.protocol === 'http:' || u.protocol === 'https:') &&
+                !!u.hostname &&
+                u.hostname.includes('.')
+              );
+            } catch {
+              return false;
+            }
+          }, { message: 'Invalid website URL' }),
       })
       .required(),
     timeline: z

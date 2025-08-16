@@ -144,7 +144,7 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
           </GlassCard>
         </div>
       </Grid>
-  <Grid
+      <Grid
         item
         xs={12}
         md={6}
