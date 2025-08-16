@@ -17,15 +17,16 @@ import { useDesignWizard } from '../../hooks/useDesignWizard';
 import { steps } from '../../types/consultation';
 import type { PageName } from '../../types/navigation';
 
-import IndustryStep from './IndustryStep';
-import VehicleStep from './VehicleStep';
-import StyleStep from './StyleStep';
-import AssetsStep from './AssetsStep';
-import ColorsStep from './ColorsStep';
-import ContactStep from './ContactStep';
-import TimelineStep from './TimelineStep';
-import BudgetStep from './BudgetStep';
-import DetailsStep from './DetailsStep';
+import React from 'react';
+const IndustryStep = React.lazy(() => import('./IndustryStep'));
+const VehicleStep = React.lazy(() => import('./VehicleStep'));
+const StyleStep = React.lazy(() => import('./StyleStep'));
+const AssetsStep = React.lazy(() => import('./AssetsStep'));
+const ColorsStep = React.lazy(() => import('./ColorsStep'));
+const ContactStep = React.lazy(() => import('./ContactStep'));
+const TimelineStep = React.lazy(() => import('./TimelineStep'));
+const BudgetStep = React.lazy(() => import('./BudgetStep'));
+const DetailsStep = React.lazy(() => import('./DetailsStep'));
 
 import { useToast } from '../../context/ToastContext';
 import { submitDesignRequest } from '../../utils/firestoreUtils';
@@ -103,9 +104,10 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
         </Stepper>
       </div>
 
-      {currentStep === 'Industry' && (
-        <IndustryStep selected={state.industry} onSelect={selectIndustry} />
-      )}
+      <React.Suspense fallback={<div />}> 
+        {currentStep === 'Industry' && (
+          <IndustryStep selected={state.industry} onSelect={selectIndustry} />
+        )}
       {currentStep === 'Vehicle' && (
         <VehicleStep initialInfo={state.vehicle} onNext={selectVehicle} />
       )}
@@ -122,6 +124,7 @@ export default function ConsultationWizard({ navigate }: ConsultationWizardProps
       {currentStep === 'Details' && (
         <DetailsStep initialInfo={state.details} onNext={selectDetails} />
       )}
+      </React.Suspense>
 
       {currentStep === 'Review' ? (
         <div style={{ textAlign: 'center' }}>

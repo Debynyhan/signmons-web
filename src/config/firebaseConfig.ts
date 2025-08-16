@@ -1,19 +1,25 @@
 // src/config/firebaseConfig.ts
-import { initializeApp } from 'firebase/app';
+import { initializeApp, type FirebaseApp } from 'firebase/app';
+import { env } from './env';
 
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN as string,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID as string,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET as string,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as string,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID as string,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID as string,
-};
+// Centralized config from env.ts (SSOT)
+export const firebaseConfig = {
+  apiKey: env.VITE_FIREBASE_API_KEY,
+  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: env.VITE_FIREBASE_APP_ID,
+  measurementId: env.VITE_FIREBASE_MEASUREMENT_ID,
+} as const;
 
-// Debug: log the Firebase API key
-// console.log('🔥 Firebase API Key →', firebaseConfig.apiKey);
+let app: FirebaseApp;
+try {
+  app = initializeApp(firebaseConfig);
+} catch (e) {
+  // Avoid leaking secrets in logs
+  console.error('[firebase] Failed to initialize app:', (e as Error).message);
+  throw e;
+}
 
-const app = initializeApp(firebaseConfig);
-
-export { firebaseConfig, app };
+export { app };

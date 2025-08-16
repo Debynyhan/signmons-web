@@ -9,7 +9,7 @@ import GlassCard from '../common/GlassCard';
 import MotionButton from '../common/MotionButton';
 import { COPY } from '../../content/positioning';
 import { PageName } from '../../types/navigation';
-import HeroScene from '../three/HeroScene';
+const HeroScene = React.lazy(() => import('../three/HeroScene'));
 
 // Animation variants (keep these in sync with HeroMobile)
 const EASING: [number, number, number, number] = [0.42, 0, 0.58, 1];
@@ -144,7 +144,7 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
           </GlassCard>
         </div>
       </Grid>
-      <Grid
+  <Grid
         item
         xs={12}
         md={6}
@@ -155,7 +155,9 @@ const HeroDesktop: React.FC<HeroDesktopProps> = ({ navigate }) => (
           pointerEvents: 'auto',
         }}
       >
-        <HeroScene />
+        <React.Suspense fallback={null}>
+          <HeroScene />
+        </React.Suspense>
       </Grid>
       {/* Removed van image on homepage; 3D background now showcases the brand */}
     </Grid>
