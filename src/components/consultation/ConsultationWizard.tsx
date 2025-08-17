@@ -37,7 +37,10 @@ interface ConsultationWizardProps {
   service?: DesignService;
 }
 
-export default function ConsultationWizard({ navigate, service = designService }: ConsultationWizardProps) {
+export default function ConsultationWizard({
+  navigate,
+  service = designService,
+}: ConsultationWizardProps) {
   const {
     stepIndex,
     currentStep,
@@ -67,7 +70,7 @@ export default function ConsultationWizard({ navigate, service = designService }
       return;
     }
     try {
-  await service.submit(result.data);
+      await service.submit(result.data);
       showToast('Your mockup request is on its way!', 'success');
       navigate('thank-you');
     } catch (err) {
@@ -105,26 +108,32 @@ export default function ConsultationWizard({ navigate, service = designService }
         </Stepper>
       </div>
 
-      <React.Suspense fallback={<div />}> 
+      <React.Suspense fallback={<div />}>
         {currentStep === 'Industry' && (
           <IndustryStep selected={state.industry} onSelect={selectIndustry} />
         )}
-      {currentStep === 'Vehicle' && (
-        <VehicleStep initialInfo={state.vehicle} onNext={selectVehicle} />
-      )}
-      {currentStep === 'Style' && <StyleStep selected={state.style} onSelect={selectStyle} />}
-      {currentStep === 'Assets' && <AssetsStep initialInfo={state.assets} onNext={selectAssets} />}
-      {currentStep === 'Colors' && <ColorsStep initialInfo={state.colors} onNext={selectColors} />}
-      {currentStep === 'Contact' && (
-        <ContactStep initialInfo={state.contact} onNext={selectContact} />
-      )}
-      {currentStep === 'Timeline' && (
-        <TimelineStep initialInfo={state.timeline} onNext={selectTimeline} />
-      )}
-      {currentStep === 'Budget' && <BudgetStep initialInfo={state.budget} onNext={selectBudget} />}
-      {currentStep === 'Details' && (
-        <DetailsStep initialInfo={state.details} onNext={selectDetails} />
-      )}
+        {currentStep === 'Vehicle' && (
+          <VehicleStep initialInfo={state.vehicle} onNext={selectVehicle} />
+        )}
+        {currentStep === 'Style' && <StyleStep selected={state.style} onSelect={selectStyle} />}
+        {currentStep === 'Assets' && (
+          <AssetsStep initialInfo={state.assets} onNext={selectAssets} />
+        )}
+        {currentStep === 'Colors' && (
+          <ColorsStep initialInfo={state.colors} onNext={selectColors} />
+        )}
+        {currentStep === 'Contact' && (
+          <ContactStep initialInfo={state.contact} onNext={selectContact} />
+        )}
+        {currentStep === 'Timeline' && (
+          <TimelineStep initialInfo={state.timeline} onNext={selectTimeline} />
+        )}
+        {currentStep === 'Budget' && (
+          <BudgetStep initialInfo={state.budget} onNext={selectBudget} />
+        )}
+        {currentStep === 'Details' && (
+          <DetailsStep initialInfo={state.details} onNext={selectDetails} />
+        )}
       </React.Suspense>
 
       {currentStep === 'Review' ? (

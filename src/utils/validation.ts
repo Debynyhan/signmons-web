@@ -56,19 +56,22 @@ export const wizardSchema = z
             return /^https?:\/\//i.test(s) ? s : `https://${s}`;
           })
           // Validate using URL() and restrict to http/https
-          .refine((v) => {
-            if (!v) return true;
-            try {
-              const u = new URL(v);
-              return (
-                (u.protocol === 'http:' || u.protocol === 'https:') &&
-                !!u.hostname &&
-                u.hostname.includes('.')
-              );
-            } catch {
-              return false;
-            }
-          }, { message: 'Invalid website URL' }),
+          .refine(
+            (v) => {
+              if (!v) return true;
+              try {
+                const u = new URL(v);
+                return (
+                  (u.protocol === 'http:' || u.protocol === 'https:') &&
+                  !!u.hostname &&
+                  u.hostname.includes('.')
+                );
+              } catch {
+                return false;
+              }
+            },
+            { message: 'Invalid website URL' },
+          ),
       })
       .required(),
     timeline: z
